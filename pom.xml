@@ -3,4 +3,11 @@
   <groupId>Armado-De-Recital</groupId>
   <artifactId>Discografica</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+	<dependency>
+	  <groupId>com.igormaznitsa</groupId>
+	  <artifactId>jprol-core</artifactId>
+	  <version>2.2.1</version> <!-- o la última -->
+	</dependency>
+  </dependencies>
 </project>
