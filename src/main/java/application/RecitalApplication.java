@@ -18,6 +18,7 @@ public class RecitalApplication {
 //
 //        System.out.println("\nARTISTAS BASE");
 //        baseNombres.forEach(n -> System.out.println(n));
+    	System.out.println("Hola mundo");
     }
     
     void ejecutar() {
