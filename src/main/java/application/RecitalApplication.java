@@ -1,8 +1,8 @@
-package discografica;
+package application;
 
 //import java.util.List;
 
-public class App {
+public class RecitalApplication {
     public static void main(String[] args) {
 //        DataLoader loader = new DataLoader();
 //
@@ -18,9 +18,13 @@ public class App {
 //
 //        System.out.println("\nARTISTAS BASE");
 //        baseNombres.forEach(n -> System.out.println(n));
-
-    	Menu menu = new Menu();
-		menu.mostrarMenu();
-
+    }
+    
+    void ejecutar() {
+    	// TODO: implementar
+    }
+    
+    void deshacer() {
+    	// TODO: implementar
     }
 }

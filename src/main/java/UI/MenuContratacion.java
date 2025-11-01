@@ -1,12 +1,12 @@
-package discografica;
+package UI;
 
 import java.util.Scanner;
 
-public class Menu {
+public class MenuContratacion {
 
 	private Scanner scanner;
 
-	public Menu() {
+	public MenuContratacion() {
 		this.scanner = new Scanner(System.in);
 	}
 
