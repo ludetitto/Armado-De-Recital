@@ -1,19 +1,20 @@
 package repository;
 
-import services.ArtistaService;
-import services.CancionService;
 import services.TipoRol;
 
 public class ContratacionRepository {
-	ArtistaService artista;
-    CancionService cancion;
-    TipoRol rol;
-    double costoFinal;
-    double descuentoAplicado;
+	ArtistaRepository artista;
+	CancionRepository cancion;
+    public TipoRol rol;
+    private double costoFinal;
+    public double descuentoAplicado;
     
-	public ContratacionRepository(ArtistaService artista, CancionService cancion, TipoRol rol, double costoFinal,
+    public ContratacionRepository() {
+        // para json
+    }
+    
+	public ContratacionRepository(ArtistaRepository artista, CancionRepository cancion, TipoRol rol, double costoFinal,
 			double descuentoAplicado) {
-		super();
 		this.artista = artista;
 		this.cancion = cancion;
 		this.rol = rol;
@@ -21,11 +22,11 @@ public class ContratacionRepository {
 		this.descuentoAplicado = descuentoAplicado;
 	}
 	
-	public ArtistaService getArtista() {
+	public ArtistaRepository getArtista() {
 		return artista;
 	}
 	
-	public CancionService getCancion() {
+	public CancionRepository getCancion() {
 		return cancion;
 	}
 	
@@ -40,5 +41,27 @@ public class ContratacionRepository {
 	public double getDescuentoAplicado() {
 		return descuentoAplicado;
 	}
+
+	public void setArtista(ArtistaRepository artista) {
+		this.artista = artista;
+	}
+
+	public void setCancion(CancionRepository cancion) {
+		this.cancion = cancion;
+	}
+
+	public void setRol(TipoRol rol) {
+		this.rol = rol;
+	}
+
+	public void setCostoFinal(double costoFinal) {
+		this.costoFinal = costoFinal;
+	}
+
+	public void setDescuentoAplicado(double descuentoAplicado) {
+		this.descuentoAplicado = descuentoAplicado;
+	}
+	
+	
     
 }

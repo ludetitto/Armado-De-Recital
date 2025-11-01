@@ -1,18 +1,74 @@
-[
-  {
-    "titulo": "Somebody to Love",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería", "piano"]
-  },
-  {
-    "titulo": "We Will Rock You",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería"]
-  },
-  {
-    "titulo": "These Are the Days of Our Lives",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería"]
-  },
-  {
-    "titulo": "Under Pressure",
-    "rolesRequeridos": ["voz principal", "voz principal", "guitarra eléctrica", "bajo", "batería"]
-  }
-]
+{
+  "titulo": "Queen Greatest Hits Setlist V3",
+  
+  "canciones": [
+    {
+      "nombre": "Somebody to Love",
+      "estado": "COMPLETA",
+      "duracion": 296,
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1,
+        "PIANO": 1
+      },
+      "asignaciones": {}
+    },
+    {
+      "nombre": "We Will Rock You",
+      "estado": "COMPLETA",
+      "duracion": 160,
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1
+      },
+      "asignaciones": {}
+    },
+    {
+      "nombre": "These Are the Days of Our Lives",
+      "estado": "INCOMPLETA",
+      "duracion": 250,
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1
+      },
+      "asignaciones": {}
+    },
+    {
+      "nombre": "Under Pressure",
+      "estado": "INCOMPLETA",
+      "duracion": 380,
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 2, 
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1
+      },
+      "asignaciones": {}
+    }
+  ],
+  
+  "contratos": [
+    {
+      "artista": { 
+        "nombre": "David Bowie Cover" 
+      },
+      
+      "cancion": { 
+        "nombre": "Under Pressure", 
+        "estado": "INCOMPLETA", 
+        "duracion": 380,
+        "rolesRequeridos": { "VOZ_PRINCIPAL": 2 }
+      },
+      
+      "rol": "VOZ_PRINCIPAL", 
+      "costoFinal": 2500.00,
+      "descuentoAplicado": 0.15
+    }
+  ]
+}
