@@ -1,5 +1,6 @@
 package services;
 
+import domain.TipoRol;
 import java.util.List;
 import java.util.Map;
 

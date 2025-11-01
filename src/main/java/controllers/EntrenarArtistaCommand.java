@@ -1,7 +1,7 @@
 package controllers;
 
 import services.ArtistaService;
-import services.TipoRol;
+import domain.TipoRol;
 
 public class EntrenarArtistaCommand implements ComandoContratacion {
 	double costoAnterior;
