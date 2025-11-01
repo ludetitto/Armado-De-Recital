@@ -21,7 +21,7 @@ public class RecitalRepository {
 //        this.contratos = new ArrayList<>();
     }
 
-    // para el json
+    // para el json que me lo pedia
     @JsonCreator
     private RecitalRepository(@JsonProperty("titulo") String titulo,
                               @JsonProperty("canciones") Set<CancionRepository> canciones,
