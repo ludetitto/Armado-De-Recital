@@ -1,8 +1,9 @@
 package repository;
 
+import domain.Artista;
 import java.util.List;
 
 public interface FuenteArtista {
-	List<ArtistaRepository> cargar();
-	void guardar(List<ArtistaRepository> recitales);
+    List<Artista> cargar();
+    void guardar(List<Artista> artistas);
 }

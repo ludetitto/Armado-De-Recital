@@ -1,99 +1,80 @@
 package repository;
 
-import java.util.Set;
-
-import services.TipoDeArtista;
-import services.TipoRecital;
-import services.TipoRol;
+import domain.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ArtistaRepository {
-	public String nombre;
-	public Set<TipoRol> roles;
-	public Set<String> bandas;
-	public double costo;
-	public int maxCanciones;
-	public int aniosExperiencia;
-	public TipoDeArtista tipoDeArtista;
-	public TipoRecital tipoRecital[];
-
-	public ArtistaRepository(String nombre, Set<TipoRol> roles, Set<String> bandas, double costo, int maxCanciones,
-			int aniosExperiencia, TipoDeArtista tipoDeArtista, TipoRecital[] tipoRecital) {
-		this.nombre = nombre;
-		this.roles = roles;
-		this.bandas = bandas;
-		this.costo = costo;
-		this.maxCanciones = maxCanciones;
-		this.aniosExperiencia = aniosExperiencia;
-		this.tipoDeArtista = tipoDeArtista;
-		this.tipoRecital = tipoRecital;
-	}
-
-	public ArtistaRepository() {
-
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public Set<TipoRol> getRoles() {
-		return roles;
-	}
-
-	public Set<String> getBandas() {
-		return bandas;
-	}
-
-	public double getCosto() {
-		return costo;
-	}
-
-	public int getMaxCanciones() {
-		return maxCanciones;
-	}
-
-	public int getAniosExperiencia() {
-		return aniosExperiencia;
-	}
-
-	public TipoDeArtista getTipoDeArtista() {
-		return tipoDeArtista;
-	}
-
-	public TipoRecital[] getTipoRecital() {
-		return tipoRecital;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public void setRoles(Set<TipoRol> roles) {
-		this.roles = roles;
-	}
-
-	public void setBandas(Set<String> bandas) {
-		this.bandas = bandas;
-	}
-
-	public void setCosto(double costo) {
-		this.costo = costo;
-	}
-
-	public void setMaxCanciones(int maxCanciones) {
-		this.maxCanciones = maxCanciones;
-	}
-
-	public void setAniosExperiencia(int aniosExperiencia) {
-		this.aniosExperiencia = aniosExperiencia;
-	}
-
-	public void setTipoDeArtista(TipoDeArtista tipoDeArtista) {
-		this.tipoDeArtista = tipoDeArtista;
-	}
-
-	public void setTipoRecital(TipoRecital[] tipoRecital) {
-		this.tipoRecital = tipoRecital;
-	}
-
+    private Map<String, Artista> artistas; // Mapa por nombre para búsqueda rápida
+    
+    public ArtistaRepository() {
+        this.artistas = new LinkedHashMap<>();
+    }
+    
+    // Agregar artista
+    public void agregar(Artista artista) {
+        if (artista == null) {
+            throw new IllegalArgumentException("El artista no puede ser null");
+        }
+        artistas.put(artista.getNombre(), artista);
+    }
+    
+    // Buscar artista por nombre
+    public Artista buscarPorNombre(String nombre) {
+        return artistas.get(nombre);
+    }
+    
+    // Verificar si existe un artista
+    public boolean existe(String nombre) {
+        return artistas.containsKey(nombre);
+    }
+    
+    // Obtener todos los artistas
+    public List<Artista> obtenerTodos() {
+        return new ArrayList<>(artistas.values());
+    }
+    
+    // Obtener solo artistas base
+    public List<Artista> obtenerArtistasBase() {
+        return artistas.values().stream()
+            .filter(Artista::esBase)
+            .collect(Collectors.toList());
+    }
+    
+    // Obtener solo artistas externos
+    public List<ArtistaExterno> obtenerArtistasExternos() {
+        return artistas.values().stream()
+            .filter(a -> !a.esBase())
+            .map(a -> (ArtistaExterno) a)
+            .collect(Collectors.toList());
+    }
+    
+    // Buscar artistas que pueden ocupar un rol específico
+    public List<Artista> buscarPorRol(TipoRol rol) {
+        return artistas.values().stream()
+            .filter(a -> a.puedeOcuparRol(rol))
+            .collect(Collectors.toList());
+    }
+    
+    // Buscar artistas que pertenecieron a una banda
+    public List<Artista> buscarPorBanda(String banda) {
+        return artistas.values().stream()
+            .filter(a -> a.getBandas().contains(banda))
+            .collect(Collectors.toList());
+    }
+    
+    // Eliminar artista
+    public void eliminar(String nombre) {
+        artistas.remove(nombre);
+    }
+    
+    // Limpiar todos los artistas
+    public void limpiar() {
+        artistas.clear();
+    }
+    
+    // Obtener cantidad de artistas
+    public int cantidad() {
+        return artistas.size();
+    }
 }
