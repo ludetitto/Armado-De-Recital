@@ -4,13 +4,13 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 
-import domain.Artista;
+import domain.Cancion;
 
-public class XmlFuenteArtista implements FuenteArtista {
+public class XmlFuenteCancion implements FuenteCancion {
 
   private final Path path;
 
-  public XmlFuenteArtista(Path path) {
+  public XmlFuenteCancion(Path path) {
     this.path = Objects.requireNonNull(path, "path");
   }
 
@@ -20,17 +20,17 @@ public class XmlFuenteArtista implements FuenteArtista {
 
   @Override
   public String toString() {
-    return "XmlFuenteArtista{path=" + path + "}";
+    return "XmlFuenteCancion{path=" + path + "}";
   }
 
   @Override
-  public List<Artista> cargar() {
+  public List<Cancion> cargar() {
 	// TODO Auto-generated method stub
 	return null;
   }
 
   @Override
-  public void guardar(List<Artista> artistas) {
+  public void guardar(List<Cancion> canciones) {
 	// TODO Auto-generated method stub
 	
   }

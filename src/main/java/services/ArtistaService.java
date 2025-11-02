@@ -1,5 +1,6 @@
 package services;
 
+import domain.TipoRol;
 import java.util.List;
 
 public class ArtistaService {

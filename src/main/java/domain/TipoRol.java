@@ -1,4 +1,4 @@
-package services;
+package domain;
 
 import java.text.Normalizer;
 import java.util.Locale;

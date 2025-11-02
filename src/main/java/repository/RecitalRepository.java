@@ -1,18 +1,23 @@
 package repository;
 
-import java.util.List;
-import java.util.Set;
-
-import services.CancionService;
-import services.ContratacionService;
+import domain.Recital;
 
 public class RecitalRepository {
-	String titulo;
-    Set<CancionService> canciones;
-    List<ContratacionService> contratos;
-    RecitalRepository instance;
+    private static RecitalRepository instance;
+    private Recital recital;
     
-    RecitalRepository getInstance() {
-    	return this;
+    private RecitalRepository() {
+        this.recital = Recital.getInstance();
+    }
+    
+    public static RecitalRepository getInstance() {
+        if (instance == null) {
+            instance = new RecitalRepository();
+        }
+        return instance;
+    }
+    
+    public Recital getRecital() {
+        return recital;
     }
 }

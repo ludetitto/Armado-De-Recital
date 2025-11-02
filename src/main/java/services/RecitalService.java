@@ -1,5 +1,6 @@
 package services;
 
+import domain.TipoRol;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,5 @@ public class RecitalService {
 		return null;
 	}
 	
-	private void cargarEstadoInicial(String path) {
-		// TODO: implement
-	}
+	public void cargarEstadoInicial(String archivo) {}
 }
