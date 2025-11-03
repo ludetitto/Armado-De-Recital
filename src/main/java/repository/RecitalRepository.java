@@ -1,7 +1,5 @@
 package repository;
 
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
 import domain.Recital;
 
 public class RecitalRepository {
