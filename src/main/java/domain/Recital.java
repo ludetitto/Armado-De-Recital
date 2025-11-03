@@ -3,8 +3,6 @@ package domain;
 import java.util.*;
 
 
-
-
 public class Recital {
     private static Recital instance;
     
