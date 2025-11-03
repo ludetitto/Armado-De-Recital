@@ -119,9 +119,14 @@ public class Artista {
 
 	@JsonProperty("costoBase")
 	public void setCostoBase(double costoBase) {
-		this.costoBase = costoBase;
+	    this.costoBase = costoBase;
+	    
+	    if (costoBase > 0.0) {
+	        this.tipo = TipoDeArtista.EXTERNO;
+	    } else {
+	        this.tipo = TipoDeArtista.BASE;
+	    }
 	}
-
 	@JsonProperty("tipo")
 	public void setTipo(TipoDeArtista tipo) {
 		this.tipo = tipo;

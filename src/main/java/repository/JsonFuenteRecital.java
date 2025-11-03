@@ -68,7 +68,7 @@ public class JsonFuenteRecital implements FuenteRecital {
           
             mapper.writeValue(recitalFile, recitalAGuardar);
             
-            System.out.println("Estado del Recital guardado con éxito en: " + path);
+            System.out.println("Estado del Recital guardado con Exito en: " + path);
 
         } catch (IOException e) {
             System.err.println("ERROR al guardar el Recital en JSON: " + path);
