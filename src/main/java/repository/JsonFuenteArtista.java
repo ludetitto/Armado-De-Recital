@@ -14,41 +14,42 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class JsonFuenteArtista implements FuenteArtista {
 
     private final Path path;
-    private DataLoader loader;
+    //  El repositorio ya no es Singleton, debe ser pasado o creado.
+    private final ArtistaRepository repository; 
+    private final ObjectMapper mapper;
     
-    public JsonFuenteArtista(Path path) {
+    // Constructor que recibe la ruta y el repositorio al que debe cargar/guardar
+    public JsonFuenteArtista(Path path, ArtistaRepository repository) {
     	this.path = Objects.requireNonNull(path, "path");
-        this.loader = new DataLoader();
+        this.repository = Objects.requireNonNull(repository, "repository");
+        this.mapper = new ObjectMapper();
+        this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
+
     @Override
     public List<Artista> cargar() {
         try {
             File jsonFile = this.path.toFile();
             
-            // ObjectMapper es el encargado de la conversión JSON <-> Java
-            final ObjectMapper mapper = new ObjectMapper();
+            // Deserializar List<Artista>
+            List<Artista> artistasCargados = this.mapper.readValue(jsonFile, new TypeReference<List<Artista>>() {});
             
-            // TypeReference es necesario para deserializar colecciones (List<Artista>)
-            List<Artista> artistasCargados = mapper.readValue(jsonFile, new TypeReference<List<Artista>>() {});
+            // Cargar en la instancia de Repositorio que se pasÃ³ al constructor
+            this.repository.limpiar(); 
+            artistasCargados.forEach(this.repository::agregar);
             
-            // Cargar los artistas en el ArtistaRepository (Singleton)
-            ArtistaRepository repositorio = ArtistaRepository.getInstance();
-            repositorio.limpiar(); // Limpiar el repositorio antes de cargar nuevos datos
-            artistasCargados.forEach(repositorio::agregar);
-            
-            System.out.println("Artistas cargados con éxito desde: " + path);
+            System.out.println("Artistas cargados con Ã©xito desde: " + path);
 
             return artistasCargados; 
 
         } catch (IOException e) {
             System.err.println("Error al cargar artistas desde JSON: " + e.getMessage());
             e.printStackTrace();
-            // Devolver la lista actual del repositorio, o vacía si falló
-            return ArtistaRepository.getInstance().obtenerTodos(); 
+            // Devolver la lista actual de la instancia del repositorio
+            return this.repository.obtenerTodos(); 
         }
     }
 
-    // --- GUARDAR ---
     @Override
     public void guardar(List<Artista> artistas) {
         if (artistas == null || artistas.isEmpty()) {
@@ -56,17 +57,13 @@ public class JsonFuenteArtista implements FuenteArtista {
              return;
         }
         
-        // Habilita INDENT_OUTPUT para que el JSON guardado sea legible (pretty print)
-        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-        
         try {
             File artistaFile = this.path.toFile();
             
-            // Escribir la lista completa de Artistas
-            // Jackson usará el Artista.getRolesParaGuardar() para serializar el formato Array
-            mapper.writeValue(artistaFile, artistas);
+            // Serializar List<Artista>
+            this.mapper.writeValue(artistaFile, artistas);
             
-            System.out.println("Lista de Artistas guardada con Éxito en: " + path);
+            System.out.println("Lista de Artistas guardada con exito en: " + path);
 
         } catch (IOException e) {
             System.err.println("ERROR al guardar Artistas en JSON: " + path);
