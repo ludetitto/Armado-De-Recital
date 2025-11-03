@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 public class Cancion {
     private String titulo;
     private TipoEstado estado;
@@ -21,11 +20,14 @@ public class Cancion {
     }
     
     protected Cancion() {
+        // Inicialización mínima si es necesario, o dejar vacío.
         this.rolesRequeridos = new HashMap<>();
         this.asignaciones = new HashMap<>();
         this.estado = TipoEstado.BORRADOR;
     }
     
+    
+    // Asignar artista a un rol
     public void asignarArtista(Artista artista, TipoRol rol) {
         if (!artista.puedeOcuparRol(rol)) {
             throw new IllegalArgumentException(
@@ -37,6 +39,7 @@ public class Cancion {
         actualizarEstado();
     }
     
+    // Desasignar artista de un rol
     public void desasignarArtista(Artista artista, TipoRol rol) {
         List<Artista> artistasEnRol = asignaciones.get(rol);
         if (artistasEnRol != null) {
@@ -48,6 +51,7 @@ public class Cancion {
         actualizarEstado();
     }
     
+    // Calcular roles faltantes
     public Map<TipoRol, Integer> getRolesFaltantes() {
         Map<TipoRol, Integer> faltantes = new EnumMap<>(TipoRol.class);
         
@@ -65,10 +69,12 @@ public class Cancion {
         return faltantes;
     }
     
+    // Verificar si la canción está completa
     public boolean estaCompleta() {
         return getRolesFaltantes().isEmpty();
     }
     
+    // Actualizar estado de la canción
     private void actualizarEstado() {
         if (asignaciones.isEmpty()) {
             estado = TipoEstado.BORRADOR;
@@ -78,7 +84,9 @@ public class Cancion {
             estado = TipoEstado.INCOMPLETA;
         }
     }
-       
+    
+    // Getters
+    
     
     public String getTitulo() { return titulo; }
     
@@ -93,8 +101,11 @@ public class Cancion {
     public Map<TipoRol, List<Artista>> getAsignaciones() { 
         return Collections.unmodifiableMap(asignaciones); 
     }
- 
     
+    
+    // setters
+    
+ // lo usa Jackson para inyectar el mapa cargado.
     public void setAsignaciones(Map<TipoRol, List<Artista>> asignacionesCargadas) {
         this.asignaciones = asignacionesCargadas;
         actualizarEstado();
@@ -109,6 +120,9 @@ public class Cancion {
 		this.estado = estado;
 	}
 
+//	public void setRolesRequeridos(Map<TipoRol, Integer> rolesRequeridos) {
+//		this.rolesRequeridos = rolesRequeridos;
+//	}
 	
 	public void setRolesRequeridos(Map<TipoRol, Integer> rolesCargados) {
 	    if (rolesCargados != null) {
@@ -116,6 +130,7 @@ public class Cancion {
 	    } else {
 	        this.rolesRequeridos = new EnumMap<>(TipoRol.class);
 	    }
+	    // No llamamos a actualizarEstado aqu� porque faltan las asignaciones.
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package repository;
 
+import domain.Cancion;
 import domain.Recital;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 
 class JsonFuenteRecitalTest {
 
@@ -75,6 +77,47 @@ class JsonFuenteRecitalTest {
 
 		assertEquals(tituloEsperado, repositorioVerificado.getRecital().getTitulo());
 	}
+	
+	@Test
+    void testCargarYMostrarAtributosDeRecital() {
+        // PREPARACIÓN
+        FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal);
+        fuente.cargar(); 
+
+        // OBTENER INSTANCIA CARGADA
+        Recital recitalCargado = Recital.getInstance();
+
+        // --- ASERCIONES DE VERIFICACIÓN ---
+        assertNotNull(recitalCargado, "La instancia de Recital no debe ser nula después de la carga.");
+        assertEquals(tituloEsperado, recitalCargado.getTitulo(),
+                     "El Recital Singleton no se actualizó con el título del JSON.");
+        
+        // --- MOSTRAR ATRIBUTOS POR CONSOLA (VERIFICACIÓN MANUAL) ---
+        
+        System.out.println("\n--- 🔎 INSPECCIÓN DE ATRIBUTOS DEL RECITAL CARGADO ---");
+        System.out.println("Título: " + recitalCargado.getTitulo());
+        System.out.println("Cantidad de Canciones: " + recitalCargado.getCanciones().size());
+        System.out.println("Cantidad de Contrataciones: " + recitalCargado.getContrataciones().size());
+        System.out.println("Cantidad de Artistas Base: " + recitalCargado.getArtistasBase().size());
+        System.out.println("-----------------------------------------------------");
+
+        // Detalle de Canciones y Roles Faltantes
+        System.out.println("\n--- Detalle de Canciones y su Estado ---");
+        for (Cancion cancion : recitalCargado.getCanciones()) {
+            System.out.println(" > Canción: " + cancion.getTitulo());
+            
+            // Calculamos los faltantes dinámicamente
+            Map<domain.TipoRol, Integer> faltantes = cancion.getRolesFaltantes();
+            
+            if (faltantes.isEmpty()) {
+                System.out.println("Estado: COMPLETA (Roles cubiertos)");
+            } else {
+                System.out.println("Estado: INCOMPLETA (Roles faltantes: " + faltantes + ")");
+            }
+        }
+        System.out.println("--------------------------------------------------\n");
+    }
+
 
 	@Test
 	void testCargarExitoso() {
@@ -99,4 +142,5 @@ class JsonFuenteRecitalTest {
 
 		assertEquals(tituloPrueba, RecitalRepository.getInstance().getRecital().getTitulo());
 	}
+	
 }
