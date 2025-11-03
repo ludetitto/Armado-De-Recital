@@ -12,10 +12,16 @@ import java.util.Set;
 
 public class RecitalService {
 
-    Map<TipoRol, Integer> verRolesFaltantes(Recital recital) {
+	
+    public Map<TipoRol, Integer> verRolesFaltantes(Recital recital) {
         return recital.getRolesFaltantesTotal();
     }
 
+	
+//	public Map<TipoRol, Integer> verRolesFaltantes() {
+//	    return Recital.getInstance().getRolesFaltantesTotal();
+//	}
+	
     List<Artista> verArtistasContratados(Recital recital) {
         List<Contratacion> contrataciones = recital.getContrataciones();
         return contrataciones.stream().map(Contratacion::getArtista).toList();

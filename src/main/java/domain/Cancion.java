@@ -26,6 +26,7 @@ public class Cancion {
         this.estado = TipoEstado.BORRADOR;
     }
     
+    
     // Asignar artista a un rol
     public void asignarArtista(Artista artista, TipoRol rol) {
         if (!artista.puedeOcuparRol(rol)) {
