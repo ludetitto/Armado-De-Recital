@@ -80,6 +80,30 @@ public class Recital {
     public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
+    public List<Artista> getArtistas() {
+
+        Map<String, Artista> porNombre = new LinkedHashMap<>();
+        boolean esExterno;
+        
+        for (Artista a : artistasBase) {
+            porNombre.put(a.getNombre(), a);
+        }
+
+        if (contrataciones != null) {
+            for (Contratacion c : contrataciones) {
+                Artista a = c.getArtista();
+                if (a == null) continue;
+
+                esExterno = a.getTipo() == TipoDeArtista.EXTERNO;
+
+                if (esExterno) {
+                    porNombre.putIfAbsent(a.getNombre(), a);
+                }
+            }
+        }
+
+        return Collections.unmodifiableList(new ArrayList<>(porNombre.values()));
+    }
     
     @Override
     public String toString() {

@@ -1,9 +1,8 @@
 package repository;
 
 import domain.Artista;
-import domain.ArtistaBase;
-import domain.ArtistaExterno;
 import domain.Cancion;
+import domain.TipoDeArtista;
 import domain.TipoRol;
 
 import java.nio.charset.StandardCharsets;
@@ -51,9 +50,9 @@ public class DataLoader {
 
             Artista artista;
             if (costo == 0.0) {
-                artista = new ArtistaBase(nombre, roles, bandas);
+                artista = new Artista(nombre, TipoDeArtista.BASE, roles, bandas, costo);
             } else {
-                artista = new ArtistaExterno(nombre, roles, bandas, costo, maxCanciones);
+                artista = new Artista(nombre, TipoDeArtista.EXTERNO, roles, bandas, costo);
             }
 
             out.add(artista);

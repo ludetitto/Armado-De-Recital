@@ -5,8 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import domain.Artista;
-import domain.ArtistaBase;
 import domain.Cancion;
+import domain.TipoDeArtista;
 import domain.TipoRol;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
@@ -45,7 +45,7 @@ class RepositoryTests {
         Set<String> bandas = new HashSet<>();
         bandas.add("Queen");
 
-        Artista brian = new ArtistaBase("Brian May", roles, bandas);
+        Artista brian = new Artista("Brian May", TipoDeArtista.BASE, roles, bandas, 0);
 
         ArtistaRepository repo = new ArtistaRepository();
         repo.agregar(brian);
