@@ -19,12 +19,9 @@ public class RecitalService {
 	
 	List<Artista> verArtistasContratados(Recital recital) {
 		List<Contratacion> contrataciones = recital.getContrataciones();
-		List<Artista> artistasContratados = new ArrayList<>();
-		for(Contratacion c : contrataciones) {
-			artistasContratados.add(c.getArtista());
-		}
-		
-		return artistasContratados;
+		return contrataciones.stream()
+			.map(Contratacion::getArtista)
+			.toList();
 	}
 	
 	Set<Cancion> verCanciones(Recital recital) {
