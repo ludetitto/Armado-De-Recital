@@ -19,9 +19,10 @@ public class Cancion {
     }
     
     protected Cancion() {
-        // Inicialización mínima si es necesario, o dejar vacío.
+        // InicializaciÃ³n mÃ­nima si es necesario, o dejar vacÃ­o.
         this.rolesRequeridos = new HashMap<>();
         this.asignaciones = new HashMap<>();
+        this.estado = TipoEstado.BORRADOR;
     }
     
     // Asignar artista a un rol
@@ -66,12 +67,12 @@ public class Cancion {
         return faltantes;
     }
     
-    // Verificar si la canción está completa
+    // Verificar si la canciÃ³n estÃ¡ completa
     public boolean estaCompleta() {
         return getRolesFaltantes().isEmpty();
     }
     
-    // Actualizar estado de la canción
+    // Actualizar estado de la canciÃ³n
     private void actualizarEstado() {
         if (asignaciones.isEmpty()) {
             estado = TipoEstado.BORRADOR;
@@ -86,6 +87,8 @@ public class Cancion {
     
     
     public String getTitulo() { return titulo; }
+    
+    @JsonIgnore 
     public TipoEstado getEstado() { return estado; }
 
 
@@ -97,12 +100,38 @@ public class Cancion {
         return Collections.unmodifiableMap(asignaciones); 
     }
     
+    
+    // setters
+    
  // lo usa Jackson para inyectar el mapa cargado.
     public void setAsignaciones(Map<TipoRol, List<Artista>> asignacionesCargadas) {
         this.asignaciones = asignacionesCargadas;
+        actualizarEstado();
     }
     
-    @Override
+    
+    public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
+	public void setEstado(TipoEstado estado) {
+		this.estado = estado;
+	}
+
+//	public void setRolesRequeridos(Map<TipoRol, Integer> rolesRequeridos) {
+//		this.rolesRequeridos = rolesRequeridos;
+//	}
+	
+	public void setRolesRequeridos(Map<TipoRol, Integer> rolesCargados) {
+	    if (rolesCargados != null) {
+	        this.rolesRequeridos = new EnumMap<>(rolesCargados);
+	    } else {
+	        this.rolesRequeridos = new EnumMap<>(TipoRol.class);
+	    }
+	    // No llamamos a actualizarEstado aquí porque faltan las asignaciones.
+	}
+
+	@Override
     public String toString() {
         return String.format("%s [%s] - Roles requeridos: %s", 
             titulo, estado, rolesRequeridos);
