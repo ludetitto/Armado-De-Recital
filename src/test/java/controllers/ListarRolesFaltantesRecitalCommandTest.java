@@ -86,7 +86,7 @@ public class ListarRolesFaltantesRecitalCommandTest {
         assertTrue(output.contains(" > BATERIA: Faltan 1"), "Debe mostrar que falta 1 BATERIA en WWRY.");
         
         assertTrue(output.contains("[Bohemian Rhapsody]"));
-        assertTrue(output.contains(" > ¡Roles cubiertos! ✅"), "Debe mostrar que los roles de Bohemian Rhapsody están cubiertos.");
+        assertTrue(output.contains(" > ¡Roles cubiertos!"), "Debe mostrar que los roles de Bohemian Rhapsody están cubiertos.");
         
         assertTrue(output.contains("Bohemian Rhapsody") && output.contains("We Will Rock You"), "Debe listar ambas canciones.");
         

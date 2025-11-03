@@ -14,7 +14,7 @@ public class CancionService {
     	return new ArrayList<>(roles.keySet());
     }
     
-    Map<TipoRol, Integer> verRolesFaltantes(Cancion cancion) {
+    public Map<TipoRol, Integer> verRolesFaltantes(Cancion cancion) {
 		 return cancion.getRolesFaltantes();
     }
     

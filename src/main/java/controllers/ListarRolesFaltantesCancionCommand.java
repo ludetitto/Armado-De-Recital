@@ -1,69 +1,56 @@
-
 package controllers;
 
 import domain.Cancion;
 import domain.Recital;
 import domain.TipoRol;
-import services.RecitalService;
+import services.CancionService; 
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set; // Necesario para iterar sobre las canciones
 
-public class  ListarRolesFaltantesCancionCommand implements ComandoContratacion {
+public class ListarRolesFaltantesCancionCommand implements ComandoContratacion {
 	
-	private final RecitalService recitalService;
+	private final CancionService cancionService; 
+	private final String tituloCancion;
 
-	public ListarRolesFaltantesCancionCommand(RecitalService recitalService) {
-		this.recitalService = recitalService;
+	public ListarRolesFaltantesCancionCommand(CancionService cancionService, String tituloCancion) {
+		this.cancionService = cancionService;
+		this.tituloCancion = tituloCancion;
 	}
 	
 	@Override
 	public void ejecutar() {
 		
         Recital recital = Recital.getInstance();
-        Set<Cancion> canciones = recital.getCanciones(); // ⬅️ Obtenemos todas las canciones
-
-        if (canciones.isEmpty()) {
-            System.out.println("El recital aún no tiene canciones cargadas.");
-            return;
-        }
         
-        // El servicio aún se usa para calcular el total y decidir si mostrar el detalle
-        Map<TipoRol, Integer> rolesFaltantesTotal = recitalService.verRolesFaltantes(recital);
-
-		System.out.println("--- Roles Faltantes por Canción (" + recital.getTitulo() + ") ---");
-
-        if (rolesFaltantesTotal.isEmpty()) {
-            System.out.println("¡Todas las canciones del Recital tienen sus roles cubiertos!");
-            System.out.println("---------------------------------------------------------------");
+        Cancion cancionAInspeccionar = recital.getCanciones().stream()
+            .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
+            .findFirst()
+            .orElse(null);
+        
+        if (cancionAInspeccionar == null) {
+            System.out.println("Error: Canción '" + tituloCancion + "' no encontrada en el Recital.");
             return;
         }
 
-        // Listar el detalle por Canción
-        for (Cancion cancion : canciones) {
-            Map<TipoRol, Integer> faltantesCancion = cancion.getRolesFaltantes();
+        Map<TipoRol, Integer> faltantesCancion = cancionService.verRolesFaltantes(cancionAInspeccionar);
+        
+        System.out.println("\n--- Roles Faltantes para: " + cancionAInspeccionar.getTitulo() + " ---");
 
-            System.out.println("\n[" + cancion.getTitulo() + "]");
-
-            if (faltantesCancion.isEmpty()) {
-                System.out.println(" > ¡Roles cubiertos! ✅");
-            } else {
-                for (Entry<TipoRol, Integer> entry : faltantesCancion.entrySet()) {
-                    TipoRol rol = entry.getKey();
-                    Integer cantidad = entry.getValue();
-                    System.out.println(" > " + rol + ": Faltan " + cantidad);
-                }
+        if (faltantesCancion.isEmpty()) {
+            System.out.println("¡Roles cubiertos! La canción está lista para tocarse."); 
+        } else {
+            for (Entry<TipoRol, Integer> entry : faltantesCancion.entrySet()) {
+                TipoRol rol = entry.getKey();
+                Integer cantidad = entry.getValue();
+                System.out.println(" > " + rol + ": Faltan " + cantidad);
             }
         }
-		System.out.println("\n---------------------------------------------------------------");
+		System.out.println("----------------------------------------------------------");
 	}
 
 	@Override
 	public void deshacer() {
-		// TODO Auto-generated method stub
-		
+		// La acción de listar (consultar) es de solo lectura y no requiere deshacer.
 	}
-	
-
 }
