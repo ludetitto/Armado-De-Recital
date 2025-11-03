@@ -2,7 +2,6 @@ package domain;
 
 import java.util.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Cancion {
     private String titulo;
@@ -20,7 +19,7 @@ public class Cancion {
     }
     
     protected Cancion() {
-        // Inicialización mínima si es necesario, o dejar vacío.
+        // InicializaciÃ³n mÃ­nima si es necesario, o dejar vacÃ­o.
         this.rolesRequeridos = new HashMap<>();
         this.asignaciones = new HashMap<>();
         this.estado = TipoEstado.BORRADOR;
@@ -68,12 +67,12 @@ public class Cancion {
         return faltantes;
     }
     
-    // Verificar si la canción está completa
+    // Verificar si la canciÃ³n estÃ¡ completa
     public boolean estaCompleta() {
         return getRolesFaltantes().isEmpty();
     }
     
-    // Actualizar estado de la canción
+    // Actualizar estado de la canciÃ³n
     private void actualizarEstado() {
         if (asignaciones.isEmpty()) {
             estado = TipoEstado.BORRADOR;
@@ -129,7 +128,7 @@ public class Cancion {
 	    } else {
 	        this.rolesRequeridos = new EnumMap<>(TipoRol.class);
 	    }
-	    // No llamamos a actualizarEstado aqu� porque faltan las asignaciones.
+	    // No llamamos a actualizarEstado aquí porque faltan las asignaciones.
 	}
 
 	@Override
