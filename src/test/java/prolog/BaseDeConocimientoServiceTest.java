@@ -40,7 +40,7 @@ class BaseDeConocimientoServiceTest {
 
         assertAll(
             () -> assertTrue(hechos.contains("artista_base(brian_may).")),
-            () -> assertTrue(hechos.contains("artista_externo(david_bowie, 1500.00, 2).")),
+            () -> assertTrue(hechos.contains("artista_externo(david_bowie).")),
             () -> assertTrue(hechos.contains("tiene_rol(brian_may, guitarra_electrica).")),
             () -> assertTrue(hechos.contains("banda(brian_may, queen).")),
             () -> assertTrue(hechos.contains("cancion(under_pressure).")),

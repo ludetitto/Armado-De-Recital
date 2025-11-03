@@ -22,15 +22,14 @@ public class BaseDeConocimientoService {
         for (Artista a : artistaRepo.todos()) {
             String aId = atom(a.getNombre());
             boolean esBase = a.esBase() || (nombresBaseOpcional != null && nombresBaseOpcional.contains(a.getNombre()));
+
             if (esBase) {
                 sb.append("artista_base(").append(aId).append(").").append('\n');
-            } else if (a instanceof ArtistaExterno ext) {
-                sb.append("artista_externo(")
-                  .append(aId).append(", ")
-                  .append(String.format(Locale.ROOT, "%.2f", ext.getCostoBase())).append(", ")
-                  .append(ext.getMaxCanciones())
-                  .append(").").append('\n');
+            } else if (a instanceof ArtistaExterno) {
+                // Ajustado a la firma de tu compañero: artista_externo/1
+                sb.append("artista_externo(").append(aId).append(").").append('\n');
             }
+
             for (TipoRol rol : a.getRoles().keySet()) {
                 sb.append("tiene_rol(")
                   .append(aId).append(", ")
