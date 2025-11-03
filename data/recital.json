@@ -1,103 +1,112 @@
 {
-  "titulo": "Queen Greatest Hits Setlist V3",
-  
-  "canciones": [
-    {
-      "titulo": "Bohemian Rhapsody",
-      "estado": "COMPLETA",
-      "rolesRequeridos": {
-        "VOZ_PRINCIPAL": 1,
-        "GUITARRA_ELECTRICA": 1
+  "titulo" : "Queen Greatest Hits Setlist V3",
+  "canciones" : [ {
+    "titulo" : "We Will Rock You",
+    "estado" : "INCOMPLETA",
+    "rolesRequeridos" : {
+      "BAJO" : 1,
+      "BATERIA" : 1
+    },
+    "asignaciones" : {
+      "BAJO" : [ {
+        "roles" : [ "BAJO" ],
+        "nombre" : "John Deacon",
+        "bandas" : [ "Queen" ],
+        "costoBase" : 0.0,
+        "tipo" : "BASE"
+      } ]
+    },
+    "rolesFaltantes" : {
+      "BATERIA" : 1
+    }
+  }, {
+    "titulo" : "Bohemian Rhapsody",
+    "estado" : "COMPLETA",
+    "rolesRequeridos" : {
+      "VOZ_PRINCIPAL" : 1,
+      "GUITARRA_ELECTRICA" : 1
+    },
+    "asignaciones" : {
+      "VOZ_PRINCIPAL" : [ {
+        "roles" : [ "VOZ_PRINCIPAL", "PIANO" ],
+        "nombre" : "Freddie Mercury",
+        "bandas" : [ "Queen" ],
+        "costoBase" : 0.0,
+        "tipo" : "BASE"
+      } ],
+      "GUITARRA_ELECTRICA" : [ {
+        "roles" : [ "GUITARRA_ELECTRICA" ],
+        "nombre" : "Brian May",
+        "bandas" : [ "Queen" ],
+        "costoBase" : 0.0,
+        "tipo" : "BASE"
+      } ]
+    },
+    "rolesFaltantes" : { }
+  } ],
+  "contrataciones" : [ {
+    "artista" : {
+      "roles" : [ "VOZ_PRINCIPAL", "PIANO" ],
+      "nombre" : "Freddie Mercury",
+      "bandas" : [ "Queen" ],
+      "costoBase" : 0.0,
+      "tipo" : "BASE"
+    },
+    "cancion" : {
+      "titulo" : "Bohemian Rhapsody",
+      "estado" : "COMPLETA",
+      "rolesRequeridos" : {
+        "VOZ_PRINCIPAL" : 1,
+        "GUITARRA_ELECTRICA" : 1
       },
-      "asignaciones": {
-        "VOZ_PRINCIPAL": [
-          {
-            "nombre": "Freddie Mercury",
-            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-            "bandas": [ "Queen" ],
-            "costoBase": 0.0
-          }
-        ],
-        "GUITARRA_ELECTRICA": [
-          {
-            "nombre": "Brian May",
-            "roles": [ "GUITARRA_ELECTRICA" ],
-            "bandas": [ "Queen" ],
-            "costoBase": 0.0
-          }
-        ]
+      "asignaciones" : { },
+      "rolesFaltantes" : {
+        "VOZ_PRINCIPAL" : 1,
+        "GUITARRA_ELECTRICA" : 1
       }
     },
-    {
-      "titulo": "We Will Rock You",
-      "estado": "INCOMPLETA",
-      "rolesRequeridos": {
-        "BAJO": 1,
-        "BATERIA": 1
+    "rol" : "VOZ_PRINCIPAL",
+    "costoFinal" : 0.0,
+    "descuentoAplicado" : 0.0
+  }, {
+    "artista" : {
+      "roles" : [ "BAJO" ],
+      "nombre" : "John Deacon",
+      "bandas" : [ "Queen" ],
+      "costoBase" : 0.0,
+      "tipo" : "BASE"
+    },
+    "cancion" : {
+      "titulo" : "We Will Rock You",
+      "estado" : "INCOMPLETA",
+      "rolesRequeridos" : {
+        "BAJO" : 1,
+        "BATERIA" : 1
       },
-      "asignaciones": {
-        "BAJO": [
-          {
-            "nombre": "John Deacon",
-            "roles": [ "BAJO" ],
-            "bandas": [ "Queen" ],
-            "costoBase": 0.0
-          }
-        ]
+      "asignaciones" : { },
+      "rolesFaltantes" : {
+        "BAJO" : 1,
+        "BATERIA" : 1
       }
-    }
-  ],
-  
-  "contrataciones": [
-    {
-      "artista": {
-        "nombre": "Freddie Mercury",
-        "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-        "bandas": [ "Queen" ],
-        "costoBase": 0.0
-      },
-      "cancion": {
-        "titulo": "Bohemian Rhapsody",
-        "estado": "COMPLETA",
-        "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 },
-        "asignaciones": {} 
-      },
-      "rol": "VOZ_PRINCIPAL",
-      "costoFinal": 0.0,
-      "descuentoAplicado": 0.0
     },
-    {
-      "artista": {
-        "nombre": "John Deacon",
-        "roles": [ "BAJO" ],
-        "bandas": [ "Queen" ],
-        "costoBase": 0.0 
-       
-      },
-      "cancion": {
-        "titulo": "We Will Rock You",
-        "estado": "INCOMPLETA",
-        "rolesRequeridos": { "BAJO": 1, "BATERIA": 1 },
-        "asignaciones": {}
-      },
-      "rol": "BAJO",
-      "costoFinal": 0.0,
-      "descuentoAplicado": 0.0
-    }
-  ],
-  
-  "artistasBase": [
-    {
-      "nombre": "Freddie Mercury",
-      "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-      "bandas": [ "Queen" ],
-      "costoBase": 0.0
-    },
-    {
-      "nombre": "Brian May",
-      "roles": [ "GUITARRA_ELECTRICA" ],
-      "bandas": [ "Queen" ],
-      "costoBase": 0.0
-    }
-  ]
+    "rol" : "BAJO",
+    "costoFinal" : 0.0,
+    "descuentoAplicado" : 0.0
+  } ],
+  "artistasBase" : [ {
+    "roles" : [ "VOZ_PRINCIPAL", "PIANO" ],
+    "nombre" : "Freddie Mercury",
+    "bandas" : [ "Queen" ],
+    "costoBase" : 0.0,
+    "tipo" : "BASE"
+  }, {
+    "roles" : [ "GUITARRA_ELECTRICA" ],
+    "nombre" : "Brian May",
+    "bandas" : [ "Queen" ],
+    "costoBase" : 0.0,
+    "tipo" : "BASE"
+  } ],
+  "rolesFaltantesTotal" : {
+    "BATERIA" : 1
+  }
 }
