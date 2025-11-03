@@ -1,10 +1,21 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
-import domain.*;
-import repository.*;
-import java.util.*;
+
+import domain.Artista;
+import domain.ArtistaBase;
+import domain.Cancion;
+import domain.TipoRol;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
+import repository.SistemaInicializador;
+
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 class RepositoryTests {
 
