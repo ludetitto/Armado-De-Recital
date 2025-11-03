@@ -1,58 +1,58 @@
 [
   {
     "nombre": "Brian May",
-    "roles": ["guitarra eléctrica", "voz secundaria"],
+    "roles": ["GUITARRA_ELECTRICA", "VOZ_SECUNDARIA"],
     "bandas": ["Queen"],
-    "costo": 0,
-    "maxCanciones": 100
+    "costoBase": 0.0,
+    "tipo": "BASE"
   },
   {
     "nombre": "Roger Taylor",
-    "roles": ["batería", "voz secundaria"],
+    "roles": ["BATERIA", "VOZ_SECUNDARIA"],
     "bandas": ["Queen"],
-    "costo": 0,
-    "maxCanciones": 100
+    "costoBase": 0.0,
+    "tipo": "BASE"
   },
   {
     "nombre": "John Deacon",
-    "roles": ["bajo"],
+    "roles": ["BAJO"],
     "bandas": ["Queen"],
-    "costo": 0,
-    "maxCanciones": 100
+    "costoBase": 0.0,
+    "tipo": "BASE"
   },
   {
     "nombre": "George Michael",
-    "roles": ["voz principal"],
+    "roles": ["VOZ_PRINCIPAL"],
     "bandas": ["Wham!", "George Michael"],
-    "costo": 1000,
-    "maxCanciones": 3
+    "costoBase": 1000.0,
+    "tipo": "EXTERNO"
   },
   {
     "nombre": "Elton John",
-    "roles": ["voz principal", "piano"],
+    "roles": ["VOZ_PRINCIPAL", "PIANO"],
     "bandas": ["Elton John Band"],
-    "costo": 1200,
-    "maxCanciones": 2
+    "costoBase": 1200.0,
+    "tipo": "EXTERNO"
   },
   {
     "nombre": "David Bowie",
-    "roles": ["voz principal"],
+    "roles": ["VOZ_PRINCIPAL"],
     "bandas": ["Tin Machine", "David Bowie"],
-    "costo": 1500,
-    "maxCanciones": 2
+    "costoBase": 1500.0,
+    "tipo": "EXTERNO"
   },
   {
     "nombre": "Annie Lennox",
-    "roles": ["voz principal"],
+    "roles": ["VOZ_PRINCIPAL"],
     "bandas": ["Eurythmics"],
-    "costo": 900,
-    "maxCanciones": 2
+    "costoBase": 900.0,
+    "tipo": "EXTERNO"
   },
   {
     "nombre": "Lisa Stansfield",
-    "roles": ["voz principal"],
+    "roles": ["VOZ_PRINCIPAL"],
     "bandas": ["Lisa Stansfield"],
-    "costo": 800,
-    "maxCanciones": 2
+    "costoBase": 800.0,
+    "tipo": "EXTERNO"
   }
 ]
