@@ -2,10 +2,15 @@ package domain;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
 public class Cancion {
     private String titulo;
     private TipoEstado estado;
     private Map<TipoRol, Integer> rolesRequeridos;
+    
     private Map<TipoRol, List<Artista>> asignaciones;
     
     public Cancion(String titulo, Map<TipoRol, Integer> rolesRequeridos) {
@@ -14,6 +19,12 @@ public class Cancion {
         this.asignaciones = new EnumMap<>(TipoRol.class);
         this.estado = TipoEstado.BORRADOR;
         actualizarEstado();
+    }
+    
+    protected Cancion() {
+        // Inicialización mínima si es necesario, o dejar vacío.
+        this.rolesRequeridos = new HashMap<>();
+        this.asignaciones = new HashMap<>();
     }
     
     // Asignar artista a un rol
@@ -75,13 +86,23 @@ public class Cancion {
     }
     
     // Getters
+    
+    
     public String getTitulo() { return titulo; }
     public TipoEstado getEstado() { return estado; }
+
+
     public Map<TipoRol, Integer> getRolesRequeridos() { 
         return Collections.unmodifiableMap(rolesRequeridos); 
     }
+
     public Map<TipoRol, List<Artista>> getAsignaciones() { 
         return Collections.unmodifiableMap(asignaciones); 
+    }
+    
+ // lo usa Jackson para inyectar el mapa cargado.
+    public void setAsignaciones(Map<TipoRol, List<Artista>> asignacionesCargadas) {
+        this.asignaciones = asignacionesCargadas;
     }
     
     @Override

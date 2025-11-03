@@ -1,11 +1,18 @@
 package domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class ArtistaBase extends Artista {
     
     public ArtistaBase(String nombre, Set<TipoRol> roles, Set<String> bandas) {
         super(nombre, roles, bandas, 0.0); // Artistas base no tienen costo
+    }
+    
+    protected ArtistaBase() {
+        super(); 
+        this.roles = new HashSet<>(); 
+        this.bandas = new HashSet<>();
     }
     
     @Override

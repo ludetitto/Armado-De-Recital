@@ -1,107 +1,100 @@
 package repository;
 
-import org.junit.jupiter.api.AfterEach;
+import domain.Recital;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
-import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
 class JsonFuenteRecitalTest {
 
-    private final String rutaJsonReal = "C:\\\\Users\\\\Milagros quispe\\\\Documents\\\\GitHub\\\\ParadigmasDeProgramacion\\\\practicaGrupal\\\\Armado-De-Recital\\\\Data\\\\recital.json";
+    private final Path rutaJsonReal = Paths.get("..", "Data", "recital.json");
     private final String tituloEsperado = "Queen Greatest Hits Setlist V3";
-    private final int cantidadCancionesEsperada = 4;
     
-    
-    private final String rutaJsonSalida = "C:\\\\Users\\\\Milagros quispe\\\\Documents\\\\GitHub\\\\ParadigmasDeProgramacion\\\\practicaGrupal\\\\Armado-De-Recital\\\\Data\\\\recitalprueba.json";
-    private final String tituloPrueba = "Setlist Guardado y Verificado";
-    private RecitalRepository recitalInstancia;
+    private final Path rutaJsonSalida = Paths.get("..","Data", "recitalprueba.json");
+    private final String tituloPrueba = "Setlist Inicial";
     
     @BeforeEach
     void setUp() throws Exception {
-        java.lang.reflect.Field field = RecitalRepository.class.getDeclaredField("instance");
-        field.setAccessible(true);
-        field.set(null, null);
+        java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
+        repoField.setAccessible(true);
+        repoField.set(null, null);
         
-        recitalInstancia = RecitalRepository.getInstancia(tituloPrueba);
-        recitalInstancia.setTitulo(tituloPrueba);
+        java.lang.reflect.Field recitalField = Recital.class.getDeclaredField("instance");
+        recitalField.setAccessible(true);
+        recitalField.set(null, null);
+        
+        RecitalRepository.getInstance().getRecital().setTitulo(tituloPrueba); 
     }
     
-
+    // comentar esto para tener el archivo guardado
+    
+    
 	/*
-	 * @AfterEach void tearDown() throws Exception { java.lang.reflect.Field field =
-	 * RecitalRepository.class.getDeclaredField("instance");
-	 * field.setAccessible(true); field.set(null, null);
+	 * @AfterEach void tearDown() throws Exception { java.lang.reflect.Field
+	 * repoField = RecitalRepository.class.getDeclaredField("instance");
+	 * repoField.setAccessible(true); repoField.set(null, null);
 	 * 
-	 * Files.deleteIfExists(Paths.get(rutaJsonSalida)); }
+	 * java.lang.reflect.Field recitalField =
+	 * Recital.class.getDeclaredField("instance"); recitalField.setAccessible(true);
+	 * recitalField.set(null, null);
+	 * 
+	 * Files.deleteIfExists(rutaJsonSalida); }
 	 */
     
-    
     @Test
-    void testGuardarRecitalGeneraArchivoYSePuedeRecargar() throws Exception {
-    	
-    	//cargo lo que tengo rn recital.json
+    void testGuardar() throws Exception {
         FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
-        List<RecitalRepository> resultadoCarga = fuenteEntrada.cargar();
+        fuenteEntrada.cargar(); 
         
-        RecitalRepository singletonCargado = RecitalRepository.getInstancia(null);
+        RecitalRepository repositorioActual = RecitalRepository.getInstance();
+        
+        assertFalse(repositorioActual.getRecital().getCanciones().isEmpty());
+        assertEquals(tituloEsperado, repositorioActual.getRecital().getTitulo());
 
-        
-        //guardo en el recitalprueba.json
         FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida);
-        File archivoSalida = new File(rutaJsonSalida);
+        fuenteSalida.guardar(List.of(repositorioActual)); 
         
-        Files.deleteIfExists(archivoSalida.toPath());
-        
-        List<RecitalRepository> listaAGuardar = List.of(singletonCargado);
-
-        fuenteSalida.guardar(listaAGuardar); 
-        
+        File archivoSalida = rutaJsonSalida.toFile();
         assertTrue(archivoSalida.exists());
         assertTrue(archivoSalida.length() > 0);
         
-        setUp(); 
+        setUp();
         
         FuenteRecital fuenteVerificacion = new JsonFuenteRecital(rutaJsonSalida);
-        List<RecitalRepository> recargados = fuenteVerificacion.cargar();
+        fuenteVerificacion.cargar();
         
-        RecitalRepository repositorioVerificado = recargados.get(0);
+        RecitalRepository repositorioVerificado = RecitalRepository.getInstance();
 
-        assertEquals(tituloEsperado, repositorioVerificado.getTitulo());
+        assertEquals(tituloEsperado, repositorioVerificado.getRecital().getTitulo());
     }
 
-
     @Test
-    void testCargarRecitalExitoso() {
+    void testCargarExitoso() {
         FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal);
         
         List<RecitalRepository> resultadoCarga = fuente.cargar();
 
-        RecitalRepository singleton = RecitalRepository.getInstancia(null);
+        RecitalRepository singleton = RecitalRepository.getInstance();
         
-
         assertFalse(resultadoCarga.isEmpty());
-        assertNotNull(singleton);
-        assertEquals(tituloEsperado, singleton.getTitulo());
-        // Se asume que tienes un método getCanciones()
-        // assertEquals(cantidadCancionesEsperada, singleton.getCanciones().size()); 
+        assertEquals(tituloEsperado, singleton.getRecital().getTitulo());
     }
     
- 
     @Test
-    void testCargarRecitalFallo() {
-        String rutaInvalida = "/ruta/imposible/archivo_que_no_existe.json";
+    void testCargarFallo() {
+        Path rutaInvalida = Paths.get("Data", "archivo_que_no_existe.json");
         FuenteRecital fuente = new JsonFuenteRecital(rutaInvalida);
 
         List<RecitalRepository> resultado = fuente.cargar();
         
         assertTrue(resultado.isEmpty());
-
-        assertNull(RecitalRepository.getInstancia(null));
+        
+        assertEquals(tituloPrueba, RecitalRepository.getInstance().getRecital().getTitulo());
     }
 }

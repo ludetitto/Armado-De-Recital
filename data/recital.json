@@ -1,18 +1,103 @@
-[
-  {
-    "titulo": "Somebody to Love",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería", "piano"]
-  },
-  {
-    "titulo": "We Will Rock You",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería"]
-  },
-  {
-    "titulo": "These Are the Days of Our Lives",
-    "rolesRequeridos": ["voz principal", "guitarra eléctrica", "bajo", "batería"]
-  },
-  {
-    "titulo": "Under Pressure",
-    "rolesRequeridos": ["voz principal", "voz principal", "guitarra eléctrica", "bajo", "batería"]
-  }
-]
+{
+  "titulo": "Queen Greatest Hits Setlist V3",
+  
+  "canciones": [
+    {
+      "titulo": "Bohemian Rhapsody",
+      "estado": "COMPLETA",
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1
+      },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "nombre": "Freddie Mercury",
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ],
+        "GUITARRA_ELECTRICA": [
+          {
+            "nombre": "Brian May",
+            "roles": [ "GUITARRA_ELECTRICA" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ]
+      }
+    },
+    {
+      "titulo": "We Will Rock You",
+      "estado": "INCOMPLETA",
+      "rolesRequeridos": {
+        "BAJO": 1,
+        "BATERIA": 1
+      },
+      "asignaciones": {
+        "BAJO": [
+          {
+            "nombre": "John Deacon",
+            "roles": [ "BAJO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ]
+      }
+    }
+  ],
+  
+  "contrataciones": [
+    {
+      "artista": {
+        "nombre": "Freddie Mercury",
+        "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0
+      },
+      "cancion": {
+        "titulo": "Bohemian Rhapsody",
+        "estado": "COMPLETA",
+        "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 },
+        "asignaciones": {} 
+      },
+      "rol": "VOZ_PRINCIPAL",
+      "costoFinal": 0.0,
+      "descuentoAplicado": 0.0
+    },
+    {
+      "artista": {
+        "nombre": "John Deacon",
+        "roles": [ "BAJO" ],
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0 
+       
+      },
+      "cancion": {
+        "titulo": "We Will Rock You",
+        "estado": "INCOMPLETA",
+        "rolesRequeridos": { "BAJO": 1, "BATERIA": 1 },
+        "asignaciones": {}
+      },
+      "rol": "BAJO",
+      "costoFinal": 0.0,
+      "descuentoAplicado": 0.0
+    }
+  ],
+  
+  "artistasBase": [
+    {
+      "nombre": "Freddie Mercury",
+      "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0
+    },
+    {
+      "nombre": "Brian May",
+      "roles": [ "GUITARRA_ELECTRICA" ],
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0
+    }
+  ]
+}

@@ -3,72 +3,101 @@
   
   "canciones": [
     {
-      "nombre": "Somebody to Love",
+      "titulo": "Bohemian Rhapsody",
       "estado": "COMPLETA",
-      "duracion": 296,
       "rolesRequeridos": {
         "VOZ_PRINCIPAL": 1,
-        "GUITARRA_ELECTRICA": 1,
-        "BAJO": 1,
-        "BATERIA": 1,
-        "PIANO": 1
+        "GUITARRA_ELECTRICA": 1
       },
-      "asignaciones": {}
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "nombre": "Freddie Mercury",
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ],
+        "GUITARRA_ELECTRICA": [
+          {
+            "nombre": "Brian May",
+            "roles": [ "GUITARRA_ELECTRICA" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ]
+      }
     },
     {
-      "nombre": "We Will Rock You",
-      "estado": "COMPLETA",
-      "duracion": 160,
-      "rolesRequeridos": {
-        "VOZ_PRINCIPAL": 1,
-        "GUITARRA_ELECTRICA": 1,
-        "BAJO": 1,
-        "BATERIA": 1
-      },
-      "asignaciones": {}
-    },
-    {
-      "nombre": "These Are the Days of Our Lives",
+      "titulo": "We Will Rock You",
       "estado": "INCOMPLETA",
-      "duracion": 250,
       "rolesRequeridos": {
-        "VOZ_PRINCIPAL": 1,
-        "GUITARRA_ELECTRICA": 1,
         "BAJO": 1,
         "BATERIA": 1
       },
-      "asignaciones": {}
-    },
-    {
-      "nombre": "Under Pressure",
-      "estado": "INCOMPLETA",
-      "duracion": 380,
-      "rolesRequeridos": {
-        "VOZ_PRINCIPAL": 2, 
-        "GUITARRA_ELECTRICA": 1,
-        "BAJO": 1,
-        "BATERIA": 1
-      },
-      "asignaciones": {}
+      "asignaciones": {
+        "BAJO": [
+          {
+            "nombre": "John Deacon",
+            "roles": [ "BAJO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0
+          }
+        ]
+      }
     }
   ],
   
-  "contratos": [
+  "contrataciones": [
     {
-      "artista": { 
-        "nombre": "David Bowie Cover" 
+      "artista": {
+        "nombre": "Freddie Mercury",
+        "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0
       },
-      
-      "cancion": { 
-        "nombre": "Under Pressure", 
-        "estado": "INCOMPLETA", 
-        "duracion": 380,
-        "rolesRequeridos": { "VOZ_PRINCIPAL": 2 }
+      "cancion": {
+        "titulo": "Bohemian Rhapsody",
+        "estado": "COMPLETA",
+        "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 },
+        "asignaciones": {} 
       },
-      
-      "rol": "VOZ_PRINCIPAL", 
-      "costoFinal": 2500.00,
-      "descuentoAplicado": 0.15
+      "rol": "VOZ_PRINCIPAL",
+      "costoFinal": 0.0,
+      "descuentoAplicado": 0.0
+    },
+    {
+      "artista": {
+        "nombre": "John Deacon",
+        "roles": [ "BAJO" ],
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0 
+       
+      },
+      "cancion": {
+        "titulo": "We Will Rock You",
+        "estado": "INCOMPLETA",
+        "rolesRequeridos": { "BAJO": 1, "BATERIA": 1 },
+        "asignaciones": {}
+      },
+      "rol": "BAJO",
+      "costoFinal": 0.0,
+      "descuentoAplicado": 0.0
+    }
+  ],
+  
+  "artistasBase": [
+    {
+      "nombre": "Freddie Mercury",
+      "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0
+    },
+    {
+      "nombre": "Brian May",
+      "roles": [ "GUITARRA_ELECTRICA" ],
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0
     }
   ]
 }
