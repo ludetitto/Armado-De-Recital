@@ -77,5 +77,29 @@
         </configuration>
       </plugin>
     </plugins>
+    
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <!-- incluimos todos los archivos .pl (Prolog) -->
+                <include>**/*.pl</include>
+                <!-- y todo lo demás -->
+                <include>**/*</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
+
+    <testResources>
+        <testResource>
+            <directory>src/test/resources</directory>
+            <includes>
+                <include>**/*.pl</include>
+                <include>**/*</include>
+            </includes>
+            <filtering>false</filtering>
+        </testResource>
+    </testResources>
   </build>
 </project>

@@ -14,29 +14,29 @@ class BaseDeConocimientoServiceTest {
 
     @Test
     void generaHechos_usandoRepos_sinArchivos() {
-        ArtistaRepository artRepo = new ArtistaRepository();
-        CancionRepository canRepo = new CancionRepository();
+        ArtistaRepository artistaRepository = new ArtistaRepository();
+        CancionRepository cancionRepository = new CancionRepository();
 
         Set<TipoRol> rolesMay = new HashSet<>(Arrays.asList(
             TipoRol.GUITARRA_ELECTRICA, TipoRol.VOZ_SECUNDARIA));
         Set<String> bandasMay = new HashSet<>(Collections.singletonList("Queen"));
-        Artista brian = new ArtistaBase("Brian May", rolesMay, bandasMay);
-        artRepo.agregar(brian);
+        Artista brian = new Artista("Brian May", TipoDeArtista.BASE, rolesMay, bandasMay, 0);
+        artistaRepository.agregar(brian);
 
         Set<TipoRol> rolesBowie = new HashSet<>(Collections.singletonList(TipoRol.VOZ_PRINCIPAL));
         Set<String> bandasBowie = new HashSet<>(Collections.singletonList("David Bowie"));
-        Artista bowie = new ArtistaExterno("David Bowie", rolesBowie, bandasBowie, 1500, 2);
-        artRepo.agregar(bowie);
+        Artista bowie = new Artista("David Bowie", TipoDeArtista.EXTERNO, rolesBowie, bandasBowie, 1500);
+        artistaRepository.agregar(bowie);
 
         Map<TipoRol,Integer> req = new EnumMap<>(TipoRol.class);
         req.put(TipoRol.VOZ_PRINCIPAL, 2);
         req.put(TipoRol.GUITARRA_ELECTRICA, 1);
         req.put(TipoRol.BAJO, 1);
         req.put(TipoRol.BATERIA, 1);
-        canRepo.agregar(new Cancion("Under Pressure", req));
+        cancionRepository.agregar(new Cancion("Under Pressure", req));
 
         String hechos = new BaseDeConocimientoService()
-            .generarHechos(artRepo, canRepo, Set.of("Brian May"));
+            .generarHechos(artistaRepository, cancionRepository, Set.of("Brian May"));
 
         assertAll(
             () -> assertTrue(hechos.contains("artista_base(brian_may).")),

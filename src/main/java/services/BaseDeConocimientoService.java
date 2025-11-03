@@ -1,7 +1,6 @@
 package services;
 
 import domain.Artista;
-import domain.ArtistaExterno;
 import domain.Cancion;
 import domain.TipoRol;
 import repository.ArtistaRepository;
@@ -25,8 +24,7 @@ public class BaseDeConocimientoService {
 
             if (esBase) {
                 sb.append("artista_base(").append(aId).append(").").append('\n');
-            } else if (a instanceof ArtistaExterno) {
-                // Ajustado a la firma de tu compañero: artista_externo/1
+            } else {
                 sb.append("artista_externo(").append(aId).append(").").append('\n');
             }
 
