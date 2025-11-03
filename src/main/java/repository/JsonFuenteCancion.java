@@ -1,25 +1,74 @@
 package repository;
 
 import domain.Cancion;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonFuenteCancion implements FuenteCancion {
-    private String path;
-    private DataLoader loader;
+
+    private final Path path;
+    // 💡 El repositorio no es Singleton, debe ser pasado.
+    private final CancionRepository repository; 
+    private final ObjectMapper mapper;
     
-    public JsonFuenteCancion(String path) {
-        this.path = path;
-        this.loader = new DataLoader();
+    // Asumo que usarás el mismo patrón de inyección de dependencia que en ArtistaRepository
+    public JsonFuenteCancion(Path path, CancionRepository repository) {
+    	this.path = Objects.requireNonNull(path, "path");
+        this.repository = Objects.requireNonNull(repository, "repository");
+        this.mapper = new ObjectMapper();
+        this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
-    
+
+    // --- CARGAR ---
     @Override
     public List<Cancion> cargar() {
-        return loader.cargarCanciones(path);
+        try {
+            File jsonFile = this.path.toFile();
+            
+            // TypeReference es necesario para deserializar colecciones (List<Cancion>)
+            List<Cancion> cancionesCargadas = this.mapper.readValue(jsonFile, new TypeReference<List<Cancion>>() {});
+            
+            // Cargar en la instancia de Repositorio
+            this.repository.limpiar(); 
+            cancionesCargadas.forEach(this.repository::agregar);
+            
+            System.out.println("Canciones cargadas con Exito desde: " + path);
+
+            return cancionesCargadas; 
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar canciones desde JSON: " + e.getMessage());
+            e.printStackTrace();
+            return this.repository.obtenerTodas(); 
+        }
     }
-    
+
+    // --- GUARDAR ---
     @Override
     public void guardar(List<Cancion> canciones) {
-        // TODO: Implementar guardado (Bonus)
-        throw new UnsupportedOperationException("Guardado no implementado aún");
+         if (canciones == null || canciones.isEmpty()) {
+             System.err.println("Advertencia: No hay canciones para guardar.");
+             return;
+        }
+        
+        try {
+            File cancionFile = this.path.toFile();
+            
+            // Serializar List<Cancion>
+            this.mapper.writeValue(cancionFile, canciones);
+            
+            System.out.println("Lista de Canciones guardada con Exito en: " + path);
+
+        } catch (IOException e) {
+            System.err.println("ERROR al guardar Canciones en JSON: " + path);
+            e.printStackTrace();
+        }
     }
 }
