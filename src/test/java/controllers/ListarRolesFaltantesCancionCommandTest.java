@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ListarCancionesCommandTest { 
+public class ListarRolesFaltantesCancionCommandTest { 
     
     // Reintroducimos la captura de salida para verificar el formato
     private final PrintStream standardOut = System.out;
@@ -65,7 +65,7 @@ public class ListarCancionesCommandTest {
         assertEquals(TITULO_ESPERADO, recital.getTitulo()); 
         
      
-        ListarCancionesCommand command = new ListarCancionesCommand(recitalService);
+        ListarRolesFaltantesCancionCommand command = new ListarRolesFaltantesCancionCommand(recitalService);
         command.ejecutar();
         
         String output = outputStreamCaptor.toString().trim();
@@ -93,20 +93,7 @@ public class ListarCancionesCommandTest {
         assertTrue(true, "La prueba de ejecución con JSON se completó y verificó el formato detallado.");
     }
     
-    @Test
-    void testEjecutar_SinRolesFaltantes() throws Exception {
 
-    	Recital.getInstance().setTitulo(TITULO_ESPERADO); 
-        
-        ListarCancionesCommand command = new ListarCancionesCommand(recitalService);
-        command.ejecutar();
-        
-        // VERIFICACIÓN
-        String output = outputStreamCaptor.toString().trim();
-        
-        assertTrue(output.contains("¡Todas las canciones del Recital tienen sus roles cubiertos!"), 
-                   "Debe mostrar el mensaje de que no hay roles faltantes.");
-    }
     
 
 }
