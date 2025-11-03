@@ -42,10 +42,10 @@ public class ArtistaRepository {
     }
     
     // Obtener solo artistas externos
-    public List<ArtistaExterno> obtenerArtistasExternos() {
+    public List<Artista> obtenerArtistasExternos() {
         return artistas.values().stream()
             .filter(a -> !a.esBase())
-            .map(a -> (ArtistaExterno) a)
+            .map(a -> a)
             .collect(Collectors.toList());
     }
     
