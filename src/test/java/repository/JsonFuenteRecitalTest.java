@@ -35,9 +35,7 @@ class JsonFuenteRecitalTest {
 		RecitalRepository.getInstance().getRecital().setTitulo(tituloPrueba);
 	}
 
-	// comentar esto para tener el archivo guardado
 
-	// elimina el archivo prueba
 	@AfterEach
 	void tearDown() throws Exception {
 		java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
@@ -68,7 +66,6 @@ class JsonFuenteRecitalTest {
 		assertTrue(archivoSalida.exists());
 		assertTrue(archivoSalida.length() > 0);
 
-		// verificar que cargo
 		setUp();
 
 		FuenteRecital fuenteVerificacion = new JsonFuenteRecital(rutaJsonSalida);

@@ -1,6 +1,6 @@
 package repository;
 
-import domain.Recital; // Ahora serializamos/deserializamos domain.Recital
+import domain.Recital; 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;

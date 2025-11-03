@@ -18,7 +18,6 @@ public class JsonFuenteArtistaTest {
     private static final int CANTIDAD_ESPERADA = 8; 
 
     
-    // comentar para visualizar el archivo
     @BeforeEach
     void setUp() {
         File fileSalida = PATH_SALIDA.toFile();

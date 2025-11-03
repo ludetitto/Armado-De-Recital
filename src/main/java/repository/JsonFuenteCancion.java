@@ -14,11 +14,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class JsonFuenteCancion implements FuenteCancion {
 
     private final Path path;
-    // 💡 El repositorio no es Singleton, debe ser pasado.
     private final CancionRepository repository; 
     private final ObjectMapper mapper;
     
-    // Asumo que usarás el mismo patrón de inyección de dependencia que en ArtistaRepository
     public JsonFuenteCancion(Path path, CancionRepository repository) {
     	this.path = Objects.requireNonNull(path, "path");
         this.repository = Objects.requireNonNull(repository, "repository");
@@ -32,7 +30,6 @@ public class JsonFuenteCancion implements FuenteCancion {
         try {
             File jsonFile = this.path.toFile();
             
-            // TypeReference es necesario para deserializar colecciones (List<Cancion>)
             List<Cancion> cancionesCargadas = this.mapper.readValue(jsonFile, new TypeReference<List<Cancion>>() {});
             
             // Cargar en la instancia de Repositorio

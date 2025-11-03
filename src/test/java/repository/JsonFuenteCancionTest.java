@@ -21,10 +21,8 @@ public class JsonFuenteCancionTest {
 
 	private static final Path PATH_ENTRADA = Paths.get("..", "data", "canciones.json");
 	private static final Path PATH_SALIDA = Paths.get("..", "data", "cancionestest.json");
-	private static final int CANTIDAD_ESPERADA = 4; // Asegúrate de que este valor coincida con tu JSON
+	private static final int CANTIDAD_ESPERADA = 4; 
 	
-	
-	// comentar para obtener el archivo del test
 	@AfterEach
 	void tearDown() throws IOException {
 	    Files.deleteIfExists(PATH_SALIDA);
@@ -78,8 +76,7 @@ public class JsonFuenteCancionTest {
 		JsonFuenteCancion fuenteSalida = new JsonFuenteCancion(PATH_SALIDA, repoCancion);
 		fuenteSalida.guardar(cancionesAGuardar);
 
-		// El test de verificación se hace en el siguiente método
-		assertTrue(true); // Indica que el guardado se completó sin excepción.
+		assertTrue(true); 
 	}
 
 	@Test
@@ -103,7 +100,6 @@ public class JsonFuenteCancionTest {
 
 		assertTrue(rhapsodyVerificada.getRolesRequeridos().containsKey(TipoRol.BAJO));
 
-		// El estado debe ser BORRADOR/INCOMPLETA si no se asignó nada.
 		assertEquals(TipoEstado.BORRADOR, rhapsodyVerificada.getEstado());
 	}
 }

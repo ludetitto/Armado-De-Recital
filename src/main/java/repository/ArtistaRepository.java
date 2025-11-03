@@ -4,7 +4,6 @@ import domain.Artista;
 
 import java.util.*;
 
-
 public class ArtistaRepository {
 
     private final Map<String, Artista> porNombre = new LinkedHashMap<>();

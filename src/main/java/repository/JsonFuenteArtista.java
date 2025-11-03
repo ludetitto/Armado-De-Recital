@@ -14,11 +14,9 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class JsonFuenteArtista implements FuenteArtista {
 
     private final Path path;
-    //  El repositorio ya no es Singleton, debe ser pasado o creado.
     private final ArtistaRepository repository; 
     private final ObjectMapper mapper;
     
-    // Constructor que recibe la ruta y el repositorio al que debe cargar/guardar
     public JsonFuenteArtista(Path path, ArtistaRepository repository) {
     	this.path = Objects.requireNonNull(path, "path");
         this.repository = Objects.requireNonNull(repository, "repository");
@@ -31,10 +29,8 @@ public class JsonFuenteArtista implements FuenteArtista {
         try {
             File jsonFile = this.path.toFile();
             
-            // Deserializar List<Artista>
             List<Artista> artistasCargados = this.mapper.readValue(jsonFile, new TypeReference<List<Artista>>() {});
             
-            // Cargar en la instancia de Repositorio que se pasó al constructor
             this.repository.limpiar(); 
             artistasCargados.forEach(this.repository::agregar);
             
@@ -45,7 +41,6 @@ public class JsonFuenteArtista implements FuenteArtista {
         } catch (IOException e) {
             System.err.println("Error al cargar artistas desde JSON: " + e.getMessage());
             e.printStackTrace();
-            // Devolver la lista actual de la instancia del repositorio
             return this.repository.obtenerTodos(); 
         }
     }
@@ -60,7 +55,6 @@ public class JsonFuenteArtista implements FuenteArtista {
         try {
             File artistaFile = this.path.toFile();
             
-            // Serializar List<Artista>
             this.mapper.writeValue(artistaFile, artistas);
             
             System.out.println("Lista de Artistas guardada con exito en: " + path);
