@@ -14,6 +14,8 @@ public enum TipoRol {
     BATERIA,
     PIANO, 
     TECLADOS, 
+    GUITARRA,
+    TECLADO,
     COROS;
 
     private static final Map<String, TipoRol> MAP = Map.of(

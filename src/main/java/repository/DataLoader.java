@@ -8,13 +8,7 @@ import domain.TipoRol;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DataLoader {
@@ -45,15 +39,8 @@ public class DataLoader {
             Object costoObj = m.get("costo");
             double costo = (costoObj instanceof Number) ? ((Number) costoObj).doubleValue() : 0.0;
 
-            Object maxObj = m.get("maxCanciones");
-            int maxCanciones = (maxObj instanceof Number) ? ((Number) maxObj).intValue() : 0;
-
-            Artista artista;
-            if (costo == 0.0) {
-                artista = new Artista(nombre, TipoDeArtista.BASE, roles, bandas, costo);
-            } else {
-                artista = new Artista(nombre, TipoDeArtista.EXTERNO, roles, bandas, costo);
-            }
+            TipoDeArtista tipo = (costo == 0.0) ? TipoDeArtista.BASE : TipoDeArtista.EXTERNO;
+            Artista artista = new Artista(nombre, tipo, roles, bandas, costo);
 
             out.add(artista);
         }

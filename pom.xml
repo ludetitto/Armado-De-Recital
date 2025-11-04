@@ -15,10 +15,11 @@
     <jackson.version>2.17.0</jackson.version>
     <junit.version>5.10.0</junit.version>
     <surefire.version>3.2.5</surefire.version>
+    <javafx.version>21.0.4</javafx.version>
   </properties>
 
   <dependencies>
-    <!-- Jackson (anotaciones + JSON + XML) -->
+    <!-- Jackson -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
@@ -49,6 +50,28 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <!-- JavaFX (usado con javafx-maven-plugin que resuelve el classifier por SO) -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-base</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-fxml</artifactId>
+      <version>${javafx.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -60,6 +83,16 @@
         <version>3.11.0</version>
         <configuration>
           <release>${maven.compiler.release}</release>
+        </configuration>
+      </plugin>
+
+      <!-- Ejecutar JavaFX con: mvn javafx:run -->
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <mainClass>application.RecitalApplication</mainClass>
         </configuration>
       </plugin>
 
@@ -77,29 +110,27 @@
         </configuration>
       </plugin>
     </plugins>
-    
+
     <resources>
-        <resource>
-            <directory>src/main/resources</directory>
-            <includes>
-                <!-- incluimos todos los archivos .pl (Prolog) -->
-                <include>**/*.pl</include>
-                <!-- y todo lo demás -->
-                <include>**/*</include>
-            </includes>
-            <filtering>false</filtering>
-        </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.pl</include>
+          <include>**/*</include>
+        </includes>
+        <filtering>false</filtering>
+      </resource>
     </resources>
 
     <testResources>
-        <testResource>
-            <directory>src/test/resources</directory>
-            <includes>
-                <include>**/*.pl</include>
-                <include>**/*</include>
-            </includes>
-            <filtering>false</filtering>
-        </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.pl</include>
+          <include>**/*</include>
+        </includes>
+        <filtering>false</filtering>
+      </testResource>
     </testResources>
   </build>
 </project>
