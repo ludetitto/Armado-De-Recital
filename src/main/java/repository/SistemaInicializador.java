@@ -18,9 +18,7 @@ public class SistemaInicializador {
         this.loader = new DataLoader();
     }
     
-    /**
-     * Inicializa el sistema cargando todos los datos
-     */
+
     public void inicializar(String pathArtistas, String pathRecital, String pathArtistasBase) {
         System.out.println("=== Iniciando carga de datos ===");
         
@@ -59,7 +57,6 @@ public class SistemaInicializador {
         System.out.println("=== Carga completada exitosamente ===\n");
     }
     
-    // Getters para los repositorios
     public ArtistaRepository getArtistaRepository() {
         return artistaRepo;
     }

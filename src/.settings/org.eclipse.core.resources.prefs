@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//main/java/controllers/ListarCancionesCommand.java=UTF-8
+encoding//main/java/controllers/ListarRolesFaltantesCancionCommand.java=UTF-8
+encoding//main/java/controllers/ListarRolesFaltantesRecitalCommand.java=UTF-8
+encoding//main/java/repository/JsonFuenteArtista.java=UTF-8
+encoding//main/java/repository/JsonFuenteCancion.java=UTF-8
+encoding//test/java/controllers/ListarRolesFaltantesCancionCommandTest.java=UTF-8
+encoding//test/java/controllers/ListarRolesFaltantesRecitalCommandTest.java=UTF-8
+encoding//test/java/repository/JsonFuenteArtistaTest.java=UTF-8
+encoding//test/java/repository/JsonFuenteCancionTest.java=UTF-8
+encoding//test/java/repository/JsonFuenteRecitalTest.java=UTF-8
+encoding//test/java/test/PrologTests.java=UTF-8

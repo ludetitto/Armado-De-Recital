@@ -1,25 +1,67 @@
 package repository;
 
 import domain.Artista;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonFuenteArtista implements FuenteArtista {
-    private String path;
-    private DataLoader loader;
+
+    private final Path path;
+    private final ArtistaRepository repository; 
+    private final ObjectMapper mapper;
     
-    public JsonFuenteArtista(String path) {
-        this.path = path;
-        this.loader = new DataLoader();
+    public JsonFuenteArtista(Path path, ArtistaRepository repository) {
+    	this.path = Objects.requireNonNull(path, "path");
+        this.repository = Objects.requireNonNull(repository, "repository");
+        this.mapper = new ObjectMapper();
+        this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
-    
+
     @Override
     public List<Artista> cargar() {
-        return loader.cargarArtistas(path);
+        try {
+            File jsonFile = this.path.toFile();
+            
+            List<Artista> artistasCargados = this.mapper.readValue(jsonFile, new TypeReference<List<Artista>>() {});
+            
+            this.repository.limpiar(); 
+            artistasCargados.forEach(this.repository::agregar);
+            
+            System.out.println("Artistas cargados con éxito desde: " + path);
+
+            return artistasCargados; 
+
+        } catch (IOException e) {
+            System.err.println("Error al cargar artistas desde JSON: " + e.getMessage());
+            e.printStackTrace();
+            return this.repository.obtenerTodos(); 
+        }
     }
-    
+
     @Override
     public void guardar(List<Artista> artistas) {
-        // TODO: Implementar guardado (Bonus)
-        throw new UnsupportedOperationException("Guardado no implementado aún");
+        if (artistas == null || artistas.isEmpty()) {
+             System.err.println("Advertencia: No hay artistas para guardar.");
+             return;
+        }
+        
+        try {
+            File artistaFile = this.path.toFile();
+            
+            this.mapper.writeValue(artistaFile, artistas);
+            
+            System.out.println("Lista de Artistas guardada con exito en: " + path);
+
+        } catch (IOException e) {
+            System.err.println("ERROR al guardar Artistas en JSON: " + path);
+            e.printStackTrace();
+        }
     }
 }

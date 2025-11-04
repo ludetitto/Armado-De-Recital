@@ -18,6 +18,9 @@ public class Contratacion {
         this.descuentoAplicado = descuentoAplicado;
     }
     
+    protected Contratacion() {
+    }
+    
     // Getters
     public Artista getArtista() { return artista; }
     public Cancion getCancion() { return cancion; }

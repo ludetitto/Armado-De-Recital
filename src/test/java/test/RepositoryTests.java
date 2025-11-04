@@ -1,10 +1,21 @@
 package test;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
-import domain.*;
-import repository.*;
-import java.util.*;
+
+import domain.Artista;
+import domain.Cancion;
+import domain.TipoDeArtista;
+import domain.TipoRol;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
+import repository.SistemaInicializador;
+
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 class RepositoryTests {
 
@@ -34,7 +45,7 @@ class RepositoryTests {
         Set<String> bandas = new HashSet<>();
         bandas.add("Queen");
 
-        Artista brian = new ArtistaBase("Brian May", roles, bandas);
+        Artista brian = new Artista("Brian May", TipoDeArtista.BASE, roles, bandas, 0);
 
         ArtistaRepository repo = new ArtistaRepository();
         repo.agregar(brian);

@@ -16,21 +16,18 @@ public class CancionService {
 	}
 
 	List<TipoRol> verRoles(Cancion cancion) {
-		// Devuelve la lista de roles requeridos por la canción recibida.
 		if (cancion == null) {
 			throw new IllegalArgumentException("cancion no puede ser null");
 		}
-		// Mantener el orden natural de los enums usando la clave del EnumMap
+    
 		return List.copyOf(cancion.getRolesRequeridos().keySet());
 	}
     
 	Map<TipoRol, Integer> verRolesFaltantes(Cancion cancion) {
-		// Para la canción recibida, devuelve el mapa de roles faltantes
 		if (cancion == null) {
 			throw new IllegalArgumentException("cancion no puede ser null");
 		}
 
-		// getRolesFaltantes ya calcula y devuelve sólo los roles con cantidad > 0
 		return new EnumMap<>(cancion.getRolesFaltantes());
 	}
 }

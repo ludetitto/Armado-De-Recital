@@ -8,14 +8,34 @@
   <version>0.0.1-SNAPSHOT</version>
 
   <properties>
-    <!-- Java 21 para soportar text blocks -->
     <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.source>21</maven.compiler.source>
+    <maven.compiler.target>21</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <junit.jupiter.version>5.10.2</junit.jupiter.version>
+    <jackson.version>2.17.0</jackson.version>
+    <junit.version>5.10.0</junit.version>
+    <surefire.version>3.2.5</surefire.version>
   </properties>
 
   <dependencies>
-    <!-- JProl para Prolog -->
+    <!-- Jackson (anotaciones + JSON + XML) -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-xml</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+    <!-- Prolog (JProl) -->
     <dependency>
       <groupId>com.igormaznitsa</groupId>
       <artifactId>jprol-core</artifactId>
@@ -26,14 +46,14 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>${junit.jupiter.version}</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Compilación con Java 21 -->
+      <!-- Compila con Java 21 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -43,16 +63,43 @@
         </configuration>
       </plugin>
 
-      <!-- Tests con JUnit 5 -->
+      <!-- JUnit 5 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.2.5</version>
+        <version>${surefire.version}</version>
         <configuration>
-          <!-- Evita problemas con el módulo por defecto en JDKs modernos -->
           <useModulePath>false</useModulePath>
+          <includes>
+            <include>**/*Tests.java</include>
+            <include>**/*Test.java</include>
+          </includes>
         </configuration>
       </plugin>
     </plugins>
+    
+    <resources>
+        <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+                <!-- incluimos todos los archivos .pl (Prolog) -->
+                <include>**/*.pl</include>
+                <!-- y todo lo demás -->
+                <include>**/*</include>
+            </includes>
+            <filtering>false</filtering>
+        </resource>
+    </resources>
+
+    <testResources>
+        <testResource>
+            <directory>src/test/resources</directory>
+            <includes>
+                <include>**/*.pl</include>
+                <include>**/*</include>
+            </includes>
+            <filtering>false</filtering>
+        </testResource>
+    </testResources>
   </build>
 </project>

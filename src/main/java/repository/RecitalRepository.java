@@ -4,6 +4,7 @@ import domain.Recital;
 
 public class RecitalRepository {
     private static RecitalRepository instance;
+    //@JacksonXmlProperty(localName = "recital")
     private Recital recital;
     
     private RecitalRepository() {
@@ -17,7 +18,12 @@ public class RecitalRepository {
         return instance;
     }
     
+    public static void setRecitalInstance(Recital recitalCargado) {
+        getInstance().recital = recitalCargado;
+    }
+    
     public Recital getRecital() {
         return recital;
     }
+
 }

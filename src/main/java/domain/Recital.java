@@ -2,12 +2,16 @@ package domain;
 
 import java.util.*;
 
+
 public class Recital {
     private static Recital instance;
     
     private String titulo;
+    
     private Set<Cancion> canciones;
+    
     private List<Contratacion> contrataciones;
+    
     private List<Artista> artistasBase;
     
     private Recital() {
@@ -70,13 +74,47 @@ public class Recital {
     // Getters
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
+    
     public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
+    public List<Artista> getArtistas() {
+
+        Map<String, Artista> porNombre = new LinkedHashMap<>();
+        boolean esExterno;
+        
+        for (Artista a : artistasBase) {
+            porNombre.put(a.getNombre(), a);
+        }
+
+        if (contrataciones != null) {
+            for (Contratacion c : contrataciones) {
+                Artista a = c.getArtista();
+                if (a == null) continue;
+
+                esExterno = a.getTipo() == TipoDeArtista.EXTERNO;
+
+                if (esExterno) {
+                    porNombre.putIfAbsent(a.getNombre(), a);
+                }
+            }
+        }
+
+        return Collections.unmodifiableList(new ArrayList<>(porNombre.values()));
+    }
     
     @Override
     public String toString() {
         return String.format("Recital: %s - Canciones: %d - Contrataciones: %d - Costo Total: $%.2f",
             titulo, canciones.size(), contrataciones.size(), calcularCostoTotal());
     }
+
+    // set necesario para cargar de un json
+    public static void setInstance(Recital recitalCargado) {
+        if (recitalCargado == null) {
+            throw new IllegalArgumentException("La instancia de Recital cargada no puede ser nula.");
+        }
+        Recital.instance = recitalCargado;
+    }
+
 }
