@@ -1,24 +1,33 @@
 package services;
 
 import domain.Cancion;
-import domain.TipoEstado;
 import domain.TipoRol;
+import repository.CancionRepository;
 
-import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
 public class CancionService {
-    List<TipoRol> verRoles(Cancion cancion) {
-    	Map<TipoRol, Integer> roles = cancion.getRolesRequeridos();
-    	return new ArrayList<>(roles.keySet());
-    }
+	private final CancionRepository repo;
+
+	public CancionService(CancionRepository repo) {
+		this.repo = repo;
+	}
+
+	List<TipoRol> verRoles(Cancion cancion) {
+		if (cancion == null) {
+			throw new IllegalArgumentException("cancion no puede ser null");
+		}
     
-    public Map<TipoRol, Integer> verRolesFaltantes(Cancion cancion) {
-		 return cancion.getRolesFaltantes();
-    }
+		return List.copyOf(cancion.getRolesRequeridos().keySet());
+	}
     
-    TipoEstado verEstado(Cancion cancion) {
-		return cancion.getEstado();
-    }
+	Map<TipoRol, Integer> verRolesFaltantes(Cancion cancion) {
+		if (cancion == null) {
+			throw new IllegalArgumentException("cancion no puede ser null");
+		}
+
+		return new EnumMap<>(cancion.getRolesFaltantes());
+	}
 }
