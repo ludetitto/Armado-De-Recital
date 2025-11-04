@@ -1,31 +1,22 @@
 package application;
 
-//import java.util.List;
+import UI.MenuContratacion;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class RecitalApplication {
+public class RecitalApplication extends Application {
+
+    @Override
+    public void start(Stage stage) {
+        var root = new MenuContratacion();
+        var scene = new Scene(root, 1000, 650);
+        stage.setTitle("Armado de Recital - UNLaM");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public static void main(String[] args) {
-//        DataLoader loader = new DataLoader();
-//
-//        List<Artista> artistas = loader.cargarArtistas("data/artistas.json");
-//        List<Cancion> canciones = loader.cargarCanciones("data/recital.json");
-//        List<String> baseNombres = loader.cargarArtistasBase("data/artistas-discografica.json");
-//
-//        System.out.println("ARTISTAS");
-//        artistas.forEach(a -> System.out.println(a));
-//
-//        System.out.println("\nCANCIONES");
-//        canciones.forEach(c -> System.out.println(c));
-//
-//        System.out.println("\nARTISTAS BASE");
-//        baseNombres.forEach(n -> System.out.println(n));
-    	System.out.println("Hola mundo");
-    }
-    
-    void ejecutar() {
-    	// TODO: implementar
-    }
-    
-    void deshacer() {
-    	// TODO: implementar
+        launch(args);
     }
 }
