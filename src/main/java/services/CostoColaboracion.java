@@ -1,9 +1,15 @@
 package services;
 
-public class CostoColaboracion implements Costo{
+import domain.Artista;
+
+public class CostoColaboracion extends CostoDecorator {
+
+	public CostoColaboracion(CostoBase inner) {
+		super(inner);
+	}
 
 	@Override
-	public double calcularExtra() {
+	public double calcular(Artista artista) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

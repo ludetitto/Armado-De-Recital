@@ -2,6 +2,7 @@ package services;
 
 import domain.Artista;
 import domain.EstadoRol;
+import domain.Recital;
 import domain.TipoRol;
 
 import java.util.ArrayList;
@@ -29,5 +30,14 @@ public class ArtistaService {
 	
 	void verGrafoColaboraciones() {
 		// TODO: implementar
+	}
+
+	public void recibirEntrenamiento(Artista artista, TipoRol rolAgregado) {
+		if(!artista.puedeOcuparRol(rolAgregado) && Recital.getInstance().getArtistasCandidatos().contains(artista)) {
+			artista.agregarRol(rolAgregado);
+            System.out.println("Entrenamiento aplicado: " + artista.getNombre() + " ahora puede " + rolAgregado);
+        }
+        
+		System.out.println("El artista " + artista.getNombre() + " ya puede ocupar el rol " + rolAgregado);
 	}
 }

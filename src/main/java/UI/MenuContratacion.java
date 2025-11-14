@@ -8,8 +8,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Pair;
+import repository.ArtistaRepository;
 import repository.FuenteRecital;
+import repository.JsonFuenteArtista;
 import repository.JsonFuenteRecital;
+import repository.FuenteArtista;
 import services.CancionService;
 import services.RecitalService;
 
@@ -394,6 +398,29 @@ public class MenuContratacion extends BorderPane {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
         }
+        
+        try {
+            var url = getClass().getResource("/data/artistas.json");
+            Path ruta = null;
+            if (url != null) {
+                ruta = Paths.get(url.toURI());
+            } else {
+                var urlTest = getClass().getResource("/data/artistasTest.json");
+                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+            }
+            if (ruta == null) {
+                ruta = Paths.get("data", "artistas.json").toAbsolutePath().normalize();
+            }
+            
+            ArtistaRepository artistaRepository = new ArtistaRepository();
+            FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
+            fuente.cargar();
+            
+            actualizarStatus("✅ Datos cargados exitosamente");
+        } catch (Exception ex) {
+            refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
+            actualizarStatus("⚠️ Error en la carga de datos");
+        }
     }
 
     private void actualizarStatus(String mensaje) {
@@ -447,15 +474,21 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void opcionEntrenarArtista() {
-        TextInputDialog dlg = crearDialogoEstilizado("💪 Entrenar Artista", 
-                                                      "Ingrese el nombre del artista a entrenar");
-        dlg.showAndWait().ifPresent(nombre -> {
-            actualizarStatus("💪 Iniciando entrenamiento de: " + nombre);
-            var cmd = new EntrenarArtistaCommand(nombre);
-            String out = runAndCapture(cmd::ejecutar);
-            refreshConsola("💪 Entrenamiento - " + nombre, out, "Sesión de entrenamiento completada");
-            actualizarStatus("✅ Entrenamiento finalizado");
-        });
+        Dialog<Pair<String, String>> dlg = crearDialogoEntrenarConCombo();
+
+        var result = dlg.showAndWait();
+        if (result.isEmpty()) return;
+
+        String nombre = result.get().getKey();
+        String rol = result.get().getValue();
+
+        actualizarStatus("💪 Entrenando a: " + nombre);
+
+        var cmd = new EntrenarArtistaCommand(nombre, rol);
+        String out = runAndCapture(cmd::ejecutar);
+
+        refreshConsola("💪 Entrenamiento - " + nombre, out, null);
+        actualizarStatus("✅ Entrenamiento completado");
     }
 
     private void opcionListarContratados() {
@@ -497,7 +530,54 @@ public class MenuContratacion extends BorderPane {
         dlg.setContentText("Entrada:");
         return dlg;
     }
+    
+    private Dialog<Pair<String, String>> crearDialogoEntrenarConCombo() {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Entrenar Artista");
+        dialog.setHeaderText("Complete los datos");
 
+        ButtonType okButton = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(12);
+        grid.setVgap(10);
+
+        // Campo 1: Nombre
+        TextField txtNombre = new TextField();
+        txtNombre.setPromptText("Nombre del artista");
+
+        // Campo 2: Rol (ComboBox)
+        ComboBox<String> comboRol = new ComboBox<>();
+        comboRol.getItems().addAll(
+            "BAJO",
+            "BATERIA",
+            "GUITARRA_ELECTRICA",
+            "VOZ_PRINCIPAL",
+            "PIANO"
+        );
+        comboRol.setPromptText("Seleccione un rol a entrenar");
+
+        // Ubicar en la grilla
+        grid.add(new Label("Artista:"), 0, 0);
+        grid.add(txtNombre,         1, 0);
+
+        grid.add(new Label("Rol:"), 0, 1);
+        grid.add(comboRol,          1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        // Convertir resultado
+        dialog.setResultConverter(btn -> {
+            if (btn == okButton) {
+                return new Pair<>(txtNombre.getText(), comboRol.getValue());
+            }
+            return null;
+        });
+
+        return dialog;
+    }
+    
     private String runAndCapture(Runnable action) {
         PrintStream original = System.out;
         var baos = new ByteArrayOutputStream();
