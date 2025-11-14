@@ -30,4 +30,16 @@ public class ArtistaService {
 	void verGrafoColaboraciones() {
 		// TODO: implementar
 	}
+
+	public void recibirEntrenamiento(Artista artista, TipoRol rolAgregado) {
+		for (TipoRol r : TipoRol.values()) {
+            if (!artista.puedeOcuparRol(r)) {
+                artista.agregarRol(r);
+                rolAgregado = r;
+                System.out.println("Entrenamiento aplicado: " + artista.getNombre() + " ahora puede " + r);
+                return;
+            }
+        }
+        System.out.println("No se encontró un rol nuevo para entrenar a " + artista.getNombre());
+	}
 }

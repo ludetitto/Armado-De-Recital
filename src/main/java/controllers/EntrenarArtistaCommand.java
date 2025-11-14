@@ -3,18 +3,19 @@ package controllers;
 import domain.Artista;
 import domain.Recital;
 import domain.TipoRol;
+import services.ArtistaService;
 
 public class EntrenarArtistaCommand implements ComandoContratacion {
 
     private final String nombreArtista;
+    private final ArtistaService artistaService = new ArtistaService();
     private TipoRol rolAgregado = null;
 
-    // Firma que usa tu Menu (solo String)
-    public EntrenarArtistaCommand(String nombreArtista) {
+    public EntrenarArtistaCommand(String nombreArtista, String rolAgregado) {
         this.nombreArtista = nombreArtista;
+        this.rolAgregado = TipoRol.valueOf(rolAgregado);
     }
 
-    // Sobrecarga compatible con tu variante de servicios
     public EntrenarArtistaCommand(services.PrologService ps, services.ArtistaService as, String nombreArtista) {
         this.nombreArtista = nombreArtista;
     }
@@ -26,19 +27,10 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
                 .findFirst().orElse(null);
 
         if (artista == null) {
-            System.out.println("Error: artista no encontrado: " + nombreArtista);
-            return;
+           throw new IllegalArgumentException("Error: artista no encontrado: " + nombreArtista);
         }
-
-        for (TipoRol r : TipoRol.values()) {
-            if (!artista.puedeOcuparRol(r)) {
-                artista.agregarRol(r);
-                rolAgregado = r;
-                System.out.println("Entrenamiento aplicado: " + artista.getNombre() + " ahora puede " + r);
-                return;
-            }
-        }
-        System.out.println("No se encontró un rol nuevo para entrenar a " + artista.getNombre());
+        
+        artistaService.recibirEntrenamiento(artista, rolAgregado);
     }
 
     @Override

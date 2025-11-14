@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.util.Pair;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
 import services.CancionService;
@@ -19,6 +20,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuContratacion extends BorderPane {
 
@@ -319,15 +322,24 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void opcionEntrenarArtista() {
-        TextInputDialog dlg = crearDialogoEstilizado("💪 Entrenar Artista", 
-                                                      "Ingrese el nombre del artista");
-        dlg.showAndWait().ifPresent(nombre -> {
-            actualizarStatus("💪 Entrenando a: " + nombre);
-            var cmd = new EntrenarArtistaCommand(nombre);
-            String out = runAndCapture(cmd::ejecutar);
-            refreshConsola("💪 Entrenamiento - " + nombre, out, null);
-            actualizarStatus("✅ Entrenamiento completado");
-        });
+        var dlg = crearDialogoEstilizadoDoble(
+            "Nombre del artista", "Ingrese el nombre",
+            "Rol a adquirir", "Ingrese el rol"
+        );
+
+        var result = dlg.showAndWait();
+        if (result.isEmpty()) return;
+
+        String nombre = result.get().getKey();
+        String rol = result.get().getValue();
+
+        actualizarStatus("💪 Entrenando a: " + nombre);
+
+        var cmd = new EntrenarArtistaCommand(nombre, rol);
+        String out = runAndCapture(cmd::ejecutar);
+
+        refreshConsola("💪 Entrenamiento - " + nombre, out, null);
+        actualizarStatus("✅ Entrenamiento completado");
     }
 
     private void opcionListarContratados() {
@@ -367,6 +379,48 @@ public class MenuContratacion extends BorderPane {
         dlg.setContentText("Entrada:");
         return dlg;
     }
+    
+    private Dialog<Pair<String, String>> crearDialogoEstilizadoDoble(
+            String titulo1,
+            String mensaje1,
+            String titulo2,
+            String mensaje2
+    ) {
+        Dialog<Pair<String, String>> dialog = new Dialog<>();
+        dialog.setTitle("Entrenar Artista");
+        dialog.setHeaderText("Complete los datos");
+
+        ButtonType okButton = new ButtonType("Aceptar", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButton, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(12);
+        grid.setVgap(10);
+
+        TextField input1 = new TextField();
+        input1.setPromptText(mensaje1);
+
+        TextField input2 = new TextField();
+        input2.setPromptText(mensaje2);
+
+        grid.add(new Label(titulo1 + ":"), 0, 0);
+        grid.add(input1, 1, 0);
+
+        grid.add(new Label(titulo2 + ":"), 0, 1);
+        grid.add(input2, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(btn -> {
+            if (btn == okButton) {
+                return new Pair<>(input1.getText(), input2.getText());
+            }
+            return null;
+        });
+
+        return dialog;
+    }
+
 
     // === utilidades ===
 
