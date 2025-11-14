@@ -9,11 +9,6 @@ public class CostoBase implements Costo {
 	
 	@Override
 	public double obtener() {
-		return 0;
-	}
-	
-	public double obtenerCostoBase() {
 		return costoBase;
 	}
-
 }

@@ -9,8 +9,11 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
+import repository.ArtistaRepository;
 import repository.FuenteRecital;
+import repository.JsonFuenteArtista;
 import repository.JsonFuenteRecital;
+import repository.FuenteArtista;
 import services.CancionService;
 import services.RecitalService;
 
@@ -20,8 +23,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MenuContratacion extends BorderPane {
 
@@ -397,6 +398,29 @@ public class MenuContratacion extends BorderPane {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
         }
+        
+        try {
+            var url = getClass().getResource("/data/artistas.json");
+            Path ruta = null;
+            if (url != null) {
+                ruta = Paths.get(url.toURI());
+            } else {
+                var urlTest = getClass().getResource("/data/artistasTest.json");
+                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+            }
+            if (ruta == null) {
+                ruta = Paths.get("data", "artistas.json").toAbsolutePath().normalize();
+            }
+            
+            ArtistaRepository artistaRepository = new ArtistaRepository();
+            FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
+            fuente.cargar();
+            
+            actualizarStatus("✅ Datos cargados exitosamente");
+        } catch (Exception ex) {
+            refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
+            actualizarStatus("⚠️ Error en la carga de datos");
+        }
     }
 
     private void actualizarStatus(String mensaje) {
@@ -450,10 +474,7 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void opcionEntrenarArtista() {
-        var dlg = crearDialogoEstilizadoDoble(
-            "Nombre del artista", "Ingrese el nombre",
-            "Rol a adquirir", "Ingrese el rol"
-        );
+        Dialog<Pair<String, String>> dlg = crearDialogoEntrenarConCombo();
 
         var result = dlg.showAndWait();
         if (result.isEmpty()) return;
@@ -510,12 +531,7 @@ public class MenuContratacion extends BorderPane {
         return dlg;
     }
     
-    private Dialog<Pair<String, String>> crearDialogoEstilizadoDoble(
-            String titulo1,
-            String mensaje1,
-            String titulo2,
-            String mensaje2
-    ) {
+    private Dialog<Pair<String, String>> crearDialogoEntrenarConCombo() {
         Dialog<Pair<String, String>> dialog = new Dialog<>();
         dialog.setTitle("Entrenar Artista");
         dialog.setHeaderText("Complete los datos");
@@ -527,31 +543,41 @@ public class MenuContratacion extends BorderPane {
         grid.setHgap(12);
         grid.setVgap(10);
 
-        TextField input1 = new TextField();
-        input1.setPromptText(mensaje1);
+        // Campo 1: Nombre
+        TextField txtNombre = new TextField();
+        txtNombre.setPromptText("Nombre del artista");
 
-        TextField input2 = new TextField();
-        input2.setPromptText(mensaje2);
+        // Campo 2: Rol (ComboBox)
+        ComboBox<String> comboRol = new ComboBox<>();
+        comboRol.getItems().addAll(
+            "BAJO",
+            "BATERIA",
+            "GUITARRA_ELECTRICA",
+            "VOZ_PRINCIPAL",
+            "PIANO"
+        );
+        comboRol.setPromptText("Seleccione un rol a entrenar");
 
-        grid.add(new Label(titulo1 + ":"), 0, 0);
-        grid.add(input1, 1, 0);
+        // Ubicar en la grilla
+        grid.add(new Label("Artista:"), 0, 0);
+        grid.add(txtNombre,         1, 0);
 
-        grid.add(new Label(titulo2 + ":"), 0, 1);
-        grid.add(input2, 1, 1);
+        grid.add(new Label("Rol:"), 0, 1);
+        grid.add(comboRol,          1, 1);
 
         dialog.getDialogPane().setContent(grid);
 
+        // Convertir resultado
         dialog.setResultConverter(btn -> {
             if (btn == okButton) {
-                return new Pair<>(input1.getText(), input2.getText());
+                return new Pair<>(txtNombre.getText(), comboRol.getValue());
             }
             return null;
         });
 
         return dialog;
     }
-
-
+    
     private String runAndCapture(Runnable action) {
         PrintStream original = System.out;
         var baos = new ByteArrayOutputStream();

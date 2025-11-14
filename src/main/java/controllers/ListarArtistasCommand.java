@@ -24,6 +24,16 @@ public class ListarArtistasCommand implements ComandoContratacion {
                 System.out.println(" - " + a);
             }
         }
+        
+        List<Artista> artistasCandidatos = Recital.getInstance().getArtistasCandidatos();
+        System.out.println("--- Artistas candidatos (" + artistasCandidatos.size() + ") ---");
+        if (artistas.isEmpty()) {
+            System.out.println("No hay artistas cargados/visibles en el recital.");
+        } else {
+            for (Artista a : artistasCandidatos) {
+                System.out.println(" - " + a);
+            }
+        }
         System.out.println("---------------------------------------------");
     }
 

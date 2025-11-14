@@ -4,9 +4,9 @@ import domain.Artista;
 
 public abstract class CostoDecorator implements Costo {
 
-	protected final CostoBase inner;
+	protected final Costo inner;
 
-    public CostoDecorator(CostoBase inner) {
+    public CostoDecorator(Costo inner) {
         this.inner = inner;
     }
 

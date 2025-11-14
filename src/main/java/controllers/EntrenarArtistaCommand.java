@@ -9,7 +9,7 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
 
     private final String nombreArtista;
     private final ArtistaService artistaService = new ArtistaService();
-    private TipoRol rolAgregado = null;
+    private TipoRol rolAgregado;
 
     public EntrenarArtistaCommand(String nombreArtista, String rolAgregado) {
         this.nombreArtista = nombreArtista;
@@ -22,7 +22,7 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
 
     @Override
     public void ejecutar() {
-        Artista artista = Recital.getInstance().getArtistas().stream()
+        Artista artista = Recital.getInstance().getArtistasCandidatos().stream()
                 .filter(a -> a.getNombre().equalsIgnoreCase(nombreArtista))
                 .findFirst().orElse(null);
 

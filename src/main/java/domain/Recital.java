@@ -14,10 +14,13 @@ public class Recital {
     
     private List<Artista> artistasBase;
     
+    private List<Artista> artistasCandidatos;
+    
     private Recital() {
         this.canciones = new LinkedHashSet<>();
         this.contrataciones = new ArrayList<>();
         this.artistasBase = new ArrayList<>();
+        this.artistasCandidatos = new ArrayList<>();
         this.titulo = "Recital Especial";
     }
     
@@ -43,11 +46,13 @@ public class Recital {
     // Agregar contratación
     public void agregarContratacion(Contratacion contratacion) {
         contrataciones.add(contratacion);
+        artistasCandidatos.remove(contratacion.getArtista());
     }
     
     // Eliminar contratación
     public void eliminarContratacion(Contratacion contratacion) {
         contrataciones.remove(contratacion);
+        artistasCandidatos.add(contratacion.getArtista());
     }
     
     // Calcular costo total
@@ -78,6 +83,7 @@ public class Recital {
     public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
+    public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
     public List<Artista> getArtistas() {
 
         Map<String, Artista> porNombre = new LinkedHashMap<>();
@@ -95,7 +101,9 @@ public class Recital {
                 esExterno = a.getTipo() == TipoDeArtista.EXTERNO;
 
                 if (esExterno) {
-                    porNombre.putIfAbsent(a.getNombre(), a);
+                	porNombre.putIfAbsent(a.getNombre(), a);
+                	if(!porNombre.containsKey(a))
+                		artistasCandidatos.add(a);
                 }
             }
         }

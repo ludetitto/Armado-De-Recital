@@ -5,16 +5,16 @@ import domain.EstadoRol;
 
 public class CostoEntrenamiento extends CostoDecorator {
 
-	public CostoEntrenamiento(CostoBase inner) {
+	public CostoEntrenamiento(Costo inner) {
 		super(inner);
 	}
 
 	@Override
 	public double calcular(Artista artista) {
-		double costo = inner.obtenerCostoBase();
+		double costo = inner.obtener();
         boolean tieneEntrenamiento = artista.getRoles().values().stream()
                 .anyMatch(e -> e == EstadoRol.ENTRENAMIENTO);
-        double costoEntrenamiento = 0;
+        double costoEntrenamiento = costo;
         
         if (tieneEntrenamiento) {
         	costoEntrenamiento = costo * 1.5;
