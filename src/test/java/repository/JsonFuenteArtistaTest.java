@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonFuenteArtistaTest {
 
-    private static final Path PATH_ENTRADA = Paths.get("..", "data", "artistas.json");
+    private static final Path PATH_ENTRADA = Paths.get("..", "data", "artistas_v2.json");
     private static final Path PATH_SALIDA = Paths.get("..", "data", "artistastest.json");
-    private static final int CANTIDAD_ESPERADA = 8; 
+    private static final int CANTIDAD_ESPERADA = 19; 
 
     
     @BeforeEach
@@ -26,13 +26,13 @@ public class JsonFuenteArtistaTest {
         }
     }
 
-
     @Test
     void testCargarYVerificarRoles() {
         ArtistaRepository repository = new ArtistaRepository(); 
         
         JsonFuenteArtista fuente = new JsonFuenteArtista(PATH_ENTRADA, repository);
         fuente.cargar();
+        
         
         assertEquals(CANTIDAD_ESPERADA, repository.cantidad());
         

@@ -32,6 +32,7 @@ public class Recital {
         }
         return instance;
     }
+   
     
     // Agregar canción
     public void agregarCancion(Cancion cancion) {
@@ -42,6 +43,46 @@ public class Recital {
     public void agregarArtistaBase(Artista artista) {
         if (artista.esBase()) {
             artistasBase.add(artista);
+        }
+    }
+    
+    public void agregarArtistaCandidato(Artista artista) {
+        if (artista.esExterno()) { 
+            artistasCandidatos.add(artista);
+        }
+    }
+    
+    // agrgar al recital los artistas cargados desde el repositorio
+    public void agregarArtistas( List<Artista> artistas) {
+        if (artistas == null || artistas.isEmpty()) {
+            return;
+        }
+
+        for (Artista artista : artistas) {
+            if (artista == null) {
+                continue; 
+            }
+            
+            if (artista.esBase()) {
+
+                this.artistasBase.add(artista); 
+            } else {
+
+                this.artistasCandidatos.add(artista);
+            }
+        }
+    }
+    
+    // cancion repositorio
+    public void cargarCanciones(List<Cancion>canciones) {
+        if (canciones == null) {
+            return;
+        }
+
+        for (Cancion cancion : canciones) {
+            if (cancion != null) {
+                this.canciones.add(cancion);
+            }
         }
     }
     
@@ -106,7 +147,7 @@ public class Recital {
 
                 if (esExterno) {
                 	porNombre.putIfAbsent(a.getNombre(), a);
-                	if(!porNombre.containsKey(a))
+                	if(!porNombre.containsKey(a.getNombre()))
                 		artistasCandidatos.add(a);
                 }
             }

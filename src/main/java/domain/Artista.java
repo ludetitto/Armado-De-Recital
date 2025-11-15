@@ -34,6 +34,7 @@ public class Artista {
 			}
 		}
 
+		
 		this.bandas = new LinkedHashSet<>(bandas);
 		this.costoBase = costoBase;
 	}
@@ -46,6 +47,10 @@ public class Artista {
 
 	public boolean esBase() {
 		return tipo == TipoDeArtista.BASE;
+	}
+	
+	public boolean esExterno() {
+		return tipo == TipoDeArtista.EXTERNO;
 	}
 
 	// Verifica si el artista puede ocupar un rol
