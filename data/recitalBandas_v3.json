@@ -1,0 +1,66 @@
+{
+  "titulo": "LIVE AID",
+  
+  "canciones": [
+    {
+      "titulo": "Bohemian Rhapsody",
+      "estado": "COMPLETA",
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1,
+        "PIANO": 1
+      },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [ { "nombre": "Freddie Mercury", "roles": [ "VOZ_PRINCIPAL", "PIANO" ], "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" } ],
+        "GUITARRA_ELECTRICA": [ { "nombre": "Brian May", "roles": [ "GUITARRA_ELECTRICA" ], "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" } ],
+        "BAJO": [ { "nombre": "John Deacon", "roles": [ "BAJO" ], "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" } ],
+        "BATERIA": [ { "nombre": "Roger Taylor", "roles": [ "BATERIA" ], "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" } ],
+        "PIANO": [ { "nombre": "Freddie Mercury", "roles": [ "VOZ_PRINCIPAL", "PIANO" ], "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" } ]
+      }
+    },
+    {
+      "titulo": "With or Without You",
+      "estado": "INCOMPLETA",
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "TECLADOS": 1 
+      },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [ { "nombre": "Bono", "roles": [ "VOZ_PRINCIPAL" ], "bandas": [ "U2" ], "costoBase": 0.0, "tipo": "BASE" } ]
+      }
+    },
+    { "titulo": "Stairway to Heaven", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA": 1, "TECLADO": 1, "COROS": 2 }, "asignaciones": {} },
+    { "titulo": "The Unforgiven", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1, "BATERIA": 1 },"asignaciones": {} },
+    { "titulo": "Light My Fire", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "PIANO": 1, "BAJO": 1 },"asignaciones": {} },
+    { "titulo": "Immigrant Song", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1, "BATERIA": 1 },"asignaciones": {} },
+    { "titulo": "Baba O'Riley", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "BAJO": 1, "TECLADOS": 1 },"asignaciones": {} },
+    { "titulo": "A Kind of Magic", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "TECLADOS": 1, "BAJO": 1 },"asignaciones": {} },
+    { "titulo": "One", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA": 1, "COROS": 2 },"asignaciones": {} },
+    { "titulo": "Another One Bites the Dust", "estado": "INCOMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "BAJO": 1 },"asignaciones": {} }
+  ],
+  
+  "contrataciones": [
+    { 
+      "artista": { "roles": [ "VOZ_PRINCIPAL", "PIANO" ], "nombre": "Freddie Mercury", "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" },
+      "cancion": { "titulo": "Bohemian Rhapsody", "estado": "COMPLETA", "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1, "BAJO": 1, "BATERIA": 1, "PIANO": 1 }, "asignaciones": { }, "rolesFaltantes": { } },
+      "rol": "VOZ_PRINCIPAL", "costoFinal": 0.0, "descuentoAplicado": 0.0
+    }
+  ],
+  
+  "artistasBase": [ 
+    { "roles": [ "VOZ_PRINCIPAL", "PIANO" ], "nombre": "Freddie Mercury", "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" },
+    { "roles": [ "GUITARRA_ELECTRICA" ], "nombre": "Brian May", "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" },
+    { "roles": [ "VOZ_PRINCIPAL" ], "nombre": "Bono", "bandas": [ "U2" ], "costoBase": 0.0, "tipo": "BASE" },
+    { "roles": [ "BAJO" ], "nombre": "John Deacon", "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" },
+    { "roles": [ "BATERIA" ], "nombre": "Roger Taylor", "bandas": [ "Queen" ], "costoBase": 0.0, "tipo": "BASE" }
+  ],
+  
+  "artistasCandidatos": [ 
+    { "roles": [ "VOZ_PRINCIPAL", "PIANO", "TECLADOS" ], "nombre": "Elton John", "bandas": [ "Elton John Band" ], "costoBase": 1200.0, "tipo": "EXTERNO" },
+    { "roles": [ "VOZ_PRINCIPAL", "COROS" ], "nombre": "Sting", "bandas": [ "The Police" ], "costoBase": 1800.0, "tipo": "EXTERNO" }
+  ]
+}

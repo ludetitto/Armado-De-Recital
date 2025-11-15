@@ -18,11 +18,11 @@ import java.util.Map;
 
 class JsonFuenteRecitalTest {
 
-	private final Path rutaJsonReal = Paths.get("..", "Data", "recital.json");
-	private final String tituloEsperado = "Queen Greatest Hits Setlist V3";
+	private final Path rutaJsonReal = Paths.get("..", "Data", "recitalBandas_v3.json");
+	private final String tituloEsperado = "LIVE AID";
 
-	private final Path rutaJsonSalida = Paths.get("..", "Data", "recitalprueba.json");
-	private final String tituloPrueba = "Setlist Inicial";
+	private final Path rutaJsonSalida = Paths.get("..", "Data", "recitalBandas_v3prueba.json");
+	private final String tituloPrueba = "LIVE AID";
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -50,6 +50,7 @@ class JsonFuenteRecitalTest {
 
 		Files.deleteIfExists(rutaJsonSalida);
 	}
+
 
 	@Test
 	void testGuardar() throws Exception {
