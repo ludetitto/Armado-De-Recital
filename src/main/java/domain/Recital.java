@@ -2,6 +2,8 @@ package domain;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 public class Recital {
     private static Recital instance;
@@ -84,6 +86,8 @@ public class Recital {
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
     public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
+    
+    @JsonIgnore
     public List<Artista> getArtistas() {
 
         Map<String, Artista> porNombre = new LinkedHashMap<>();

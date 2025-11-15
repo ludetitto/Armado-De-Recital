@@ -22,7 +22,7 @@ class JsonFuenteRecitalTest {
 	private final String tituloEsperado = "Queen Greatest Hits Setlist V3";
 
 	private final Path rutaJsonSalida = Paths.get("..", "Data", "recitalprueba.json");
-	private final String tituloPrueba = "Setlist Inicial";
+	private final String tituloPrueba = "Queen Greatest Hits Setlist V3";
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -50,6 +50,7 @@ class JsonFuenteRecitalTest {
 
 		Files.deleteIfExists(rutaJsonSalida);
 	}
+
 
 	@Test
 	void testGuardar() throws Exception {
