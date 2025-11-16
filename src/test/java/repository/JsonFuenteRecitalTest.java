@@ -100,6 +100,7 @@ class JsonFuenteRecitalTest {
         System.out.println("Cantidad de Canciones: " + recitalCargado.getCanciones().size());
         System.out.println("Cantidad de Contrataciones: " + recitalCargado.getContrataciones().size());
         System.out.println("Cantidad de Artistas Base: " + recitalCargado.getArtistasBase().size());
+        System.out.println("Cantidad de Artistas Externo: " + recitalCargado.getArtistasCandidatos().size());
         System.out.println("-----------------------------------------------------");
 
         // Detalle de Canciones y Roles Faltantes

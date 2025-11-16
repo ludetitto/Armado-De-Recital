@@ -32,7 +32,7 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
             System.out.println("No hay canciones en el recital.");
             return;
         }
-        System.out.println("--- Contratación automática para TODO el recital ---");
+        System.out.println("--- Contratacion automatica para TODO el recital ---");
         for (Cancion c : canciones) {
             var cmd = (artistaServiceOpt != null && recitalServiceOpt != null)
                     ? new ContratarArtistasParaCancionCommand(artistaServiceOpt, new services.CancionService(), c.getTitulo())
@@ -46,6 +46,6 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
 
     @Override
     public void deshacer() {
-        System.out.println("Deshacer general no implementado para contratación de todo el recital.");
+        System.out.println("Deshacer general no implementado para contratacion de todo el recital.");
     }
 }
