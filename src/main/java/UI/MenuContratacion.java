@@ -384,6 +384,10 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void inicializarDatos() {
+    	
+    	ArtistaRepository artistaRepository = new ArtistaRepository();
+    	CancionRepository cancionRepository = new CancionRepository();
+    	
         try {
             var url = getClass().getResource("/data/recital.json");
             Path ruta = null;
@@ -394,9 +398,9 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "recital.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..","data", "recital.json").toAbsolutePath().normalize();
             }
-            FuenteRecital fuente = new JsonFuenteRecital(ruta);
+            FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
             fuente.cargar();
             actualizarStatus("✅ Datos cargados exitosamente");
         } catch (Exception ex) {
@@ -414,10 +418,10 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "artistas.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..","data", "artistas.json").toAbsolutePath().normalize();
             }
             
-            ArtistaRepository artistaRepository = new ArtistaRepository();
+            
             artistaService = new ArtistaService(artistaRepository);
             FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
             fuente.cargar();
@@ -438,10 +442,10 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "canciones.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..","data", "canciones.json").toAbsolutePath().normalize();
             }
             
-            CancionRepository cancionRepository = new CancionRepository();
+            
             cancionService = new CancionService(cancionRepository);
             FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
             fuente.cargar();

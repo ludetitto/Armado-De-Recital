@@ -48,7 +48,7 @@ public class ListarRolesFaltantesCancionCommandTest {
         // Redirigir la salida estándar para capturar el texto
         System.setOut(new PrintStream(outputStreamCaptor));
         // ⬅️ CAMBIO 2: Inicializamos CancionService
-        this.cancionService = new CancionService(); 
+        this.cancionService = new CancionService(null); 
         
         // Cargar el archivo JSON una sola vez antes de los tests
         FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);

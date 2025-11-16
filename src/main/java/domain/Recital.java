@@ -127,6 +127,19 @@ public class Recital {
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
     public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
     
+    public List<Artista> getArtistasTodos(){
+    	List<Artista> todosLosArtistas = new ArrayList<>();
+
+        if (artistasBase != null) {
+            todosLosArtistas.addAll(artistasBase);
+        }
+        if (artistasCandidatos != null) {
+            todosLosArtistas.addAll(artistasCandidatos);
+        }
+        
+        return todosLosArtistas;
+    }
+    
     @JsonIgnore
     public List<Artista> getArtistas() {
 

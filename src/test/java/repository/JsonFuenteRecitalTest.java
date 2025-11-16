@@ -23,6 +23,9 @@ class JsonFuenteRecitalTest {
 
 	private final Path rutaJsonSalida = Paths.get("..", "Data", "recitalBandas_v3prueba.json");
 	private final String tituloPrueba = "LIVE AID";
+	
+	private final ArtistaRepository repositoryArtistas = new ArtistaRepository(); 
+    private final CancionRepository repositoryCanciones = new CancionRepository();
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -54,7 +57,7 @@ class JsonFuenteRecitalTest {
 
 	@Test
 	void testGuardar() throws Exception {
-		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
+		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
 		fuenteEntrada.cargar();
 
 		RecitalRepository repositorioActual = RecitalRepository.getInstance();
@@ -62,7 +65,7 @@ class JsonFuenteRecitalTest {
 		assertFalse(repositorioActual.getRecital().getCanciones().isEmpty());
 		assertEquals(tituloEsperado, repositorioActual.getRecital().getTitulo());
 
-		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida);
+		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
 		fuenteSalida.guardar(List.of(repositorioActual));
 
 		File archivoSalida = rutaJsonSalida.toFile();
@@ -71,7 +74,7 @@ class JsonFuenteRecitalTest {
 
 		setUp();
 
-		FuenteRecital fuenteVerificacion = new JsonFuenteRecital(rutaJsonSalida);
+		FuenteRecital fuenteVerificacion = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
 		fuenteVerificacion.cargar();
 
 		RecitalRepository repositorioVerificado = RecitalRepository.getInstance();
@@ -82,7 +85,7 @@ class JsonFuenteRecitalTest {
 	@Test
     void testCargarYMostrarAtributosDeRecital() {
         // PREPARACIÓN
-        FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal);
+        FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
         fuente.cargar(); 
 
         // OBTENER INSTANCIA CARGADA
@@ -123,7 +126,7 @@ class JsonFuenteRecitalTest {
 
 	@Test
 	void testCargarExitoso() {
-		FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal);
+		FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
 
 		List<RecitalRepository> resultadoCarga = fuente.cargar();
 
@@ -136,7 +139,7 @@ class JsonFuenteRecitalTest {
 	@Test
 	void testCargarFallo() {
 		Path rutaInvalida = Paths.get("Data", "archivo_que_no_existe.json");
-		FuenteRecital fuente = new JsonFuenteRecital(rutaInvalida);
+		FuenteRecital fuente = new JsonFuenteRecital(rutaInvalida,repositoryArtistas, repositoryCanciones);
 
 		List<RecitalRepository> resultado = fuente.cargar();
 
