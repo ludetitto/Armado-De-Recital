@@ -2,6 +2,8 @@ package controllers;
 
 import domain.Recital;
 import services.RecitalService;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
 import repository.RecitalRepository;
@@ -24,6 +26,8 @@ public class ListarRolesFaltantesRecitalCommandTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     
     private RecitalService recitalService;
+    private ArtistaRepository artistaRepository;
+    private CancionRepository cancionRepository;
     
     private final Path rutaJsonReal = Paths.get("..", "Data", "recitalBandas_v3.json");
     private static final String TITULO_ESPERADO = "LIVE AID"; 
@@ -58,7 +62,7 @@ public class ListarRolesFaltantesRecitalCommandTest {
     @Test
     void testEjecutar_ListaRolesFaltantesDetalladoDesdeJson() throws Exception {
 
-    	FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
+    	FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
         fuenteEntrada.cargar(); 
 
         Recital recital = Recital.getInstance();

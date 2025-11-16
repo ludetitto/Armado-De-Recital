@@ -1,13 +1,16 @@
 package services;
 
 import domain.Artista;
+import domain.Cancion;
 
 public abstract class CostoDecorator implements Costo {
 
 	protected final Costo inner;
+	protected static Cancion cancion;
 
-    public CostoDecorator(Costo inner) {
+    public CostoDecorator(Costo inner, Cancion cancion) {
         this.inner = inner;
+        CostoDecorator.cancion = cancion;
     }
 
     @Override
@@ -15,5 +18,5 @@ public abstract class CostoDecorator implements Costo {
         return inner.obtener();
     }
     
-    public abstract double calcular(Artista artista);
+    protected abstract double calcular(Artista artista);
 }

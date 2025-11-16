@@ -2,6 +2,8 @@ package controllers;
 
 import domain.Recital;
 import services.CancionService;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
 import repository.RecitalRepository;
@@ -23,6 +25,8 @@ public class ListarRolesFaltantesCancionCommandTest {
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     private CancionService cancionService; 
+    private CancionRepository cancionRepository;
+    private ArtistaRepository artistaRepository;
     
     // Rutas y datos
     private final Path rutaJsonReal = Paths.get("..", "Data", "recital.json");
@@ -51,7 +55,7 @@ public class ListarRolesFaltantesCancionCommandTest {
         this.cancionService = new CancionService(null); 
         
         // Cargar el archivo JSON una sola vez antes de los tests
-        FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
+        FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
         fuenteEntrada.cargar(); 
     }
     

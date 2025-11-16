@@ -2,7 +2,7 @@ package domain;
 
 import java.util.Objects;
 
-public class Contratacion {
+public class Contratacion implements Comparable<Contratacion> {
     private Artista artista;
     private Cancion cancion;
     private TipoRol rol;
@@ -48,4 +48,16 @@ public class Contratacion {
     public int hashCode() {
         return Objects.hash(artista, cancion, rol);
     }
+
+	@Override
+	public int compareTo(Contratacion o) {
+		if (costoFinal > o.costoFinal)
+			return 1;
+		else {
+			if(costoFinal < o.costoFinal)
+				return -1;
+			else
+				return 0;
+		}
+	}
 }

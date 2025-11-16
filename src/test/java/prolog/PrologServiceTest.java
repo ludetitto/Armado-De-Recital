@@ -33,10 +33,10 @@ class PrologServiceTest {
     void entrenamientosMinimos_conRepoReal_debeSer5() throws Exception {
         // 1) Cargar el Recital desde JSON al repositorio único
         URI uri = getClass().getResource("/data/recitalTest.json").toURI();
-        ArtistaRepository artistaRepository;
-        CancionRepository cancionRepository;
+        ArtistaRepository artistaRepository = new ArtistaRepository();
+        CancionRepository cancionRepository = new CancionRepository();
         
-        new JsonFuenteRecital(Path.of(uri)).cargar();
+        new JsonFuenteRecital(Path.of(uri), artistaRepository, cancionRepository).cargar();
 
         // 2) Adaptadores simples a ArtistaRepository y CancionRepository usando el Recital cargado
         artistaRepository = new ArtistaRepository() {
