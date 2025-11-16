@@ -1,5 +1,5 @@
 {
-  "titulo": "Queen Greatest Hits Setlist V3",
+  "titulo": "Queen Greatest Hits Setlist V3 (Nueva Era)",
   
   "canciones": [
     {
@@ -12,11 +12,11 @@
       "asignaciones": {
         "BAJO": [
           {
-            "roles": [ "BAJO" ],
-            "nombre": "John Deacon",
-            "bandas": [ "Queen" ],
-            "costoBase": 0.0,
-            "tipo": "BASE"
+            "roles": [ "BAJO", "GUITARRA_ELECTRICA" ],
+            "nombre": "Eric Clapton",
+            "bandas": [ "Cream", "Derek and the Dominos" ],
+            "costoBase": 1500.0,
+            "tipo": "EXTERNO"
           }
         ]
       },
@@ -35,8 +35,8 @@
         "VOZ_PRINCIPAL": [
           {
             "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-            "nombre": "Freddie Mercury",
-            "bandas": [ "Queen" ],
+            "nombre": "Elton John",
+            "bandas": [ "Elton John Band" ],
             "costoBase": 0.0,
             "tipo": "BASE"
           }
@@ -44,8 +44,8 @@
         "GUITARRA_ELECTRICA": [
           {
             "roles": [ "GUITARRA_ELECTRICA" ],
-            "nombre": "Brian May",
-            "bandas": [ "Queen" ],
+            "nombre": "David Bowie",
+            "bandas": [ "Tin Machine", "David Bowie" ],
             "costoBase": 0.0,
             "tipo": "BASE"
           }
@@ -59,8 +59,8 @@
     {
       "artista": {
         "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-        "nombre": "Freddie Mercury",
-        "bandas": [ "Queen" ],
+        "nombre": "Elton John",
+        "bandas": [ "Elton John Band" ],
         "costoBase": 0.0,
         "tipo": "BASE"
       },
@@ -69,7 +69,10 @@
         "estado": "COMPLETA",
         "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 },
         "asignaciones": { },
-        "rolesFaltantes": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 }
+        "rolesFaltantes": {
+          "VOZ_PRINCIPAL": 1,
+          "GUITARRA_ELECTRICA": 1
+        }
       },
       "rol": "VOZ_PRINCIPAL",
       "costoFinal": 0.0,
@@ -77,21 +80,24 @@
     }, 
     {
       "artista": {
-        "roles": [ "BAJO" ],
-        "nombre": "John Deacon",
-        "bandas": [ "Queen" ],
-        "costoBase": 0.0,
-        "tipo": "BASE"
+        "roles": [ "BAJO", "GUITARRA_ELECTRICA" ],
+        "nombre": "Eric Clapton",
+        "bandas": [ "Cream" ],
+        "costoBase": 1500.0,
+        "tipo": "EXTERNO"
       },
       "cancion": {
         "titulo": "We Will Rock You",
         "estado": "INCOMPLETA",
         "rolesRequeridos": { "BAJO": 1, "BATERIA": 1 },
         "asignaciones": { },
-        "rolesFaltantes": { "BAJO": 1, "BATERIA": 1 }
+        "rolesFaltantes": {
+          "BAJO": 1,
+          "BATERIA": 1
+        }
       },
       "rol": "BAJO",
-      "costoFinal": 0.0,
+      "costoFinal": 1500.0,
       "descuentoAplicado": 0.0
     } 
   ],
@@ -99,37 +105,19 @@
   "artistasBase": [ 
     {
       "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-      "nombre": "Freddie Mercury",
-      "bandas": [ "Queen" ],
+      "nombre": "Elton John",
+      "bandas": [ "Elton John Band" ],
       "costoBase": 0.0,
       "tipo": "BASE"
     }, 
     {
-      "roles": [ "GUITARRA_ELECTRICA" ],
-      "nombre": "Brian May",
-      "bandas": [ "Queen" ],
+      "roles": [ "VOZ_PRINCIPAL", "GUITARRA_ELECTRICA" ],
+      "nombre": "David Bowie",
+      "bandas": [ "Tin Machine", "David Bowie" ],
       "costoBase": 0.0,
       "tipo": "BASE"
-    }
+    } 
   ],
-  
-  "artistasCandidatos": [ 
-    {
-      "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
-      "nombre": "Elton John",
-      "bandas": [ "Elton John Band" ],
-      "costoBase": 1200.0,
-      "tipo": "EXTERNO"
-    },
-    {
-      "roles": [ "VOZ_PRINCIPAL", "BAJO" ],
-      "nombre": "Sting",
-      "bandas": [ "The Police" ],
-      "costoBase": 1800.0,
-      "tipo": "EXTERNO"
-    }
-  ],
-  
   "rolesFaltantesTotal": {
     "BATERIA": 1
   }

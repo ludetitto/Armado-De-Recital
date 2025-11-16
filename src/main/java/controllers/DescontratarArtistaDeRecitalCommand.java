@@ -14,7 +14,7 @@ public class DescontratarArtistaDeRecitalCommand implements ComandoContratacion 
         this.nombreArtista = nombreArtista;
         this.rol = rol;
     }
-
+    
     @Override
     public void ejecutar() {
         Recital recital = Recital.getInstance();

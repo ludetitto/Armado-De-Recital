@@ -1,6 +1,8 @@
 package services;
 
-public class CostoDecorator implements Costo {
+import domain.Artista;
+
+public abstract class CostoDecorator implements Costo {
 
 	protected final Costo inner;
 
@@ -9,8 +11,9 @@ public class CostoDecorator implements Costo {
     }
 
     @Override
-    public double calcularExtra() {
-        return inner.calcularExtra();
+    public double obtener() {
+        return inner.obtener();
     }
-
+    
+    public abstract double calcular(Artista artista);
 }

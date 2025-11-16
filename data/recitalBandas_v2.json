@@ -1,0 +1,130 @@
+{
+  "titulo": "Greatest Hits: Tributo a las Bandas Clásicas",
+  
+  "canciones": [
+    {
+      "titulo": "Bohemian Rhapsody",
+      "estado": "COMPLETA",
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1,
+        "BATERIA": 1,
+        "PIANO": 1
+      },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "nombre": "Freddie Mercury",
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "GUITARRA_ELECTRICA": [
+          {
+            "nombre": "Brian May",
+            "roles": [ "GUITARRA_ELECTRICA" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "BAJO": [
+          {
+            "nombre": "John Deacon",
+            "roles": [ "BAJO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "BATERIA": [
+          {
+            "nombre": "Roger Taylor",
+            "roles": [ "BATERIA" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "PIANO": [
+          {
+            "nombre": "Freddie Mercury",
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ]
+      }
+    },
+    {
+      "titulo": "With or Without You",
+      "estado": "INCOMPLETA",
+      "rolesRequeridos": {
+        "VOZ_PRINCIPAL": 1,
+        "GUITARRA_ELECTRICA": 1,
+        "BAJO": 1
+      },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "nombre": "Bono",
+            "roles": [ "VOZ_PRINCIPAL" ],
+            "bandas": [ "U2" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ]
+      }
+    }
+  ],
+  
+  "contrataciones": [
+    {
+      "artista": {
+        "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+        "nombre": "Freddie Mercury",
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0,
+        "tipo": "BASE"
+      },
+      "cancion": {
+        "titulo": "Bohemian Rhapsody",
+        "estado": "COMPLETA",
+        "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1, "BAJO": 1, "BATERIA": 1, "PIANO": 1 },
+        "asignaciones": { },
+        "rolesFaltantes": { }
+      },
+      "rol": "VOZ_PRINCIPAL",
+      "costoFinal": 0.0,
+      "descuentoAplicado": 0.0
+    }
+  ],
+  
+  "artistasBase": [
+    {
+      "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+      "nombre": "Freddie Mercury",
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0,
+      "tipo": "BASE"
+    },
+    {
+      "roles": [ "GUITARRA_ELECTRICA" ],
+      "nombre": "Brian May",
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0,
+      "tipo": "BASE"
+    },
+    {
+      "roles": [ "VOZ_PRINCIPAL" ],
+      "nombre": "Bono",
+      "bandas": [ "U2" ],
+      "costoBase": 0.0,
+      "tipo": "BASE"
+    }
+  ]
+}
