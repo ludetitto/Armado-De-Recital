@@ -6,16 +6,14 @@ import domain.Recital;
 import domain.TipoRol;
 import services.ArtistaService;
 import services.CancionService;
+import services.ContratacionService;
 
 import java.util.*;
 
 public class ContratarArtistasParaCancionCommand implements ComandoContratacion {
 
     private final String tituloCancion;
-
-    @SuppressWarnings("unused")
-    private final ArtistaService artistaService;
-    private final CancionService cancionService;
+    private ContratacionService contratacionService;
 
     private final Map<TipoRol, List<Artista>> asignadosEnEstaEjecucion = new EnumMap<>(TipoRol.class);
 
@@ -26,8 +24,7 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
     public ContratarArtistasParaCancionCommand(ArtistaService artistaService,
                                                CancionService cancionService,
                                                String tituloCancion) {
-        this.artistaService = artistaService;
-        this.cancionService = cancionService;
+        contratacionService = new ContratacionService(cancionService, artistaService);
         this.tituloCancion = tituloCancion;
     }
 
@@ -39,7 +36,7 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
                 .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
                 .findFirst().orElse(null);
 
-        cancionService.contratarArtistas(cancion);
+        contratacionService.contratarArtistas(cancion);
         
         System.out.println("-------------------------------------------------------------");
     }

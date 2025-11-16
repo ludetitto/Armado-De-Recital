@@ -3,8 +3,6 @@ package domain;
 import java.util.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import services.ContratacionService;
-
 public class Cancion {
     private String titulo;
     private TipoEstado estado;
@@ -42,15 +40,8 @@ public class Cancion {
             throw new IllegalArgumentException(artista.getNombre() + " no puede ocupar el rol: " + rol);
         }
         asignaciones.computeIfAbsent(rol, k -> new ArrayList<>()).add(artista);
-        if(!artista.esBase())
-        	contratarArtista(artista, rol);
         actualizarEstado();
     }
-
-    private void contratarArtista(Artista artista, TipoRol rol) {
-    	ContratacionService contratacionService = new ContratacionService();
-    	contratacionService.generarContratacion(artista, this, rol);
-	}
 
 	/** Quita un artista de un rol */
     public void desasignarArtista(Artista artista, TipoRol rol) {
