@@ -28,9 +28,12 @@
       "titulo": "Bohemian Rhapsody",
       "estado": "COMPLETA",
       "rolesRequeridos": {
-        "VOZ_PRINCIPAL": 1,
-        "GUITARRA_ELECTRICA": 1
-      },
+      "VOZ_PRINCIPAL" : 1,
+      "VOZ_SECUNDARIA" : 4,
+      "GUITARRA_ELECTRICA" : 1,
+      "BAJO" : 1,
+      "PIANO" : 1
+  },
       "asignaciones": {
         "VOZ_PRINCIPAL": [
           {
