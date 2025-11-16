@@ -1,19 +1,19 @@
 package controllers;
 
 import domain.Artista;
-import domain.Recital;
 import domain.TipoRol;
 import services.ArtistaService;
 
 public class EntrenarArtistaCommand implements ComandoContratacion {
 
     private final String nombreArtista;
-    private final ArtistaService artistaService = new ArtistaService();
+    private ArtistaService artistaService;
     private TipoRol rolAgregado;
 
-    public EntrenarArtistaCommand(String nombreArtista, String rolAgregado) {
+    public EntrenarArtistaCommand(ArtistaService artistaService, String nombreArtista, String rolAgregado) {
         this.nombreArtista = nombreArtista;
         this.rolAgregado = TipoRol.valueOf(rolAgregado);
+        this.artistaService = artistaService;
     }
 
     public EntrenarArtistaCommand(services.PrologService ps, services.ArtistaService as, String nombreArtista) {
@@ -22,7 +22,7 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
 
     @Override
     public void ejecutar() {
-        Artista artista = Recital.getInstance().getArtistasCandidatos().stream()
+        Artista artista = artistaService.getArtistasCandidatos().stream()
                 .filter(a -> a.getNombre().equalsIgnoreCase(nombreArtista))
                 .findFirst().orElse(null);
 

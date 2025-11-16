@@ -55,7 +55,7 @@ public class Artista {
 
 	// Verifica si el artista puede ocupar un rol
 	public boolean puedeOcuparRol(TipoRol rol) {
-		return roles.get(rol) == EstadoRol.BASE || roles.get(rol) == EstadoRol.BASE;
+		return roles.containsKey(rol);
 	}
 
 	// Agregar nuevo rol (entrenamiento)

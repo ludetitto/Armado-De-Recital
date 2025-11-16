@@ -63,11 +63,10 @@ public class Recital {
                 continue; 
             }
             
-            if (artista.esBase()) {
+            if (artista.esBase() ) { // o que este contratado
 
                 this.artistasBase.add(artista); 
             } else {
-
                 this.artistasCandidatos.add(artista);
             }
         }
