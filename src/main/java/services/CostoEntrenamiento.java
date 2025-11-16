@@ -6,7 +6,7 @@ import domain.EstadoRol;
 public class CostoEntrenamiento extends CostoDecorator {
 
 	public CostoEntrenamiento(Costo inner) {
-		super(inner);
+		super(inner, Costo.cancion);
 	}
 
 	@Override

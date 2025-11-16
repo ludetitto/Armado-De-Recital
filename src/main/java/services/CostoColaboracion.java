@@ -5,13 +5,25 @@ import domain.Artista;
 public class CostoColaboracion extends CostoDecorator {
 
 	public CostoColaboracion(CostoBase inner) {
-		super(inner);
+		super(inner, cancion);
 	}
 
 	@Override
 	public double calcular(Artista artista) {
-		// TODO Auto-generated method stub
-		return 0;
+		double costo = inner.obtener();
+		boolean tieneColaboracion = false;
+		double costoColaboracion = costo;
+	       
+		for(Artista a : Costo.cancion.getArtistasAsignados()) {
+			if(artista.compartioBanda(a))
+				tieneColaboracion = true;
+		}
+		
+	    if (tieneColaboracion) {
+	    	costoColaboracion = costo * 0.5;
+	    }
+
+	    return costoColaboracion;
 	}
 
 }

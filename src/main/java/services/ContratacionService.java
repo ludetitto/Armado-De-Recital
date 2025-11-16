@@ -1,6 +1,7 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ public class ContratacionService {
 
 	private CancionService cancionService;
 	private ArtistaService artistaService;
-	private RecitalService recitalService;
 	
 	public ContratacionService(CancionService cancionService, ArtistaService artistaService) {
 		this.cancionService = cancionService;
@@ -24,7 +24,6 @@ public class ContratacionService {
 	
 	public ContratacionService(RecitalService recitalService, ArtistaService artistaService) {
 		this.artistaService = artistaService;
-		this.recitalService = recitalService;
 	}
 
 	public void generarContratacion(Artista artista, Cancion cancion, TipoRol rol) {
@@ -32,7 +31,7 @@ public class ContratacionService {
             throw new IllegalStateException("El artista " + artista.getNombre() + " ya está contratado en el recital");
         }
 
-        Recital.getInstance().agregarContratacion(new Contratacion(artista, cancion, rol, obtenerCosto(artista), 0));
+        Recital.getInstance().agregarContratacion(new Contratacion(artista, cancion, rol, obtenerCosto(cancion, artista), 0));
     }
     
     private boolean artistaYaContratadoEnRecital(Artista artista) {
@@ -41,14 +40,16 @@ public class ContratacionService {
                 .anyMatch(c -> c.getArtista().equals(artista));
     }
 
-    public double obtenerCosto(Artista artista) {
-        Costo costo = new CostoBase(artista.getCostoBase());
+    public double obtenerCosto(Cancion cancion, Artista artista) {
+        Costo costo = new CostoBase(artista.getCostoBase(), cancion);
         Costo costoConEntrenamientos = new CostoEntrenamiento(costo);
         return costoConEntrenamientos.obtener();
     }
     
     public void contratarArtistas(Cancion cancion) {
         Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancionService.verRolesFaltantes(cancion));
+        List<Contratacion> posibles = new ArrayList<Contratacion>();
+        
         if (faltantes.isEmpty()) {
             System.out.println("La canción '" + cancion.getTitulo() + "' ya tiene todos los roles cubiertos.");
             return;
@@ -73,15 +74,20 @@ public class ContratacionService {
                 boolean yaEnRecital = artistaYaContratadoEnRecital(a);
                 
                 if (a.puedeOcuparRol(rol) && !yaEnCancion && !yaEnRecital) {
-                    try {
-                        cancion.asignarArtista(a, rol);
-                        generarContratacion(a, cancion, rol);
-                        cubiertos++;
-                        System.out.println(" + Asignado: " + a.getNombre() + " -> " + rol);
-                    } catch (IllegalArgumentException ex) {
-                    }
+                	posibles.add(new Contratacion(a, cancion, rol, obtenerCosto(cancion, a), 0));
                 }
             }
+            
+            if(posibles.isEmpty()) {
+            	System.out.println("No hay artistas disponibles para contratar para el rol " + rol);
+            	return;
+            }
+            
+            Contratacion elegido = Collections.min(posibles);
+        	
+            contratarArtista(cancion, elegido.getArtista(), rol);
+        	cubiertos++;
+            System.out.println(" + Asignado: " + elegido.getArtista().getNombre() + " -> " + rol);
 
             if (cubiertos < necesarios) {
                 System.out.println(" ! No se pudo cubrir completamente " + rol + " (faltaron "
@@ -96,5 +102,19 @@ public class ContratacionService {
             System.out.println("Resultado: aún faltan roles:");
             remanente.forEach((r, n) -> System.out.println(" - " + r + ": " + n));
         }
+    }
+    
+    private void contratarArtista(Cancion cancion, Artista artista, TipoRol rol) {
+    	try {
+            cancion.asignarArtista(artista, rol);
+            generarContratacion(artista, cancion, rol);
+        } catch (IllegalArgumentException ex) {
+        }
+    }
+    
+    public void contratarArtistasRecital() {
+    	for(Cancion c : Recital.getInstance().getCanciones()) {
+    		contratarArtistas(c);
+    	}
     }
 }

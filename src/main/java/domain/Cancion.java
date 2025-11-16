@@ -24,7 +24,7 @@ public class Cancion {
     }
 
     /** Ctor por defecto para frameworks (Jackson, etc.) */
-    protected Cancion() {
+    public Cancion() {
         this.rolesRequeridos = new EnumMap<>(TipoRol.class);
         this.asignaciones = new EnumMap<>(TipoRol.class);
         this.estado = TipoEstado.BORRADOR;

@@ -23,17 +23,18 @@ public class ContratarArtistasParaRecitalCommandTest {
 	private final String tituloEsperado = "LIVE AID";
 
     private ArtistaService artistaService;
+    private ArtistaRepository artistaRepisotry;
     private RecitalService recitalService;
     
     @BeforeEach
     void setUp() throws Exception {
         
-        RecitalRepository.getInstance().getRecital().setTitulo(tituloEsperado);
-        
-        this.artistaService = new ArtistaService();
-        this.recitalService = new RecitalService(); 
+        RecitalRepository.getInstance().getRecital().setTitulo(tituloEsperado); 
 
-		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
+		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, null, null);
+		this.artistaService = new ArtistaService(artistaRepisotry);
+        this.recitalService = new RecitalService();
+        
 		fuenteEntrada.cargar();
         
     }

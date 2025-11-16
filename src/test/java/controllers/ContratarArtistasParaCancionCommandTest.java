@@ -3,11 +3,12 @@ package controllers;
 import domain.*;
 import services.ArtistaService;
 import services.CancionService;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
 import repository.RecitalRepository;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,23 +20,22 @@ import java.nio.file.Paths;
 public class ContratarArtistasParaCancionCommandTest {
 
     
-	private final Path rutaJsonReal = Paths.get("..", "data", "recitalBandas_v3.json");
+	private final Path rutaJsonReal = Paths.get("../..", "data", "recitalBandas_v3.json");
 	private final String tituloEsperado = "LIVE AID";
+	private ArtistaRepository artistaRepository;
     private ArtistaService artistaService;
+    private CancionRepository cancionRepository;
     private CancionService cancionService;
     
     private static final String TITULO_CANCION = "With or Without You";
-    private static final TipoRol ROL_FALTANTE = TipoRol.BAJO;
-
     @BeforeEach
     void setUp() throws Exception {
 
         RecitalRepository.getInstance().getRecital().setTitulo(tituloEsperado);
-        
-        this.artistaService = new ArtistaService();
-        this.cancionService = new CancionService(); 
 
-		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal);
+		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
+		this.artistaService = new ArtistaService(artistaRepository);
+        this.cancionService = new CancionService(cancionRepository); 
 		fuenteEntrada.cargar();
         
     }
