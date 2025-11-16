@@ -44,6 +44,6 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
 
     @Override
     public void deshacer() {
-        System.out.println("Deshacer general no implementado para contratación de todo el recital.");
+        System.out.println("Deshacer general no implementado para contratacion de todo el recital.");
     }
 }

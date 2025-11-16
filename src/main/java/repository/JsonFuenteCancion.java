@@ -1,6 +1,8 @@
 package repository;
 
 import domain.Cancion;
+import domain.Recital;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -37,6 +39,10 @@ public class JsonFuenteCancion implements FuenteCancion {
             cancionesCargadas.forEach(this.repository::agregar);
             
             System.out.println("Canciones cargadas con Exito desde: " + path);
+            
+            Recital recitalInstanciado= Recital.getInstance();
+            
+            recitalInstanciado.cargarCanciones(cancionesCargadas);
 
             return cancionesCargadas; 
 

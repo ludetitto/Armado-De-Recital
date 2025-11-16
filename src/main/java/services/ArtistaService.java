@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class ArtistaService {
 	ArtistaRepository artistaRepository;
+	
 	public ArtistaService(ArtistaRepository artistaRepository) {
 		this.artistaRepository = artistaRepository;
 	}

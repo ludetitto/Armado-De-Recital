@@ -1,6 +1,8 @@
 package repository;
 
 import domain.Artista;
+import domain.Recital;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -35,6 +37,10 @@ public class JsonFuenteArtista implements FuenteArtista {
             artistasCargados.forEach(this.repository::agregar);
             
             System.out.println("Artistas cargados con éxito desde: " + path);
+            
+            Recital recitalInstanciado= Recital.getInstance();
+            
+            recitalInstanciado.agregarArtistas(artistasCargados);
 
             return artistasCargados; 
 

@@ -1,12 +1,16 @@
 package repository;
 
+import domain.Artista;
+import domain.Cancion;
 import domain.Recital; 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,10 +18,20 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class JsonFuenteRecital implements FuenteRecital {
 
     private final Path path;
+    private final ArtistaRepository repositoryArtistas; 
+    private final CancionRepository repositoryCanciones;
 
-    public JsonFuenteRecital(Path path) {
-        this.path = Objects.requireNonNull(path, "path");
-    }
+    
+    
+    
+    public JsonFuenteRecital(Path path, ArtistaRepository repositoryArtistas, CancionRepository repositoryCanciones) {
+		super();
+		this.path = Objects.requireNonNull(path, "path");
+		this.repositoryArtistas = repositoryArtistas;
+		this.repositoryCanciones = repositoryCanciones;
+	}
+
+
 
     public Path getPath() {
         return path;
@@ -31,6 +45,10 @@ public class JsonFuenteRecital implements FuenteRecital {
     @Override
     public List<RecitalRepository> cargar() {
         try {
+        	
+        	List<Artista> todosLosArtistas;
+        	Set<Cancion> canciones;
+        	
             File jsonFile = this.path.toFile();
             
             final ObjectMapper mapper = new ObjectMapper();
@@ -40,6 +58,18 @@ public class JsonFuenteRecital implements FuenteRecital {
             Recital.setInstance(recitalCargado); 
 
             RecitalRepository.setRecitalInstance(recitalCargado);
+            
+            todosLosArtistas= recitalCargado.getArtistasTodos();
+            
+            for(Artista a : todosLosArtistas) {
+            	repositoryArtistas.agregar(a);
+            }
+            
+            canciones= recitalCargado.getCanciones();
+            
+            for (Cancion  c: canciones) {
+            	repositoryCanciones.agregar(c);
+            }
             
             return Collections.singletonList(RecitalRepository.getInstance());
             

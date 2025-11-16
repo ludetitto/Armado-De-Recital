@@ -24,7 +24,7 @@ public class ContratarArtistasParaCancionCommandTest {
     private ArtistaService artistaService;
     private CancionService cancionService;
     
-    private static final String TITULO_CANCIÓN = "With or Without You";
+    private static final String TITULO_CANCION = "With or Without You";
     private static final TipoRol ROL_FALTANTE = TipoRol.BAJO;
 
     @BeforeEach
@@ -49,7 +49,7 @@ public class ContratarArtistasParaCancionCommandTest {
         
         //System.out.println(rolesFaltantesAntes);
 
-        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(artistaService, cancionService, TITULO_CANCIÓN);
+        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(artistaService, cancionService, TITULO_CANCION);
 
         command.ejecutar();
 
