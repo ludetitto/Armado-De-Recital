@@ -10,10 +10,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
 import repository.ArtistaRepository;
+import repository.CancionRepository;
 import repository.FuenteRecital;
+import repository.FuenteCancion;
 import repository.JsonFuenteArtista;
+import repository.JsonFuenteCancion;
 import repository.JsonFuenteRecital;
 import repository.FuenteArtista;
+import services.ArtistaService;
 import services.CancionService;
 import services.RecitalService;
 
@@ -27,8 +31,9 @@ import java.time.format.DateTimeFormatter;
 public class MenuContratacion extends BorderPane {
 
     private final TextArea consola = new TextArea();
-    private final CancionService cancionService = new CancionService();
+    private CancionService cancionService;
     private final RecitalService recitalService = new RecitalService();
+    private ArtistaService artistaService;
     private final ComandoHistorial historial = new ComandoHistorial();
     private final Label statusLabel = new Label("⚡ Sistema iniciado correctamente");
 
@@ -413,7 +418,32 @@ public class MenuContratacion extends BorderPane {
             }
             
             ArtistaRepository artistaRepository = new ArtistaRepository();
+            artistaService = new ArtistaService(artistaRepository);
             FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
+            fuente.cargar();
+            
+            actualizarStatus("✅ Datos cargados exitosamente");
+        } catch (Exception ex) {
+            refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
+            actualizarStatus("⚠️ Error en la carga de datos");
+        }
+        
+        try {
+            var url = getClass().getResource("/data/canciones.json");
+            Path ruta = null;
+            if (url != null) {
+                ruta = Paths.get(url.toURI());
+            } else {
+                var urlTest = getClass().getResource("/data/cancionesTest.json");
+                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+            }
+            if (ruta == null) {
+                ruta = Paths.get("data", "canciones.json").toAbsolutePath().normalize();
+            }
+            
+            CancionRepository cancionRepository = new CancionRepository();
+            cancionService = new CancionService(cancionRepository);
+            FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
             fuente.cargar();
             
             actualizarStatus("✅ Datos cargados exitosamente");
@@ -454,7 +484,7 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título de la canción a contratar");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(artistaService, cancionService, titulo);
             String out = runAndCapture(cmd::ejecutar);
             var listar = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
             String estado = runAndCapture(listar::ejecutar);
@@ -483,8 +513,8 @@ public class MenuContratacion extends BorderPane {
         String rol = result.get().getValue();
 
         actualizarStatus("💪 Entrenando a: " + nombre);
-
-        var cmd = new EntrenarArtistaCommand(nombre, rol);
+        
+        var cmd = new EntrenarArtistaCommand(artistaService, nombre, rol);
         String out = runAndCapture(cmd::ejecutar);
 
         refreshConsola("💪 Entrenamiento - " + nombre, out, null);
@@ -493,7 +523,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionListarContratados() {
         actualizarStatus("📋 Generando listado de artistas...");
-        var cmd = new ListarArtistasCommand();
+        var cmd = new ListarArtistasCommand(artistaService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("👥 Artistas Contratados del Recital", out, "Listado generado correctamente");
         actualizarStatus("✅ Listado generado");

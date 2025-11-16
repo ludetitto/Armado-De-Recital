@@ -1,15 +1,25 @@
 package services;
 
 import domain.Artista;
+import domain.Contratacion;
 import domain.EstadoRol;
 import domain.Recital;
 import domain.TipoRol;
+import repository.ArtistaRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ArtistaService {
+	ArtistaRepository artistaRepository;
+	public ArtistaService(ArtistaRepository artistaRepository) {
+		this.artistaRepository = artistaRepository;
+	}
+
+	public ArtistaService() {
+		// TODO Auto-generated constructor stub
+	}
 
 	List<TipoRol> verRoles(Artista artista) {
 		List<TipoRol> roles = new ArrayList<>();
@@ -33,11 +43,44 @@ public class ArtistaService {
 	}
 
 	public void recibirEntrenamiento(Artista artista, TipoRol rolAgregado) {
-		if(!artista.puedeOcuparRol(rolAgregado) && Recital.getInstance().getArtistasCandidatos().contains(artista)) {
+		if(!artista.puedeOcuparRol(rolAgregado) && artista.esExterno() && !estaContratado(artista)) {
 			artista.agregarRol(rolAgregado);
             System.out.println("Entrenamiento aplicado: " + artista.getNombre() + " ahora puede " + rolAgregado);
         }
-        
-		System.out.println("El artista " + artista.getNombre() + " ya puede ocupar el rol " + rolAgregado);
+		else
+			System.out.println("El artista " + artista.getNombre() + " ya puede ocupar el rol " + rolAgregado);
+	}
+
+	private boolean estaContratado(Artista artista) {
+    for (Contratacion c : Recital.getInstance().getContrataciones()) {
+        if (c.getArtista().equals(artista)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+	public List<Artista> getArtistas() {
+		List<Artista> artistas = artistaRepository.obtenerTodos(), contratados = new ArrayList<Artista>();
+		
+		for(Artista a : artistas) {
+			if(a.esBase() || Recital.getInstance().getArtistas().contains(a)) {
+				contratados.add(a);
+			}
+		}
+		
+		return contratados;
+	}
+
+	public List<Artista> getArtistasCandidatos() {
+		List<Artista> artistas = artistaRepository.obtenerTodos(), candidatos = new ArrayList<Artista>();
+		
+		for(Artista a : artistas) {
+			if(a.esExterno() && !Recital.getInstance().getArtistas().contains(a)) {
+				candidatos.add(a);
+			}
+		}
+		
+		return candidatos;
 	}
 }
