@@ -2,6 +2,8 @@ package UI;
 
 import controllers.*;
 import domain.Recital;
+import javafx.animation.PauseTransition;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -9,6 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.util.Pair;
+import javafx.util.Duration;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
@@ -16,6 +19,7 @@ import repository.FuenteCancion;
 import repository.JsonFuenteArtista;
 import repository.JsonFuenteCancion;
 import repository.JsonFuenteRecital;
+import repository.RecitalRepository;
 import repository.FuenteArtista;
 import services.ArtistaService;
 import services.CancionService;
@@ -99,7 +103,8 @@ public class MenuContratacion extends BorderPane {
                 new MenuItem("🎤", "Roles Faltantes (Canción)", this::opcionRolesFaltantesCancion),
                 new MenuItem("🎸", "Roles Faltantes (Recital)", this::opcionRolesFaltantesRecital),
                 new MenuItem("👥", "Listar Artistas", this::opcionListarContratados),
-                new MenuItem("🎵", "Listar Canciones", this::opcionListarCanciones)
+                new MenuItem("🎵", "Listar Canciones", this::opcionListarCanciones),
+                new MenuItem("🔚", "Reportar y Salir", this::reportarYsalir) // guadar un json de recital y salir
             }
         );
         
@@ -388,6 +393,8 @@ public class MenuContratacion extends BorderPane {
     	ArtistaRepository artistaRepository = new ArtistaRepository();
     	CancionRepository cancionRepository = new CancionRepository();
     	
+    	RecitalRepository.setRecitalInstance(Recital.getInstance());
+    	
         try {
             var url = getClass().getResource("/data/recital.json");
             Path ruta = null;
@@ -539,6 +546,30 @@ public class MenuContratacion extends BorderPane {
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
         actualizarStatus("✅ Listado generado");
+    }
+    
+    private void reportarYsalir() {
+        actualizarStatus("📋 Generando reporte del recital...");
+        
+        // no se donde esta la instancia del recital y me estoy confundiendo xd
+        var cmd = new ReportarSalirCommand(Paths.get("..", "Data", "recitalFinal.json"), RecitalRepository.getInstance(),recitalService);
+        String out = runAndCapture(cmd::ejecutar);
+        refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
+        actualizarStatus("✅ Reporte generado");
+        
+        
+     // 2. Crear una transición de pausa de 5 segundos
+        PauseTransition delay = new PauseTransition(Duration.seconds(3));
+        
+        // 3. Definir la acción a ejecutar después de la pausa
+        delay.setOnFinished(event -> {
+            // Cierra la aplicación JavaFX de forma segura
+            Platform.exit();
+        });
+        
+        // 4. Iniciar el temporizador
+        delay.play();
+        
     }
 
     private void opcionConsultaProlog() {
