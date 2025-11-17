@@ -18,7 +18,7 @@ public class ListarArtistasCommand implements ComandoContratacion {
 
     @Override
     public void ejecutar() {
-        List<Artista> artistas = artistaService.getArtistas();
+        List<Artista> artistas = artistaService.getArtistasBase();
         System.out.println("--- Artistas del Recital (" + artistas.size() + ") ---");
         if (artistas.isEmpty()) {
             System.out.println("No hay artistas cargados/visibles en el recital.");

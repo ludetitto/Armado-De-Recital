@@ -54,7 +54,7 @@ public class JsonFuenteRecital implements FuenteRecital {
             
             Recital.setInstance(recitalCargado); 
             
-            todosLosArtistas = recitalCargado.getArtistasTodos();
+            todosLosArtistas = recitalCargado.getArtistas();
             
             for(Artista a : todosLosArtistas) {
             	repositoryArtistas.agregar(a);

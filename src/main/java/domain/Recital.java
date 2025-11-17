@@ -59,7 +59,7 @@ public class Recital {
         }
 
         for (Artista artista : artistas) {
-            if (artista == null) {
+            if (artista == null && (this.artistasBase.contains(artista) || this.artistasCandidatos.contains(artista)  )) {
                 continue; 
             }
             
@@ -124,10 +124,13 @@ public class Recital {
     
     public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
-    public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
-    public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
     
-    public List<Artista> getArtistasTodos(){
+    @JsonIgnore
+    public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
+    @JsonIgnore
+    public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
+
+    public List<Artista> getArtistas(){
     	List<Artista> todosLosArtistas = new ArrayList<>();
 
         if (artistasBase != null) {
@@ -140,34 +143,7 @@ public class Recital {
         return todosLosArtistas;
     }
     
-    @JsonIgnore
-    public List<Artista> getArtistas() {
-
-        Map<String, Artista> porNombre = new LinkedHashMap<>();
-        boolean esExterno;
-        
-        for (Artista a : artistasBase) {
-            porNombre.put(a.getNombre(), a);
-        }
-
-        if (contrataciones != null) {
-            for (Contratacion c : contrataciones) {
-                Artista a = c.getArtista();
-                if (a == null) continue;
-
-                esExterno = a.getTipo() == TipoDeArtista.EXTERNO;
-
-                if (esExterno) {
-                	porNombre.putIfAbsent(a.getNombre(), a);
-                	if(!porNombre.containsKey(a.getNombre()))
-                		artistasCandidatos.add(a);
-                }
-            }
-        }
-
-        return Collections.unmodifiableList(new ArrayList<>(porNombre.values()));
-    }
-    
+  
     @Override
     public String toString() {
         return String.format("Recital: %s - Canciones: %d - Contrataciones: %d - Costo Total: $%.2f",

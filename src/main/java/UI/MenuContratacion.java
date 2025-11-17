@@ -397,7 +397,7 @@ public class MenuContratacion extends BorderPane {
     	CancionRepository cancionRepository = new CancionRepository();
     	
         try {
-            var url = getClass().getResource("/data/recital.json");
+            var url = getClass().getResource("/data/recitalFinal.json");
             Path ruta = null;
             if (url != null) {
                 ruta = Paths.get(url.toURI());
@@ -407,6 +407,7 @@ public class MenuContratacion extends BorderPane {
             }
             if (ruta == null) {
                 ruta = Paths.get("..", "data", "recital.json").toAbsolutePath().normalize();
+                //ruta = Paths.get( "data", "recital.json").toAbsolutePath().normalize();
             }
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
             recitalRepository=fuente.cargar();
