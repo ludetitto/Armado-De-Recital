@@ -23,6 +23,7 @@ import repository.RecitalRepository;
 import repository.FuenteArtista;
 import services.ArtistaService;
 import services.CancionService;
+import services.PrologService;
 import services.RecitalService;
 
 import java.io.ByteArrayOutputStream;
@@ -38,6 +39,7 @@ public class MenuContratacion extends BorderPane {
     private CancionService cancionService;
     private final RecitalService recitalService = new RecitalService();
     private ArtistaService artistaService;
+    private PrologService prologService;
     private final ComandoHistorial historial = new ComandoHistorial();
     private final Label statusLabel = new Label("⚡ Sistema iniciado correctamente");
 
@@ -430,6 +432,7 @@ public class MenuContratacion extends BorderPane {
             
             
             artistaService = new ArtistaService(artistaRepository);
+            prologService = new PrologService(artistaRepository, cancionRepository);
             FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
             fuente.cargar();
             
@@ -453,7 +456,7 @@ public class MenuContratacion extends BorderPane {
             }
             
             
-            cancionService = new CancionService(cancionRepository);
+            cancionService = new CancionService();
             FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
             fuente.cargar();
             
@@ -508,7 +511,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionContratarRecital() {
         actualizarStatus("💼 Procesando contratación masiva del recital...");
-        var cmd = new ContratarArtistasParaRecitalCommand();
+        var cmd = new ContratarArtistasParaRecitalCommand(artistaService, cancionService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("✅ Contratación Masiva - Recital Completo", out, "Proceso de contratación finalizado");
         actualizarStatus("✅ Contratación masiva completada");
@@ -541,7 +544,7 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void opcionListarCanciones() {
-        actualizarStatus("📋 Generando listado de canciones...");
+        actualizarStatus("📋 Generando listado de canciones ...");
         var cmd = new ListarCancionesCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
@@ -573,19 +576,17 @@ public class MenuContratacion extends BorderPane {
     }
 
     private void opcionConsultaProlog() {
-        TextInputDialog dlg = crearDialogoEstilizado("🔍 Consulta Prolog", 
-                                                      "Ingrese una consulta Prolog (ej: guitarrista(X).)");
-        dlg.getEditor().setText("guitarrista(X).");
-        dlg.showAndWait().ifPresent(q -> {
-            actualizarStatus("🔍 Ejecutando consulta Prolog...");
-            String out = runAndCapture(() -> {
-                System.out.println("═══════════════════════════════════");
-                System.out.println("  Consulta Prolog: " + q);
-                System.out.println("═══════════════════════════════════");
-            });
-            refreshConsola("🔍 Resultado de Consulta Prolog", out, "Consulta ejecutada");
-            actualizarStatus("✅ Consulta Prolog ejecutada");
-        });
+    	TextInputDialog dlg = crearDialogoEstilizado("📋 Consultando cantidad mínima de entrenamientos necesarios ...", 
+                "Ingrese costo base");
+		dlg.showAndWait().ifPresent(costo -> {
+		actualizarStatus("💼 Procesando cantidad mínima de entrenamientos bajo costo de: $" + costo);
+		var cmd = new MostrarEntrenamientosMinimosCommand(prologService, Double.parseDouble(costo));
+		String out = runAndCapture(cmd::ejecutar);
+		refreshConsola("🔍 Resultado de Consulta Prolog", 
+		out + "\n─────────────────────────────────────\n", 
+		"Consulta ejecutada");
+        actualizarStatus("✅ Consulta Prolog ejecutada");
+		});
     }
 
     private TextInputDialog crearDialogoEstilizado(String titulo, String mensaje) {

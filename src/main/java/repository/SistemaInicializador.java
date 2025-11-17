@@ -14,7 +14,7 @@ public class SistemaInicializador {
         this.artistaRepo = new ArtistaRepository();
         this.cancionRepo = new CancionRepository();
         this.contratacionRepo = new ContratacionRepository();
-        this.recitalRepo = RecitalRepository.getInstance();
+        this.recitalRepo = new RecitalRepository(Recital.getInstance());
         this.loader = new DataLoader();
     }
     

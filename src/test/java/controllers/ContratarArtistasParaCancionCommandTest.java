@@ -7,7 +7,6 @@ import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
-import repository.RecitalRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,11 +30,11 @@ public class ContratarArtistasParaCancionCommandTest {
     @BeforeEach
     void setUp() throws Exception {
 
-        RecitalRepository.getInstance().getRecital().setTitulo(tituloEsperado);
+        Recital.getInstance().setTitulo(tituloEsperado);
 
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
 		this.artistaService = new ArtistaService(artistaRepository);
-        this.cancionService = new CancionService(cancionRepository); 
+        this.cancionService = new CancionService(); 
 		fuenteEntrada.cargar();
         
     }

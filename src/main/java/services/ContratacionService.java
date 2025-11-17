@@ -21,10 +21,6 @@ public class ContratacionService {
 		this.cancionService = cancionService;
 		this.artistaService = artistaService;
 	}
-	
-	public ContratacionService(RecitalService recitalService, ArtistaService artistaService) {
-		this.artistaService = artistaService;
-	}
 
 	public void generarContratacion(Artista artista, Cancion cancion, TipoRol rol) {
         if (artistaYaContratadoEnRecital(artista)) {

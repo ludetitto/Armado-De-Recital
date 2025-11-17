@@ -1,8 +1,8 @@
 package controllers;
 
 import services.ArtistaService;
+import services.CancionService;
 import services.ContratacionService;
-import services.RecitalService;
 
 public class ContratarArtistasParaRecitalCommand implements ComandoContratacion {
 
@@ -12,8 +12,8 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
         this(null, null);
     }
 
-    public ContratarArtistasParaRecitalCommand(ArtistaService artistaService, RecitalService recitalService) {
-    	contratacionService = new ContratacionService(recitalService, artistaService);
+    public ContratarArtistasParaRecitalCommand(ArtistaService artistaService, CancionService cancionService) {
+    	contratacionService = new ContratacionService(cancionService, artistaService);
     }
 
     @Override
