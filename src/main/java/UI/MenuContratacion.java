@@ -31,6 +31,7 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import javafx.scene.control.MenuItem;
 import java.time.format.DateTimeFormatter;
 
 public class MenuContratacion extends BorderPane {
@@ -406,8 +407,8 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("..", "data", "recital.json").toAbsolutePath().normalize();
-                //ruta = Paths.get( "data", "recital.json").toAbsolutePath().normalize();
+                //ruta = Paths.get("..", "data", "recital.json").toAbsolutePath().normalize();
+                ruta = Paths.get( "data", "recital.json").toAbsolutePath().normalize();
             }
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
             recitalRepository=fuente.cargar();
@@ -427,7 +428,7 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("..", "data", "artistas.json").toAbsolutePath().normalize();
+                ruta = Paths.get("data", "artistas.json").toAbsolutePath().normalize();
             }
             
             
@@ -452,7 +453,7 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("..", "data", "canciones.json").toAbsolutePath().normalize();
+                ruta = Paths.get("data", "canciones.json").toAbsolutePath().normalize();
             }
             
             
