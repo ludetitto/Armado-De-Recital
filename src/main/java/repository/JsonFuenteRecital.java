@@ -18,14 +18,15 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class JsonFuenteRecital implements FuenteRecital {
 
     private final Path path;
-    private final ArtistaRepository repositoryArtistas; 
-    private final CancionRepository repositoryCanciones;
+    private ArtistaRepository repositoryArtistas; 
+    private CancionRepository repositoryCanciones;
 
     
-    
+    public JsonFuenteRecital(Path path) {
+		this.path = Objects.requireNonNull(path, "path");
+	}
     
     public JsonFuenteRecital(Path path, ArtistaRepository repositoryArtistas, CancionRepository repositoryCanciones) {
-		super();
 		this.path = Objects.requireNonNull(path, "path");
 		this.repositoryArtistas = repositoryArtistas;
 		this.repositoryCanciones = repositoryCanciones;

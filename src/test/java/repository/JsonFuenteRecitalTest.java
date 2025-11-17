@@ -65,7 +65,8 @@ class JsonFuenteRecitalTest {
 		assertFalse(repositorioActual.getRecital().getCanciones().isEmpty());
 		assertEquals(tituloEsperado, repositorioActual.getRecital().getTitulo());
 
-		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
+		
+		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida);
 		fuenteSalida.guardar(List.of(repositorioActual));
 
 		File archivoSalida = rutaJsonSalida.toFile();
