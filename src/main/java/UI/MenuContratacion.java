@@ -398,7 +398,7 @@ public class MenuContratacion extends BorderPane {
     	CancionRepository cancionRepository = new CancionRepository();
     	
         try {
-            var url = getClass().getResource("/data/recitalFinal.json");
+            var url = getClass().getResource("/data/recital.json");
             Path ruta = null;
             if (url != null) {
                 ruta = Paths.get(url.toURI());
@@ -564,7 +564,7 @@ public class MenuContratacion extends BorderPane {
         actualizarStatus("📋 Generando reporte del recital...");
         
         // no se donde esta la instancia del recital y me estoy confundiendo xd
-        var cmd = new ReportarSalirCommand(Paths.get("..", "Data", "recitalFinal.json"), recitalRepository,recitalService);
+        var cmd = new ReportarSalirCommand(Paths.get("Data", "recitalFinal.json"), recitalRepository,recitalService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
         actualizarStatus("✅ Reporte generado");
