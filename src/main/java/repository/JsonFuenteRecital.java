@@ -6,8 +6,6 @@ import domain.Recital;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -31,8 +29,6 @@ public class JsonFuenteRecital implements FuenteRecital {
 		this.repositoryCanciones = repositoryCanciones;
 	}
 
-
-
     public Path getPath() {
         return path;
     }
@@ -43,7 +39,7 @@ public class JsonFuenteRecital implements FuenteRecital {
     }
 
     @Override
-    public List<RecitalRepository> cargar() {
+    public RecitalRepository cargar() {
         try {
         	
         	List<Artista> todosLosArtistas;
@@ -56,10 +52,8 @@ public class JsonFuenteRecital implements FuenteRecital {
             Recital recitalCargado = mapper.readValue(jsonFile, Recital.class);
             
             Recital.setInstance(recitalCargado); 
-
-            RecitalRepository.setRecitalInstance(recitalCargado);
             
-            todosLosArtistas= recitalCargado.getArtistasTodos();
+            todosLosArtistas = recitalCargado.getArtistasTodos();
             
             for(Artista a : todosLosArtistas) {
             	repositoryArtistas.agregar(a);
@@ -71,32 +65,28 @@ public class JsonFuenteRecital implements FuenteRecital {
             	repositoryCanciones.agregar(c);
             }
             
-            return Collections.singletonList(RecitalRepository.getInstance());
+            return new RecitalRepository(recitalCargado);
             
         } catch (IOException e) {
             System.err.println("Error al cargar el JSON en el Repositorio: " + e.getMessage());
-            e.printStackTrace();
-            
-            return Collections.emptyList();
         }
+		return null;
     }
 
 
-    @Override
-    public void guardar(List<RecitalRepository> recitales) {
-        if (recitales == null || recitales.isEmpty()) {
+	@Override
+    public void guardar(RecitalRepository recital) {
+        if (recital == null) {
             System.err.println("Advertencia: No hay instancia de Repositorio para guardar.");
             return;
         }
-        
-        Recital recitalAGuardar = recitales.get(0).getRecital(); 
         
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         
         try {
             File recitalFile = this.path.toFile();
           
-            mapper.writeValue(recitalFile, recitalAGuardar);
+            mapper.writeValue(recitalFile, recital);
             
             System.out.println("Estado del Recital guardado con Exito en: " + path);
 

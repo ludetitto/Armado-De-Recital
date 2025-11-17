@@ -4,15 +4,8 @@ import java.util.*;
 
 import domain.Cancion;
 import domain.TipoRol;
-import repository.CancionRepository;
 
 public class CancionService {
-
-    private final CancionRepository cancionRepository;
-
-    public CancionService(CancionRepository cancionRepository) {
-        this.cancionRepository = cancionRepository;
-    }
 
     public List<TipoRol> verRoles(Cancion cancion) {
         if (cancion == null) {

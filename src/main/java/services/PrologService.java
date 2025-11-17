@@ -18,10 +18,15 @@ import repository.CancionRepository;
 public class PrologService {
 
     private final BaseDeConocimientoService baseDeConocimientoService = new BaseDeConocimientoService();
+    private ArtistaRepository artistaRepository;
+    private CancionRepository cancionRepository;
+    
+    public PrologService(ArtistaRepository artistaRepository, CancionRepository cancionRepository) {
+    	this.artistaRepository = artistaRepository;
+    	this.cancionRepository = cancionRepository;
+	}
 
-    public int entrenamientosMinimos(ArtistaRepository artistaRepository,
-                                     CancionRepository cancionRepository,
-                                     Set<String> nombresBaseOpcional)
+	public int entrenamientosMinimos(Set<String> nombresBaseOpcional)
             throws IOException, InterruptedException, URISyntaxException {
 
         String hechos, reglas, programa, consulta, objetivo, out,
@@ -35,16 +40,18 @@ public class PrologService {
         hechos = baseDeConocimientoService.generarHechos(
                 artistaRepository, cancionRepository, nombresBaseOpcional);
 
-        // 2) Leer el .pl de resources (classpath)
+        // 2) Leer reglas desde el .pl en resources (classpath)
         try (InputStream is = Objects.requireNonNull(
-                getClass().getResourceAsStream("/prolog/reglas_entrenamientos.pl"),
-                "No se encontró /prolog/reglas_entrenamientos.pl en resources");
+                 getClass().getResourceAsStream("/prolog/reglas_entrenamientos.pl"),
+                 "No se encontró /prolog/reglas_entrenamientos.pl en el classpath");
              BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+
             reglas = br.lines().collect(Collectors.joining("\n"));
         }
 
         // 3) Unir HECHOS + REGLAS y escribir a un .pl temporal
         programa = header + hechos + "\n\n" + reglas;
+        
         tmp = Files.createTempFile("recital_kb_", ".pl");
         Files.writeString(tmp, programa, StandardCharsets.UTF_8);
 

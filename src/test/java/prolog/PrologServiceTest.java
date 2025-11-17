@@ -15,9 +15,9 @@ import org.junit.jupiter.api.Test;
 import repository.ArtistaRepository;
 import domain.Artista;
 import domain.Cancion;
+import domain.Recital;
 import repository.CancionRepository;
 import repository.JsonFuenteRecital;
-import repository.RecitalRepository;
 import services.PrologService;
 
 class PrologServiceTest {
@@ -41,19 +41,19 @@ class PrologServiceTest {
         // 2) Adaptadores simples a ArtistaRepository y CancionRepository usando el Recital cargado
         artistaRepository = new ArtistaRepository() {
             @Override public List<Artista> todos() {
-                return RecitalRepository.getInstance().getRecital().getArtistas();
+                return Recital.getInstance().getArtistas();
             }
         };
         
         cancionRepository = new CancionRepository() {
 			@Override public Set<Cancion> todas() {
-                return RecitalRepository.getInstance().getRecital().getCanciones();
+                return Recital.getInstance().getCanciones();
             }
         };
 
         // 3) Ejecutar PrologService (lee reglas .pl de resources)
-        PrologService prolog = new PrologService();
-        int minimo = prolog.entrenamientosMinimos(artistaRepository, cancionRepository, Set.of());
+        PrologService prolog = new PrologService(artistaRepository, cancionRepository);
+        int minimo = prolog.entrenamientosMinimos(Set.of());
 
         // 4) Assert
         assertEquals(1, minimo);

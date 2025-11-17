@@ -13,7 +13,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Map;
 
 class JsonFuenteRecitalTest {
@@ -37,7 +36,7 @@ class JsonFuenteRecitalTest {
 		recitalField.setAccessible(true);
 		recitalField.set(null, null);
 
-		RecitalRepository.getInstance().getRecital().setTitulo(tituloPrueba);
+		Recital.getInstance().setTitulo(tituloPrueba);
 	}
 
 
@@ -60,13 +59,13 @@ class JsonFuenteRecitalTest {
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
 		fuenteEntrada.cargar();
 
-		RecitalRepository repositorioActual = RecitalRepository.getInstance();
+		Recital recitalActual = Recital.getInstance();
 
-		assertFalse(repositorioActual.getRecital().getCanciones().isEmpty());
-		assertEquals(tituloEsperado, repositorioActual.getRecital().getTitulo());
+		assertFalse(recitalActual.getCanciones().isEmpty());
+		assertEquals(tituloEsperado, recitalActual.getTitulo());
 
 		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
-		fuenteSalida.guardar(List.of(repositorioActual));
+		fuenteSalida.guardar(new RecitalRepository(recitalActual));
 
 		File archivoSalida = rutaJsonSalida.toFile();
 		assertTrue(archivoSalida.exists());
@@ -77,9 +76,9 @@ class JsonFuenteRecitalTest {
 		FuenteRecital fuenteVerificacion = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
 		fuenteVerificacion.cargar();
 
-		RecitalRepository repositorioVerificado = RecitalRepository.getInstance();
+		Recital recitalVerificado = Recital.getInstance();
 
-		assertEquals(tituloEsperado, repositorioVerificado.getRecital().getTitulo());
+		assertEquals(tituloEsperado, recitalVerificado.getTitulo());
 	}
 	
 	@Test
@@ -128,12 +127,12 @@ class JsonFuenteRecitalTest {
 	void testCargarExitoso() {
 		FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
 
-		List<RecitalRepository> resultadoCarga = fuente.cargar();
+		RecitalRepository resultadoCarga = fuente.cargar();
 
-		RecitalRepository singleton = RecitalRepository.getInstance();
+		Recital singleton = Recital.getInstance();
 
-		assertFalse(resultadoCarga.isEmpty());
-		assertEquals(tituloEsperado, singleton.getRecital().getTitulo());
+		assertFalse(resultadoCarga == null);
+		assertEquals(tituloEsperado, singleton.getTitulo());
 	}
 
 	@Test
@@ -141,11 +140,11 @@ class JsonFuenteRecitalTest {
 		Path rutaInvalida = Paths.get("Data", "archivo_que_no_existe.json");
 		FuenteRecital fuente = new JsonFuenteRecital(rutaInvalida,repositoryArtistas, repositoryCanciones);
 
-		List<RecitalRepository> resultado = fuente.cargar();
+		RecitalRepository resultado = fuente.cargar();
 
-		assertTrue(resultado.isEmpty());
+		assertTrue(resultado == null);
 
-		assertEquals(tituloPrueba, RecitalRepository.getInstance().getRecital().getTitulo());
+		assertEquals(tituloPrueba, Recital.getInstance().getTitulo());
 	}
 	
 }

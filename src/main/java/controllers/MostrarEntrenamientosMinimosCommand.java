@@ -7,22 +7,19 @@ import java.util.stream.Collectors;
 
 import domain.Artista;
 import domain.Recital;
-import repository.ArtistaRepository;
-import repository.CancionRepository;
 import services.PrologService;
 
 public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion {
 	private final PrologService prologService;
+	private final double costo;
 
-	public MostrarEntrenamientosMinimosCommand(PrologService prologService) {
+	public MostrarEntrenamientosMinimosCommand(PrologService prologService, double costo) {
 		this.prologService = prologService;
+		this.costo = costo;
 	}
 	
 	@Override
 	public void ejecutar() {
-		ArtistaRepository artistaRepository = new ArtistaRepository();
-		CancionRepository cancionRepository = new CancionRepository();
-		
 		Recital recital = Recital.getInstance();
 		Set<String> nombresArtistas = recital.getArtistas().stream()
 			    .map(Artista::getNombre)
@@ -34,8 +31,10 @@ public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion 
         }
         
         try {
-			prologService.entrenamientosMinimos(artistaRepository, cancionRepository, nombresArtistas);
-		} catch (IOException e) {
+        	int entrenamientos = prologService.entrenamientosMinimos(nombresArtistas);
+			System.out.println("Entrenamientos mínimos requeridos: " + entrenamientos);
+			System.out.println("Costo total de entrenamientos: " + entrenamientos * costo);
+        } catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
