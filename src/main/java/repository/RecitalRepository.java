@@ -10,6 +10,12 @@ public class RecitalRepository {
 		this.recital = recital;
 	}
 
+
+	public void setRecital(Recital recital) {
+		this.recital = recital;
+	}
+
+
 	public Recital getRecital() {
         return recital;
     }

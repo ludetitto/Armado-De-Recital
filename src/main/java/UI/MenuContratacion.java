@@ -42,6 +42,7 @@ public class MenuContratacion extends BorderPane {
     private PrologService prologService;
     private final ComandoHistorial historial = new ComandoHistorial();
     private final Label statusLabel = new Label("⚡ Sistema iniciado correctamente");
+    private RecitalRepository recitalRepository;
 
     private static final DateTimeFormatter TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
@@ -395,8 +396,6 @@ public class MenuContratacion extends BorderPane {
     	ArtistaRepository artistaRepository = new ArtistaRepository();
     	CancionRepository cancionRepository = new CancionRepository();
     	
-    	RecitalRepository.setRecitalInstance(Recital.getInstance());
-    	
         try {
             var url = getClass().getResource("/data/recital.json");
             Path ruta = null;
@@ -407,10 +406,10 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "recital.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..", "data", "recital.json").toAbsolutePath().normalize();
             }
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
-            fuente.cargar();
+            recitalRepository=fuente.cargar();
             actualizarStatus("✅ Datos cargados exitosamente");
         } catch (Exception ex) {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
@@ -427,7 +426,7 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "artistas.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..", "data", "artistas.json").toAbsolutePath().normalize();
             }
             
             
@@ -452,7 +451,7 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                ruta = Paths.get("data", "canciones.json").toAbsolutePath().normalize();
+                ruta = Paths.get("..", "data", "canciones.json").toAbsolutePath().normalize();
             }
             
             
@@ -465,6 +464,8 @@ public class MenuContratacion extends BorderPane {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
         }
+        
+        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void actualizarStatus(String mensaje) {
@@ -507,6 +508,8 @@ public class MenuContratacion extends BorderPane {
                           "Contratación procesada exitosamente");
             actualizarStatus("✅ Contratación completada");
         });
+        
+        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void opcionContratarRecital() {
@@ -515,6 +518,8 @@ public class MenuContratacion extends BorderPane {
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("✅ Contratación Masiva - Recital Completo", out, "Proceso de contratación finalizado");
         actualizarStatus("✅ Contratación masiva completada");
+        
+        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void opcionEntrenarArtista() {
@@ -533,6 +538,8 @@ public class MenuContratacion extends BorderPane {
 
         refreshConsola("💪 Entrenamiento - " + nombre, out, null);
         actualizarStatus("✅ Entrenamiento completado");
+        
+        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void opcionListarContratados() {
@@ -555,7 +562,7 @@ public class MenuContratacion extends BorderPane {
         actualizarStatus("📋 Generando reporte del recital...");
         
         // no se donde esta la instancia del recital y me estoy confundiendo xd
-        var cmd = new ReportarSalirCommand(Paths.get("..", "Data", "recitalFinal.json"), RecitalRepository.getInstance(),recitalService);
+        var cmd = new ReportarSalirCommand(Paths.get("..", "Data", "recitalFinal.json"), recitalRepository,recitalService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
         actualizarStatus("✅ Reporte generado");

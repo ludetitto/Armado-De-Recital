@@ -39,6 +39,6 @@ public class RecitalService {
     
     public void reportarEstadoActual(RecitalRepository repositorioActual, Path rutaJsonSalida) {
     	FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida);
-		fuenteSalida.guardar(List.of(repositorioActual));
+		fuenteSalida.guardar(repositorioActual);
     }
 }

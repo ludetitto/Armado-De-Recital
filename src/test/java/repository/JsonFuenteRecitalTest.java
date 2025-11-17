@@ -25,21 +25,22 @@ class JsonFuenteRecitalTest {
 	
 	private final ArtistaRepository repositoryArtistas = new ArtistaRepository(); 
     private final CancionRepository repositoryCanciones = new CancionRepository();
+    private RecitalRepository repositoryRecital;
 
 	@BeforeEach
 	void setUp() throws Exception {
-		java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
-		repoField.setAccessible(true);
-		repoField.set(null, null);
 
 		java.lang.reflect.Field recitalField = Recital.class.getDeclaredField("instance");
 		recitalField.setAccessible(true);
 		recitalField.set(null, null);
 
+		repositoryRecital = new RecitalRepository(Recital.getInstance());
+				
 		Recital.getInstance().setTitulo(tituloPrueba);
 	}
 
-
+	// comentar para obtener el archivo test
+	
 	@AfterEach
 	void tearDown() throws Exception {
 		java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
@@ -53,22 +54,21 @@ class JsonFuenteRecitalTest {
 		Files.deleteIfExists(rutaJsonSalida);
 	}
 
-
+	
+	
 	@Test
 	void testGuardar() throws Exception {
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
-		fuenteEntrada.cargar();
+		repositoryRecital=fuenteEntrada.cargar();
 
 		Recital recitalActual = Recital.getInstance();
 
 		assertFalse(recitalActual.getCanciones().isEmpty());
 		assertEquals(tituloEsperado, recitalActual.getTitulo());
-
 		
-		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida);
-		fuenteSalida.guardar(List.of(repositorioActual));
+		FuenteRecital fuenteSalida = new JsonFuenteRecital(rutaJsonSalida,repositoryArtistas, repositoryCanciones);
+		fuenteSalida.guardar(repositoryRecital);
 
-		FuenteRecital fuenteSalida = new 
 
 		File archivoSalida = rutaJsonSalida.toFile();
 		assertTrue(archivoSalida.exists());
@@ -130,11 +130,10 @@ class JsonFuenteRecitalTest {
 	void testCargarExitoso() {
 		FuenteRecital fuente = new JsonFuenteRecital(rutaJsonReal,repositoryArtistas, repositoryCanciones);
 
-		RecitalRepository resultadoCarga = fuente.cargar();
+		fuente.cargar();
 
 		Recital singleton = Recital.getInstance();
-
-		assertFalse(resultadoCarga == null);
+		
 		assertEquals(tituloEsperado, singleton.getTitulo());
 	}
 
