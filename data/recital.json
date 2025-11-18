@@ -46,7 +46,7 @@
         ],
         "GUITARRA_ELECTRICA": [
           {
-            "roles": [ "GUITARRA_ELECTRICA" ],
+            "roles": [ "GUITARRA_ELECTRICA" , "VOZ_SECUNDARIA"],
             "nombre": "Brian May",
             "bandas": [ "Queen" ],
             "costoBase": 0.0,
@@ -54,7 +54,10 @@
           }
         ]
       },
-      "rolesFaltantes": { }
+      "rolesFaltantes": {
+        "VOZ_SECUNDARIA" : 4,
+        "BAJO" : 1
+      }
     } 
   ],
   
@@ -68,12 +71,40 @@
         "tipo": "BASE"
       },
       "cancion": {
-        "titulo": "Bohemian Rhapsody",
-        "estado": "COMPLETA",
-        "rolesRequeridos": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 },
-        "asignaciones": { },
-        "rolesFaltantes": { "VOZ_PRINCIPAL": 1, "GUITARRA_ELECTRICA": 1 }
+      "titulo": "Bohemian Rhapsody",
+      "estado": "COMPLETA",
+      "rolesRequeridos": {
+      "VOZ_PRINCIPAL" : 1,
+      "VOZ_SECUNDARIA" : 4,
+      "GUITARRA_ELECTRICA" : 1,
+      "BAJO" : 1,
+      "PIANO" : 1
+  },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "nombre": "Freddie Mercury",
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "GUITARRA_ELECTRICA": [
+          {
+            "roles": [ "GUITARRA_ELECTRICA" , "VOZ_SECUNDARIA"],
+            "nombre": "Brian May",
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ]
       },
+      "rolesFaltantes": {
+        "VOZ_SECUNDARIA" : 4,
+        "BAJO" : 1
+      }
+    } ,
       "rol": "VOZ_PRINCIPAL",
       "costoFinal": 0.0,
       "descuentoAplicado": 0.0
@@ -87,16 +118,75 @@
         "tipo": "BASE"
       },
       "cancion": {
-        "titulo": "We Will Rock You",
-        "estado": "INCOMPLETA",
-        "rolesRequeridos": { "BAJO": 1, "BATERIA": 1 },
-        "asignaciones": { },
-        "rolesFaltantes": { "BAJO": 1, "BATERIA": 1 }
+      "titulo": "We Will Rock You",
+      "estado": "INCOMPLETA",
+      "rolesRequeridos": {
+        "BAJO": 1,
+        "BATERIA": 1
       },
+      "asignaciones": {
+        "BAJO": [
+          {
+            "roles": [ "BAJO" ],
+            "nombre": "John Deacon",
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ]
+      },
+      "rolesFaltantes": {
+        "BATERIA": 1
+      }
+    },
       "rol": "BAJO",
       "costoFinal": 0.0,
       "descuentoAplicado": 0.0
+    } ,
+    {
+      "artista":{
+        "roles": [ "GUITARRA_ELECTRICA", "VOZ_SECUNDARIA"],
+        "nombre": "Brian May",
+        "bandas": [ "Queen" ],
+        "costoBase": 0.0,
+        "tipo": "BASE"
+      },
+      "cancion":{
+      "titulo": "Bohemian Rhapsody",
+      "estado": "COMPLETA",
+      "rolesRequeridos": {
+      "VOZ_PRINCIPAL" : 1,
+      "VOZ_SECUNDARIA" : 4,
+      "GUITARRA_ELECTRICA" : 1,
+      "BAJO" : 1,
+      "PIANO" : 1
+  },
+      "asignaciones": {
+        "VOZ_PRINCIPAL": [
+          {
+            "roles": [ "VOZ_PRINCIPAL", "PIANO" ],
+            "nombre": "Freddie Mercury",
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ],
+        "GUITARRA_ELECTRICA": [
+          {
+            "roles": [ "GUITARRA_ELECTRICA" ],
+            "nombre": "Brian May",
+            "bandas": [ "Queen" ],
+            "costoBase": 0.0,
+            "tipo": "BASE"
+          }
+        ]
+      },
+      "rolesFaltantes": {
+        "VOZ_SECUNDARIA" : 4,
+        "BAJO" : 1
+      }
     } 
+  }
   ],
   
   "artistasBase": [ 
@@ -108,8 +198,15 @@
       "tipo": "BASE"
     }, 
     {
-      "roles": [ "GUITARRA_ELECTRICA" ],
+      "roles": [ "GUITARRA_ELECTRICA" , "VOZ_SECUNDARIA"],
       "nombre": "Brian May",
+      "bandas": [ "Queen" ],
+      "costoBase": 0.0,
+      "tipo": "BASE"
+    },
+    {
+      "roles": [ "BAJO" ],
+      "nombre": "John Deacon",
       "bandas": [ "Queen" ],
       "costoBase": 0.0,
       "tipo": "BASE"
@@ -131,9 +228,5 @@
       "costoBase": 1800.0,
       "tipo": "EXTERNO"
     }
-  ],
-  
-  "rolesFaltantesTotal": {
-    "BATERIA": 1
-  }
+  ]
 }
