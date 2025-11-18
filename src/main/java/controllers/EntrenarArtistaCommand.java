@@ -26,7 +26,10 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
            throw new IllegalArgumentException("Error: artista no encontrado: " + nombreArtista);
         }
         
-        artista.entrenarEn(rolAgregado);
+        if(artista.entrenarEn(rolAgregado))
+        	System.out.println("El artistas " + artista.getNombre() + " ahora posee el rol " + rolAgregado);
+        else
+        	System.out.println("El artistas " + artista.getNombre() + " YA POSEE el rol " + rolAgregado);
     }
 
     @Override

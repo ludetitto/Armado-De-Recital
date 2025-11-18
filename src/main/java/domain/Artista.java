@@ -75,11 +75,12 @@ public class Artista {
 	    return esExterno() && !Recital.getInstance().estaContratado(this);
 	}
 	
-	public void entrenarEn(TipoRol rol) {
+	public boolean entrenarEn(TipoRol rol) {
 	    if (puedeOcuparRol(rol)) {
-	        throw new IllegalStateException("El artista ya puede ocupar ese rol");
+	    	return false;
 	    }
 	    roles.put(rol, EstadoRol.ENTRENAMIENTO);
+	    return true;
 	}
 
 	// Getters

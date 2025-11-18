@@ -117,7 +117,7 @@ public class MenuContratacion extends BorderPane {
             "⚡ ACCIONES Y GESTIÓN",
             new MenuItem[] {
                 new MenuItem("✅", "Contratar (Canción)", this::opcionContratarCancion),
-                new MenuItem("✅", "Descontratar Artista (Canción)", this::opcionDescontratarCancion),
+//                new MenuItem("✅", "Descontratar Artista (Canción)", this::opcionDescontratarCancion),
                 new MenuItem("✅", "Contratar (Recital)", this::opcionContratarRecital),
                 new MenuItem("💪", "Entrenar Artista", this::opcionEntrenarArtista),
                 new MenuItem("🔍", "Consultas Prolog", this::opcionConsultaProlog)

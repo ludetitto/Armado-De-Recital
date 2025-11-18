@@ -29,12 +29,6 @@ public class ContratacionService {
         cancion.asignarArtista(artista, rol);
     }
     
-    private boolean artistaYaContratadoEnRecital(Artista artista) {
-        return Recital.getInstance().getContrataciones()
-                .stream()
-                .anyMatch(c -> c.getArtista().equals(artista));
-    }
-    
     private boolean artistaYaContratadoEnCancion(Artista artista, Cancion cancion) {
         return Recital.getInstance().estaContratadoEnCancion(artista, cancion);
     }
