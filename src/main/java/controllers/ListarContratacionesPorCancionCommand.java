@@ -13,12 +13,15 @@ public class ListarContratacionesPorCancionCommand implements ComandoContratacio
 	@Override
     public void ejecutar() {
         Set<Cancion> canciones = Recital.getInstance().getCanciones();
+        double costoPorCancion, costoRecital = 0;
         
         if (canciones.isEmpty()) {
             System.out.println("No hay canciones cargadas en el recital.");
         }
         
         for(Cancion c : canciones) {
+        	costoPorCancion = 0;
+        	
             Map<TipoRol, List<Artista>> asignados = c.getAsignaciones();
             
             String estado = c.getEstado().name();
@@ -31,13 +34,21 @@ public class ListarContratacionesPorCancionCommand implements ComandoContratacio
 	                double costoIndividual = Recital.getInstance()
 	                                            .obtenerContratacionPorArtistaYCancion(c, a).getCostoFinal();
 	
+	                costoPorCancion += costoIndividual;
 	                System.out.println("   > " + r + " asignado a " + 
 	                                   a.getNombre() + 
 	                                   " con un costo individual de " + 
 	                                   costoIndividual);
 	            }
             }
+            
+            System.out.println("______________________________");
+            System.out.println("\n Costo Por Cancion " + costoPorCancion);
+            
+            costoRecital += costoPorCancion;
         }
+        System.out.println("______________________________");
+        System.out.println("\n Costo Total del recital " + costoRecital);
         System.out.println("-------------------------------------------");
     }
 
