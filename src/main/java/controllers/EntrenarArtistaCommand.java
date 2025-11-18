@@ -27,9 +27,9 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
         }
         
         if(artista.entrenarEn(rolAgregado))
-        	System.out.println("El artistas " + artista.getNombre() + " ahora posee el rol " + rolAgregado);
+        	System.out.println("El artista " + artista.getNombre() + " ahora posee el rol " + rolAgregado);
         else
-        	System.out.println("El artistas " + artista.getNombre() + " YA POSEE el rol " + rolAgregado);
+        	System.out.println("El artista " + artista.getNombre() + " YA POSEE el rol " + rolAgregado);
     }
 
     @Override
