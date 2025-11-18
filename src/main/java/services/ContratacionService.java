@@ -9,16 +9,17 @@ import java.util.Map;
 import domain.Artista;
 import domain.Cancion;
 import domain.Contratacion;
+import domain.Costo;
+import domain.CostoBase;
+import domain.CostoEntrenamiento;
 import domain.Recital;
 import domain.TipoRol;
 
 public class ContratacionService {
 
-	private CancionService cancionService;
 	private ArtistaService artistaService;
 	
-	public ContratacionService(CancionService cancionService, ArtistaService artistaService) {
-		this.cancionService = cancionService;
+	public ContratacionService(ArtistaService artistaService) {
 		this.artistaService = artistaService;
 	}
 
@@ -43,7 +44,7 @@ public class ContratacionService {
     }
     
     public void contratarArtistas(Cancion cancion) {
-        Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancionService.verRolesFaltantes(cancion));
+        Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancion.verRolesFaltantes());
         List<Contratacion> posibles = new ArrayList<Contratacion>();
         
         if (faltantes.isEmpty()) {
@@ -91,7 +92,7 @@ public class ContratacionService {
             }
         }
 
-        Map<TipoRol, Integer> remanente = cancionService.verRolesFaltantes(cancion);
+        Map<TipoRol, Integer> remanente = cancion.verRolesFaltantes();
         if (remanente.isEmpty()) {
             System.out.println("Resultado: ¡Roles cubiertos!");
         } else {

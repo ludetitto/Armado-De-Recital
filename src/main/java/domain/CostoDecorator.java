@@ -1,7 +1,4 @@
-package services;
-
-import domain.Artista;
-import domain.Cancion;
+package domain;
 
 public abstract class CostoDecorator implements Costo {
 

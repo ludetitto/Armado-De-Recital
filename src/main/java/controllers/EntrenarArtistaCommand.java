@@ -30,7 +30,7 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
            throw new IllegalArgumentException("Error: artista no encontrado: " + nombreArtista);
         }
         
-        artistaService.recibirEntrenamiento(artista, rolAgregado);
+        artista.entrenarEn(rolAgregado);
     }
 
     @Override

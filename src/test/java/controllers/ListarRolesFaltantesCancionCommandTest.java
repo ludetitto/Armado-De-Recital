@@ -1,7 +1,6 @@
 package controllers;
 
 import domain.Recital;
-import services.CancionService;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
@@ -24,7 +23,6 @@ public class ListarRolesFaltantesCancionCommandTest {
     // Configuración para la captura de la salida de consola
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    private CancionService cancionService; 
     private CancionRepository cancionRepository;
     private ArtistaRepository artistaRepository;
     
@@ -51,8 +49,6 @@ public class ListarRolesFaltantesCancionCommandTest {
         
         // Redirigir la salida estándar para capturar el texto
         System.setOut(new PrintStream(outputStreamCaptor));
-        // ⬅️ CAMBIO 2: Inicializamos CancionService
-        this.cancionService = new CancionService(); 
         
         // Cargar el archivo JSON una sola vez antes de los tests
         FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
@@ -70,7 +66,7 @@ public class ListarRolesFaltantesCancionCommandTest {
     @Test
     void testEjecutar_MuestraRolesFaltantesDeCancionIncompleta() throws Exception {
         ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(cancionService, CANCION_INCOMPLETA);
+            new ListarRolesFaltantesCancionCommand(CANCION_INCOMPLETA);
         command.ejecutar();
         
         // CAPTURA Y VISUALIZACIÓN
@@ -94,7 +90,7 @@ public class ListarRolesFaltantesCancionCommandTest {
     void testEjecutar_MuestraRolesFaltantesDeCancionCompleta() throws Exception {
 
     	ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(cancionService, CANCION_COMPLETA);
+            new ListarRolesFaltantesCancionCommand(CANCION_COMPLETA);
         command.ejecutar();
         
         String output = outputStreamCaptor.toString().trim();
@@ -110,7 +106,7 @@ public class ListarRolesFaltantesCancionCommandTest {
     @Test
     void testEjecutar_CancionInexistente() throws Exception {
         ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(cancionService, CANCION_INEXISTENTE);
+            new ListarRolesFaltantesCancionCommand(CANCION_INEXISTENTE);
         command.ejecutar();
         
         String output = outputStreamCaptor.toString().trim();

@@ -3,53 +3,49 @@ package controllers;
 import domain.Artista;
 import domain.Recital;
 import domain.TipoRol;
-import domain.TipoDeArtista;
 import services.ArtistaService;
-import services.RecitalService;
+import repository.ArtistaRepository;
+import repository.CancionRepository;
 import repository.FuenteRecital;
 import repository.JsonFuenteRecital;
-import repository.RecitalRepository;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EntrenarArtistaCommandTest { 
 	
 
-	private final Path rutaJsonReal = Paths.get("..", "Data", "recitalBandas_v3.json");
+	private final Path rutaJsonReal = Paths.get("Data", "recitalBandas_v3.json");
 	private final String tituloEsperado = "LIVE AID";
 
-    private final PrintStream standardOut = System.out;
+//    private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     
+    private ArtistaRepository artistaRepository = new ArtistaRepository();
     private ArtistaService artistaService;
-
+    private CancionRepository cancionRepository = new CancionRepository();
 
     private static final String NOMBRE_CANDIDATO = "Elton John";
     private static final String NOMBRE_INEXISTENTE = "Lady Gaga";
     private static final TipoRol ROL_NUEVO = TipoRol.BATERIA;
-    private static final TipoRol ROL_EXISTENTE = TipoRol.TECLADOS;
+//    private static final TipoRol ROL_EXISTENTE = TipoRol.TECLADOS;
 
 
    
     @BeforeEach
     void setUp() throws Exception {
-    	RecitalRepository.getInstance().getRecital().setTitulo(tituloEsperado);
-        
-        this.artistaService = new ArtistaService();
+    	Recital.getInstance().setTitulo(tituloEsperado);
 
-		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, null, null);
+		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
+		artistaService = new ArtistaService(artistaRepository);
+		
 		fuenteEntrada.cargar();
     }
 

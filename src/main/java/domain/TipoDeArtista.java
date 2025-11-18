@@ -1,5 +1,7 @@
 package domain;
 
 public enum TipoDeArtista {
-	BASE, EXTERNO;
+	BASE,
+	EXTERNO,
+	INVITADO
 }

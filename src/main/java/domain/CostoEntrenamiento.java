@@ -1,7 +1,4 @@
-package services;
-
-import domain.Artista;
-import domain.EstadoRol;
+package domain;
 
 public class CostoEntrenamiento extends CostoDecorator {
 

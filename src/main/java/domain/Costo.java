@@ -1,6 +1,4 @@
-package services;
-
-import domain.Cancion;
+package domain;
 
 public interface Costo {
 	Cancion cancion = new Cancion();

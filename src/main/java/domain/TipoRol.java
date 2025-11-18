@@ -4,8 +4,6 @@ import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum TipoRol {
     VOZ_PRINCIPAL, 
     VOZ_SECUNDARIA,
@@ -14,8 +12,6 @@ public enum TipoRol {
     BATERIA,
     PIANO, 
     TECLADOS, 
-    GUITARRA,
-    TECLADO,
     COROS;
 
     private static final Map<String, TipoRol> MAP = Map.of(
@@ -40,12 +36,5 @@ public enum TipoRol {
         String t = Normalizer.normalize(s == null ? "" : s, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "");
         return t.toLowerCase(Locale.ROOT).trim();
-    }
-    
-    
- // Jackson debería tomar el nombre de la constante directamente, lo forzamos.
-    @JsonValue
-    public String toValue() {
-        return this.name(); 
     }
 }

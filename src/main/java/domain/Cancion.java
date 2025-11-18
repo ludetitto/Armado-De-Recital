@@ -30,6 +30,26 @@ public class Cancion {
         this.estado = TipoEstado.BORRADOR;
     }
 
+    public List<TipoRol> verRoles() {
+        List<TipoRol> roles = new ArrayList<>();
+        getAsignaciones().forEach((rol, artistas) -> roles.add(rol));
+        return roles;
+    }
+
+    public Map<TipoRol, Integer> verRolesFaltantes() {
+        Map<TipoRol, Integer> faltantes = new LinkedHashMap<>();
+
+        for (Map.Entry<TipoRol, Integer> entry : getRolesRequeridos().entrySet()) {
+            faltantes.merge(entry.getKey(), entry.getValue(), Integer::sum);
+        }
+
+        for (TipoRol rolCubierto : verRoles()) {
+            faltantes.computeIfPresent(rolCubierto, (k, v) -> v > 1 ? v - 1 : null);
+        }
+
+        return faltantes;
+    }
+    
     /* ===================== Asignaciones ===================== */
 
     /** Asigna un artista a un rol (valida que el artista pueda ocupar ese rol) */
@@ -65,6 +85,11 @@ public class Cancion {
         }
         return Collections.unmodifiableList(todos);
     }
+    
+    public Set<TipoRol> getRolesCubiertos() {
+        return Collections.unmodifiableSet(asignaciones.keySet());
+    }
+
 
     /* ===================== Cálculos ===================== */
 

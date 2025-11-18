@@ -69,6 +69,17 @@ public class Artista {
 	public boolean compartioBanda(Artista otro) {
 		return this.bandas.stream().anyMatch(otro.bandas::contains);
 	}
+	
+	public boolean puedeSerEntrenado() {
+	    return esExterno() && !Recital.getInstance().estaContratado(this);
+	}
+	
+	public void entrenarEn(TipoRol rol) {
+	    if (puedeOcuparRol(rol)) {
+	        throw new IllegalStateException("El artista ya puede ocupar ese rol");
+	    }
+	    roles.put(rol, EstadoRol.ENTRENAMIENTO);
+	}
 
 	// Getters
 	public String getNombre() {
@@ -140,7 +151,18 @@ public class Artista {
 	public TipoDeArtista getTipo() {
 		return tipo;
 	}
-
+	
+	@JsonIgnore
+	public List<TipoRol> getRolesDisponibles() {
+	    List<TipoRol> disponibles = new ArrayList<>();
+	    for (var entry : roles.entrySet()) {
+	        if (entry.getValue() == EstadoRol.BASE || entry.getValue() == EstadoRol.ENTRENAMIENTO) {
+	            disponibles.add(entry.getKey());
+	        }
+	    }
+	    return disponibles;
+	}
+	
 	@Override
 	public String toString() {
 		return String.format("%s - Roles: %s - Bandas: %s - Costo base: $%.2f", nombre, roles, bandas, costoBase);

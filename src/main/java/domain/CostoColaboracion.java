@@ -1,6 +1,4 @@
-package services;
-
-import domain.Artista;
+package domain;
 
 public class CostoColaboracion extends CostoDecorator {
 

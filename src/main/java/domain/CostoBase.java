@@ -1,6 +1,4 @@
-package services;
-
-import domain.Cancion;
+package domain;
 
 public class CostoBase implements Costo {
 	double costoBase;

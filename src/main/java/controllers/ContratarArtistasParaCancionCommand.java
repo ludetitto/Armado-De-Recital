@@ -5,7 +5,6 @@ import domain.Cancion;
 import domain.Recital;
 import domain.TipoRol;
 import services.ArtistaService;
-import services.CancionService;
 import services.ContratacionService;
 
 import java.util.*;
@@ -14,17 +13,11 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
 
     private final String tituloCancion;
     private ContratacionService contratacionService;
-
     private final Map<TipoRol, List<Artista>> asignadosEnEstaEjecucion = new EnumMap<>(TipoRol.class);
 
-    public ContratarArtistasParaCancionCommand(String tituloCancion) {
-        this(null, null, tituloCancion);
-    }
-
     public ContratarArtistasParaCancionCommand(ArtistaService artistaService,
-                                               CancionService cancionService,
                                                String tituloCancion) {
-        contratacionService = new ContratacionService(cancionService, artistaService);
+        contratacionService = new ContratacionService(artistaService);
         this.tituloCancion = tituloCancion;
     }
 
@@ -54,6 +47,7 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
                 cancion.desasignarArtista(a, rol);
             }
         });
+        
         asignadosEnEstaEjecucion.clear();
         System.out.println("Deshacer: se revirtieron las asignaciones nuevas en '" + tituloCancion + "'");
     }

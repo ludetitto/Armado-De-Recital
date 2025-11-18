@@ -63,8 +63,7 @@ public class Recital {
                 continue; 
             }
             
-            if (artista.esBase() ) { // o que este contratado
-
+            if (artista.esBase() || estaContratado(artista)) {
                 this.artistasBase.add(artista); 
             } else {
                 this.artistasCandidatos.add(artista);
@@ -157,5 +156,17 @@ public class Recital {
         }
         Recital.instance = recitalCargado;
     }
+    
+    public boolean estaContratado(Artista artista) {
+		List<Contratacion> contrataciones = getContrataciones();
+		boolean estaContratado = false;
+		
+		for(Contratacion c : contrataciones) {
+			if(c.getArtista().equals(artista))
+				estaContratado = true;
+		}
+		
+		return estaContratado;
+	}
 
 }
