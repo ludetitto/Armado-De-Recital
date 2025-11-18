@@ -382,7 +382,7 @@ public class MenuContratacion extends BorderPane {
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
         
-        Label copyright = new Label("© 2024 UNLaM - Paradigmas de Programación");
+        Label copyright = new Label("© 2025 UNLaM - Paradigmas de Programación");
         copyright.setFont(Font.font("System", FontWeight.LIGHT, 11));
         copyright.setStyle("-fx-text-fill: #95a5a6;");
 
