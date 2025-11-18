@@ -39,6 +39,11 @@ public class Recital {
         canciones.add(cancion);
     }
     
+    public void modificarAsiganacion(Artista artista, TipoRol rol, Cancion cancion) {
+    	
+    }
+    
+    
     // Agregar artista base
     public void agregarArtistaBase(Artista artista) {
         if (artista.esBase()) {
@@ -83,6 +88,12 @@ public class Recital {
                 this.canciones.add(cancion);
             }
         }
+    }
+    
+    //eliminar artista
+    public void designarArtistadeCancion(Cancion cancion) {
+    	this.canciones.remove(cancion);
+    	this.canciones.add(cancion);
     }
     
     // Agregar contratación
