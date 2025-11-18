@@ -3,6 +3,8 @@ package repository;
 import domain.Cancion;
 import domain.Recital;
 
+import repository.*;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,11 +19,11 @@ import java.util.Map;
 
 class JsonFuenteRecitalTest {
 
-	private final Path rutaJsonReal = Paths.get("..", "Data", "recitalBandas_v3.json");
-	private final String tituloEsperado = "LIVE AID";
+	private final Path rutaJsonReal = Paths.get("Data", "recital.json");
+	private final String tituloEsperado = "Queen Greatest Hits Setlist V3";
 
-	private final Path rutaJsonSalida = Paths.get("..", "Data", "recitalBandas_v3prueba.json");
-	private final String tituloPrueba = "LIVE AID";
+	private final Path rutaJsonSalida = Paths.get("Data", "recitalTest.json");
+	private final String tituloPrueba = "Queen Greatest Hits Setlist V3";
 	
 	private final ArtistaRepository repositoryArtistas = new ArtistaRepository(); 
     private final CancionRepository repositoryCanciones = new CancionRepository();
@@ -43,9 +45,6 @@ class JsonFuenteRecitalTest {
 	
 	@AfterEach
 	void tearDown() throws Exception {
-		java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
-		repoField.setAccessible(true);
-		repoField.set(null, null);
 
 		java.lang.reflect.Field recitalField = Recital.class.getDeclaredField("instance");
 		recitalField.setAccessible(true);
@@ -150,3 +149,5 @@ class JsonFuenteRecitalTest {
 	}
 	
 }
+
+
