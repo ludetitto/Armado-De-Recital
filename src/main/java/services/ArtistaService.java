@@ -43,4 +43,10 @@ public class ArtistaService {
 
 		return candidatos;
 	}
+	
+	public int getCantidadDeCancionesQueToca(Artista artista) {
+		return (int) Recital.getInstance().getContrataciones().stream()
+        .filter(c -> c.getArtista().equals(artista))
+        .count();
+	}
 }

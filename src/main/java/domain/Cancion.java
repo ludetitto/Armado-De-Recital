@@ -23,7 +23,6 @@ public class Cancion {
         actualizarEstado();
     }
 
-    /** Ctor por defecto para frameworks (Jackson, etc.) */
     public Cancion() {
         this.rolesRequeridos = new EnumMap<>(TipoRol.class);
         this.asignaciones = new EnumMap<>(TipoRol.class);

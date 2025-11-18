@@ -23,6 +23,7 @@ public class Artista {
 	protected Set<String> bandas;
 	protected double costoBase;
 	protected TipoDeArtista tipo = TipoDeArtista.BASE;
+	protected final static int cantidadDispuestoATocar = 5;
 
 	public Artista(String nombre, TipoDeArtista tipo, Set<TipoRol> roles, Set<String> bandas, double costoBase) {
 		this.nombre = nombre;
@@ -183,5 +184,9 @@ public class Artista {
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
+	}
+
+	public int getCantidadDispuestoATocar() {
+		return cantidadDispuestoATocar;
 	}
 }

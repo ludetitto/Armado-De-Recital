@@ -2,6 +2,7 @@ package UI;
 
 import controllers.*;
 import domain.Recital;
+import domain.TipoRol;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -21,7 +22,6 @@ import repository.JsonFuenteCancion;
 import repository.JsonFuenteRecital;
 import repository.RecitalRepository;
 import repository.FuenteArtista;
-import services.ArtistaService;
 import services.PrologService;
 import services.RecitalService;
 
@@ -36,7 +36,6 @@ public class MenuContratacion extends BorderPane {
 
     private final TextArea consola = new TextArea();
     private final RecitalService recitalService = new RecitalService();
-    private ArtistaService artistaService;
     private PrologService prologService;
     private final ComandoHistorial historial = new ComandoHistorial();
     private final Label statusLabel = new Label("⚡ Sistema iniciado correctamente");
@@ -414,7 +413,6 @@ public class MenuContratacion extends BorderPane {
             }
             
             
-            artistaService = new ArtistaService(artistaRepository);
             prologService = new PrologService(artistaRepository, cancionRepository);
             FuenteArtista fuente = new JsonFuenteArtista(ruta, artistaRepository);
             fuente.cargar();
@@ -481,7 +479,7 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título de la canción a contratar");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(titulo);
             String out = runAndCapture(cmd::ejecutar);
             var listar = new ListarRolesFaltantesCancionCommand(titulo);
             String estado = runAndCapture(listar::ejecutar);
@@ -496,7 +494,7 @@ public class MenuContratacion extends BorderPane {
     
     private void opcionContratarRecital() {
         actualizarStatus("💼 Procesando contratación masiva del recital...");
-        var cmd = new ContratarArtistasParaRecitalCommand(artistaService);
+        var cmd = new ContratarArtistasParaRecitalCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("✅ Contratación Masiva - Recital Completo", out, "Proceso de contratación finalizado");
         actualizarStatus("✅ Contratación masiva completada");
@@ -597,13 +595,7 @@ public class MenuContratacion extends BorderPane {
         txtNombre.setPromptText("Nombre del artista");
 
         ComboBox<String> comboRol = new ComboBox<>();
-        comboRol.getItems().addAll(
-            "BAJO",
-            "BATERIA",
-            "GUITARRA_ELECTRICA",
-            "VOZ_PRINCIPAL",
-            "PIANO"
-        );
+        comboRol.getItems().addAll(TipoRol.getAllRoles());
         comboRol.setPromptText("Seleccione un rol a entrenar");
 
         grid.add(new Label("Artista:"), 0, 0);
