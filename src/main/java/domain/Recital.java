@@ -141,12 +141,14 @@ public class Recital {
     
     public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
     public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
-    
-    @JsonIgnore
+
+
+   
     public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
-    @JsonIgnore
+   
     public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
 
+    @JsonIgnore
     public List<Artista> getArtistas(){
     	List<Artista> todosLosArtistas = new ArrayList<>();
 

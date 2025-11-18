@@ -4,6 +4,8 @@ import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum TipoRol {
     VOZ_PRINCIPAL, 
     VOZ_SECUNDARIA,
@@ -14,6 +16,11 @@ public enum TipoRol {
     TECLADOS, 
     COROS;
 
+	@JsonValue
+    public String toValue() {
+        return this.name(); 
+    }
+	
     private static final Map<String, TipoRol> MAP = Map.of(
         "voz principal", VOZ_PRINCIPAL,
         "voz secundaria", VOZ_SECUNDARIA,
