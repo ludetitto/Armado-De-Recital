@@ -22,7 +22,6 @@ import repository.JsonFuenteRecital;
 import repository.RecitalRepository;
 import repository.FuenteArtista;
 import services.ArtistaService;
-import services.CancionService;
 import services.PrologService;
 import services.RecitalService;
 
@@ -31,13 +30,11 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import javafx.scene.control.MenuItem;
 import java.time.format.DateTimeFormatter;
 
 public class MenuContratacion extends BorderPane {
 
     private final TextArea consola = new TextArea();
-    private CancionService cancionService;
     private final RecitalService recitalService = new RecitalService();
     private ArtistaService artistaService;
     private PrologService prologService;
@@ -457,8 +454,6 @@ public class MenuContratacion extends BorderPane {
                 ruta = Paths.get("data", "canciones.json").toAbsolutePath().normalize();
             }
             
-            
-            cancionService = new CancionService();
             FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
             fuente.cargar();
             
@@ -482,7 +477,7 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título exacto de la canción");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("🔍 Analizando roles para: " + titulo);
-            var cmd = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
+            var cmd = new ListarRolesFaltantesCancionCommand(titulo);
             String out = runAndCapture(cmd::ejecutar);
             refreshConsola("🎤 Análisis de Roles - Canción: " + titulo, out, "Consulta completada exitosamente");
             actualizarStatus("✅ Análisis completado");
@@ -491,7 +486,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionRolesFaltantesRecital() {
         actualizarStatus("🔍 Analizando roles del recital completo...");
-        var cmd = new ListarRolesFaltantesRecitalCommand(recitalService);
+        var cmd = new ListarRolesFaltantesRecitalCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎸 Análisis de Roles - Recital Completo", out, "Análisis global completado");
         actualizarStatus("✅ Análisis completado");
@@ -502,9 +497,9 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título de la canción a contratar");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(artistaService, cancionService, titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
             String out = runAndCapture(cmd::ejecutar);
-            var listar = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
+            var listar = new ListarRolesFaltantesCancionCommand(titulo);
             String estado = runAndCapture(listar::ejecutar);
             refreshConsola("✅ Contratación - Canción: " + titulo, 
                           out + "\n─────────────────────────────────────\n" + estado, 
@@ -520,9 +515,9 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título de la canción a contratar");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(artistaService, cancionService, titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
             String out = runAndCapture(cmd::ejecutar);
-            var listar = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
+            var listar = new ListarRolesFaltantesCancionCommand(titulo);
             String estado = runAndCapture(listar::ejecutar);
             refreshConsola("✅ Contratación - Canción: " + titulo, 
                           out + "\n─────────────────────────────────────\n" + estado, 
@@ -535,7 +530,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionContratarRecital() {
         actualizarStatus("💼 Procesando contratación masiva del recital...");
-        var cmd = new ContratarArtistasParaRecitalCommand(artistaService, cancionService);
+        var cmd = new ContratarArtistasParaRecitalCommand(artistaService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("✅ Contratación Masiva - Recital Completo", out, "Proceso de contratación finalizado");
         actualizarStatus("✅ Contratación masiva completada");
@@ -554,7 +549,7 @@ public class MenuContratacion extends BorderPane {
 
         actualizarStatus("💪 Entrenando a: " + nombre);
         
-        var cmd = new EntrenarArtistaCommand(artistaService, nombre, rol);
+        var cmd = new EntrenarArtistaCommand(nombre, rol);
         String out = runAndCapture(cmd::ejecutar);
 
         refreshConsola("💪 Entrenamiento - " + nombre, out, null);
@@ -565,7 +560,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionListarContratados() {
         actualizarStatus("📋 Generando listado de artistas...");
-        var cmd = new ListarArtistasCommand(artistaService);
+        var cmd = new ListarArtistasCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("👥 Artistas Contratados del Recital", out, "Listado generado correctamente");
         actualizarStatus("✅ Listado generado");

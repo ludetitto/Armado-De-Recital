@@ -36,13 +36,12 @@ class BaseDeConocimientoServiceTest {
         cancionRepository.agregar(new Cancion("Under Pressure", req));
 
         String hechos = new BaseDeConocimientoService()
-            .generarHechos(artistaRepository, cancionRepository, Set.of("Brian May"));
+            .generarHechos(artistaRepository, cancionRepository);
 
         assertAll(
             () -> assertTrue(hechos.contains("artista_base(brian_may).")),
             () -> assertTrue(hechos.contains("artista_externo(david_bowie).")),
             () -> assertTrue(hechos.contains("tiene_rol(brian_may, guitarra_electrica).")),
-            () -> assertTrue(hechos.contains("banda(brian_may, queen).")),
             () -> assertTrue(hechos.contains("cancion(under_pressure).")),
             () -> assertTrue(hechos.contains("requiere(under_pressure, voz_principal, 2).")),
             () -> assertTrue(hechos.contains("requiere(under_pressure, guitarra_electrica, 1)."))

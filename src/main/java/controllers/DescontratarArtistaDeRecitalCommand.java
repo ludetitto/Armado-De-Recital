@@ -17,17 +17,14 @@ public class DescontratarArtistaDeRecitalCommand implements ComandoContratacion 
     
     @Override
     public void ejecutar() {
-        Recital recital = Recital.getInstance();
-        Artista artista = recital.getArtistas().stream()
-                .filter(a -> a.getNombre().equalsIgnoreCase(nombreArtista))
-                .findFirst().orElse(null);
+        Artista artista = Recital.getInstance().obtenerArtistaPorNombre(nombreArtista);
         if (artista == null) {
             System.out.println("Error: artista no encontrado: " + nombreArtista);
             return;
         }
 
         int removidas = 0;
-        for (Cancion c : recital.getCanciones()) {
+        for (Cancion c : Recital.getInstance().getCanciones()) {
             if (rol == null) {
                 // quitar de todos los roles donde esté
                 for (var entry : c.getAsignaciones().entrySet()) {

@@ -1,4 +1,4 @@
-package services;
+package domain;
 
 public class CostoInvitado implements Costo {
 

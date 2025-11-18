@@ -2,11 +2,6 @@ package controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import domain.Artista;
-import domain.Recital;
 import services.PrologService;
 
 public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion {
@@ -20,18 +15,9 @@ public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion 
 	
 	@Override
 	public void ejecutar() {
-		Recital recital = Recital.getInstance();
-		Set<String> nombresArtistas = recital.getArtistas().stream()
-			    .map(Artista::getNombre)
-			    .collect(Collectors.toSet());
-		
-        if (nombresArtistas.isEmpty()) {
-            System.out.println("El recital aún no tiene artistas cargados.");
-            return;
-        }
         
         try {
-        	int entrenamientos = prologService.entrenamientosMinimos(nombresArtistas);
+        	int entrenamientos = prologService.entrenamientosMinimos();
 			System.out.println("Entrenamientos mínimos requeridos: " + entrenamientos);
 			System.out.println("Costo total de entrenamientos: " + entrenamientos * costo);
         } catch (IOException e) {

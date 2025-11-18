@@ -9,16 +9,17 @@ import java.util.Map;
 import domain.Artista;
 import domain.Cancion;
 import domain.Contratacion;
+import domain.Costo;
+import domain.CostoBase;
+import domain.CostoEntrenamiento;
 import domain.Recital;
 import domain.TipoRol;
 
 public class ContratacionService {
 
-	private CancionService cancionService;
 	private ArtistaService artistaService;
 	
-	public ContratacionService(CancionService cancionService, ArtistaService artistaService) {
-		this.cancionService = cancionService;
+	public ContratacionService(ArtistaService artistaService) {
 		this.artistaService = artistaService;
 	}
 
@@ -35,6 +36,10 @@ public class ContratacionService {
                 .stream()
                 .anyMatch(c -> c.getArtista().equals(artista));
     }
+    
+    private boolean artistaYaContratadoEnCancion(Artista artista, Cancion cancion) {
+        return Recital.getInstance().estaContratadoEnCancion(artista, cancion);
+    }
 
     public double obtenerCosto(Cancion cancion, Artista artista) {
         Costo costo = new CostoBase(artista.getCostoBase(), cancion);
@@ -43,7 +48,7 @@ public class ContratacionService {
     }
     
     public void contratarArtistas(Cancion cancion) {
-        Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancionService.verRolesFaltantes(cancion));
+        Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancion.verRolesFaltantes());
         List<Contratacion> posibles = new ArrayList<Contratacion>();
         
         if (faltantes.isEmpty()) {
@@ -52,7 +57,6 @@ public class ContratacionService {
         }
 
         List<Artista> candidatos = new ArrayList<>(artistaService.getArtistasCandidatos());
-        Map<TipoRol, List<Artista>> actuales = cancion.getAsignaciones();
 
         System.out.println("--- Contratación automática para '" + cancion.getTitulo() + "' ---");
 
@@ -61,15 +65,10 @@ public class ContratacionService {
             int necesarios = e.getValue();
             int cubiertos = 0;
 
-            List<Artista> ya = actuales.getOrDefault(rol, List.of());
-
             for (Artista a : candidatos) {
                 if (cubiertos >= necesarios) break;
-
-                boolean yaEnCancion = ya.contains(a);
-                boolean yaEnRecital = artistaYaContratadoEnRecital(a);
                 
-                if (a.puedeOcuparRol(rol) && !yaEnCancion && !yaEnRecital) {
+                if (a.puedeOcuparRol(rol) && !artistaYaContratadoEnCancion(a, cancion)) {
                 	posibles.add(new Contratacion(a, cancion, rol, obtenerCosto(cancion, a), 0));
                 }
             }
@@ -91,7 +90,7 @@ public class ContratacionService {
             }
         }
 
-        Map<TipoRol, Integer> remanente = cancionService.verRolesFaltantes(cancion);
+        Map<TipoRol, Integer> remanente = cancion.verRolesFaltantes();
         if (remanente.isEmpty()) {
             System.out.println("Resultado: ¡Roles cubiertos!");
         } else {

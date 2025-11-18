@@ -9,7 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import repository.ArtistaRepository;
@@ -26,7 +25,7 @@ public class PrologService {
     	this.cancionRepository = cancionRepository;
 	}
 
-	public int entrenamientosMinimos(Set<String> nombresBaseOpcional)
+	public int entrenamientosMinimos()
             throws IOException, InterruptedException, URISyntaxException {
 
         String hechos, reglas, programa, consulta, objetivo, out,
@@ -37,8 +36,7 @@ public class PrologService {
         Process p;
         
         // 1) Hechos frescos desde repos
-        hechos = baseDeConocimientoService.generarHechos(
-                artistaRepository, cancionRepository, nombresBaseOpcional);
+        hechos = baseDeConocimientoService.generarHechos(artistaRepository, cancionRepository);
 
         // 2) Leer reglas desde el .pl en resources (classpath)
         try (InputStream is = Objects.requireNonNull(

@@ -1,25 +1,18 @@
 package controllers;
 
 import domain.Artista;
-import services.ArtistaService;
+import domain.Recital;
 
 import java.util.List;
 
 public class ListarArtistasCommand implements ComandoContratacion {
-	ArtistaService artistaService;
 	
-    // Firma que usa tu Menu (sin args)
-    public ListarArtistasCommand() {}
-
-    // Sobrecarga por si después querés inyectar servicio
-    public ListarArtistasCommand(services.ArtistaService artistaService) {
-    	this.artistaService = artistaService;
-    }
-
     @Override
     public void ejecutar() {
-        List<Artista> artistas = artistaService.getArtistasBase();
+        List<Artista> artistas = Recital.getInstance().getArtistasBase();
+        
         System.out.println("--- Artistas del Recital (" + artistas.size() + ") ---");
+        
         if (artistas.isEmpty()) {
             System.out.println("No hay artistas cargados/visibles en el recital.");
         } else {
@@ -28,7 +21,7 @@ public class ListarArtistasCommand implements ComandoContratacion {
             }
         }
         
-        List<Artista> artistasCandidatos = artistaService.getArtistasCandidatos();
+        List<Artista> artistasCandidatos = Recital.getInstance().getArtistasCandidatos();
         System.out.println("--- Artistas candidatos (" + artistasCandidatos.size() + ") ---");
         if (artistas.isEmpty()) {
             System.out.println("No hay artistas cargados/visibles en el recital.");

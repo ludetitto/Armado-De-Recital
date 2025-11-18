@@ -1,24 +1,27 @@
 package controllers;
 
+import java.util.Set;
+
+import domain.Cancion;
+import domain.Recital;
 import services.ArtistaService;
-import services.CancionService;
 import services.ContratacionService;
 
 public class ContratarArtistasParaRecitalCommand implements ComandoContratacion {
 
 	private ContratacionService contratacionService;
-
-    public ContratarArtistasParaRecitalCommand() {
-        this(null, null);
-    }
-
-    public ContratarArtistasParaRecitalCommand(ArtistaService artistaService, CancionService cancionService) {
-    	contratacionService = new ContratacionService(cancionService, artistaService);
+	
+    public ContratarArtistasParaRecitalCommand(ArtistaService artistaService) {
+    	contratacionService = new ContratacionService(artistaService);
     }
 
     @Override
     public void ejecutar() {
-        contratacionService.contratarArtistasRecital();
+        Set<Cancion> canciones = Recital.getInstance().getCanciones();
+
+        for(Cancion c : canciones) {
+        	contratacionService.contratarArtistas(c);
+        }
         
         System.out.println("-------------------------------------------------------------");
     }
