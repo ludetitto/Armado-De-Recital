@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Contratacion implements Comparable<Contratacion> {
     private Artista artista;

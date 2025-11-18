@@ -117,6 +117,7 @@ public class MenuContratacion extends BorderPane {
             "⚡ ACCIONES Y GESTIÓN",
             new MenuItem[] {
                 new MenuItem("✅", "Contratar (Canción)", this::opcionContratarCancion),
+                new MenuItem("✅", "Descontratar Artista (Canción)", this::opcionDescontratarCancion),
                 new MenuItem("✅", "Contratar (Recital)", this::opcionContratarRecital),
                 new MenuItem("💪", "Entrenar Artista", this::opcionEntrenarArtista),
                 new MenuItem("🔍", "Consultas Prolog", this::opcionConsultaProlog)
@@ -499,6 +500,24 @@ public class MenuContratacion extends BorderPane {
             var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
             String out = runAndCapture(cmd::ejecutar);
             var listar = new ListarRolesFaltantesCancionCommand(titulo);
+            String estado = runAndCapture(listar::ejecutar);
+            refreshConsola("✅ Contratación - Canción: " + titulo, 
+                          out + "\n─────────────────────────────────────\n" + estado, 
+                          "Contratación procesada exitosamente");
+            actualizarStatus("✅ Contratación completada");
+        });
+        
+        recitalRepository.setRecital(Recital.getInstance());
+    }
+    
+    private void opcionDescontratarCancion() {
+        TextInputDialog dlg = crearDialogoEstilizado("✅ Contratar Artistas para Canción", 
+                                                      "Ingrese el título de la canción a contratar");
+        dlg.showAndWait().ifPresent(titulo -> {
+            actualizarStatus("💼 Procesando contratación para: " + titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(artistaService, cancionService, titulo);
+            String out = runAndCapture(cmd::ejecutar);
+            var listar = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
             String estado = runAndCapture(listar::ejecutar);
             refreshConsola("✅ Contratación - Canción: " + titulo, 
                           out + "\n─────────────────────────────────────\n" + estado, 
