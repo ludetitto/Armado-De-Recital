@@ -63,7 +63,7 @@ public class Recital {
         }
 
         for (Artista artista : artistas) {
-            if (artista == null && (this.artistasBase.contains(artista) || this.artistasCandidatos.contains(artista)  )) {
+            if (artista == null || (this.artistasBase.contains(artista) || this.artistasCandidatos.contains(artista)  )) {
                 continue; 
             }
             
@@ -82,7 +82,7 @@ public class Recital {
         }
 
         for (Cancion cancion : canciones) {
-            if (cancion != null) {
+            if (cancion != null && canciones.contains(cancion)) {
                 this.canciones.add(cancion);
             }
         }
