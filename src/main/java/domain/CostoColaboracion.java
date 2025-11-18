@@ -2,7 +2,7 @@ package domain;
 
 public class CostoColaboracion extends CostoDecorator {
 
-	public CostoColaboracion(CostoBase inner) {
+	public CostoColaboracion(Costo inner) {
 		super(inner, cancion);
 	}
 
@@ -12,7 +12,7 @@ public class CostoColaboracion extends CostoDecorator {
 		boolean tieneColaboracion = false;
 		double costoColaboracion = costo;
 	       
-		for(Artista a : Costo.cancion.getArtistasAsignados()) {
+		for(Artista a : cancion.getArtistasAsignados()) {
 			if(artista.compartioBanda(a))
 				tieneColaboracion = true;
 		}

@@ -36,7 +36,8 @@ public enum TipoRol {
     public static TipoRol fromTexto(String raw) {
         String key = normalizar(raw);
         TipoRol r = MAP.get(key);
-        if (r == null) throw new IllegalArgumentException("Rol desconocido: " + raw);
+        if (r == null) 
+        	throw new IllegalArgumentException("Rol desconocido: " + raw);
         return r;
     }
 

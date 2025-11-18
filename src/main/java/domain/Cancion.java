@@ -96,18 +96,17 @@ public class Cancion {
     public Map<TipoRol, Integer> getRolesFaltantes() {
         Map<TipoRol, Integer> faltantes = new EnumMap<>(TipoRol.class);
 
-        // Parte 1: arrancamos con los requeridos
         for (Map.Entry<TipoRol, Integer> e : rolesRequeridos.entrySet()) {
             faltantes.put(e.getKey(), e.getValue());
         }
-        // Parte 2: restamos lo que ya está asignado
         for (Map.Entry<TipoRol, List<Artista>> e : asignaciones.entrySet()) {
             int asignados = e.getValue() == null ? 0 : e.getValue().size();
             if (asignados == 0) continue;
             TipoRol rol = e.getKey();
             faltantes.computeIfPresent(rol, (k, v) -> {
                 int r = v - asignados;
-                return (r > 0) ? r : null; // si quedó en 0 o negativo, lo quitamos
+                
+                return (r > 0) ? r : null;
             });
         }
         return faltantes;

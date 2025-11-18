@@ -98,6 +98,7 @@ public class MenuContratacion extends BorderPane {
                 new MenuItem("🎸", "Roles Faltantes (Recital)", this::opcionRolesFaltantesRecital),
                 new MenuItem("👥", "Listar Artistas", this::opcionListarContratados),
                 new MenuItem("🎵", "Listar Canciones", this::opcionListarCanciones),
+                new MenuItem("💰", "Listar Contrataciones por Cancion", this::opcionListarContratacionesPorCancion),
                 new MenuItem("🔚", "Reportar y Salir", this::reportarYsalir) 
             }
         );
@@ -533,6 +534,14 @@ public class MenuContratacion extends BorderPane {
     private void opcionListarCanciones() {
         actualizarStatus("📋 Generando listado de canciones ...");
         var cmd = new ListarCancionesCommand();
+        String out = runAndCapture(cmd::ejecutar);
+        refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
+        actualizarStatus("✅ Listado generado");
+    }
+    
+    private void opcionListarContratacionesPorCancion() {
+        actualizarStatus("📋 Generando listado de contrataciones por cancion ...");
+        var cmd = new ListarContratacionesPorCancionCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
         actualizarStatus("✅ Listado generado");

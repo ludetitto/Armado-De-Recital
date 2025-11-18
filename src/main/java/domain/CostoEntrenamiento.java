@@ -2,8 +2,8 @@ package domain;
 
 public class CostoEntrenamiento extends CostoDecorator {
 
-	public CostoEntrenamiento(CostoBase inner) {
-		super(inner, cancion);
+	public CostoEntrenamiento(Costo costo) {
+		super(costo, cancion);
 	}
 
 	@Override

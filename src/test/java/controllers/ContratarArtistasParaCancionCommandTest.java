@@ -1,7 +1,6 @@
 package controllers;
 
 import domain.*;
-import services.ArtistaService;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
@@ -21,7 +20,6 @@ public class ContratarArtistasParaCancionCommandTest {
 	private final Path rutaJsonReal = Paths.get("data", "recitalBandas_v3.json");
 	private final String tituloEsperado = "LIVE AID";
 	private ArtistaRepository artistaRepository = new ArtistaRepository();
-    private ArtistaService artistaService;
     private CancionRepository cancionRepository = new CancionRepository();
     
     private static final String TITULO_CANCION = "With or Without You";
@@ -31,7 +29,6 @@ public class ContratarArtistasParaCancionCommandTest {
         Recital.getInstance().setTitulo(tituloEsperado);
 
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-		this.artistaService = new ArtistaService(artistaRepository);
 		fuenteEntrada.cargar();
         
     }
@@ -45,7 +42,7 @@ public class ContratarArtistasParaCancionCommandTest {
         
         //System.out.println(rolesFaltantesAntes);
 
-        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(artistaService, TITULO_CANCION);
+        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(TITULO_CANCION);
 
         command.ejecutar();
 

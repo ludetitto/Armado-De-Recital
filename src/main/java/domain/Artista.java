@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//Le dice a Jackson que use los campos (protected) para leer/escribir.
+// Le dice a Jackson que use los campos (protected) para leer/escribir.
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -114,10 +114,6 @@ public class Artista {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-//	public void setRoles(EnumMap<TipoRol, EstadoRol> roles) {
-//		this.roles = roles;
-//	}
 
 	@JsonProperty("roles")
 	public void setRolesParaJackson(java.util.Set<domain.TipoRol> rolesCargados) {
