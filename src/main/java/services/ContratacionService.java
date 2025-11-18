@@ -24,11 +24,9 @@ public class ContratacionService {
 	}
 
 	public void generarContratacion(Artista artista, Cancion cancion, TipoRol rol) {
-        if (artistaYaContratadoEnRecital(artista)) {
-            throw new IllegalStateException("El artista " + artista.getNombre() + " ya está contratado en el recital");
-        }
 
         Recital.getInstance().agregarContratacion(new Contratacion(artista, cancion, rol, obtenerCosto(cancion, artista), 0));
+        cancion.asignarArtista(artista, rol);
     }
     
     private boolean artistaYaContratadoEnRecital(Artista artista) {
@@ -49,7 +47,7 @@ public class ContratacionService {
     
     public void contratarArtistas(Cancion cancion) {
         Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancion.verRolesFaltantes());
-        List<Contratacion> posibles = new ArrayList<Contratacion>();
+        
         
         if (faltantes.isEmpty()) {
             System.out.println("La canción '" + cancion.getTitulo() + "' ya tiene todos los roles cubiertos.");
@@ -60,7 +58,11 @@ public class ContratacionService {
 
         System.out.println("--- Contratación automática para '" + cancion.getTitulo() + "' ---");
 
+        Contratacion elegido;
+        
         for (Map.Entry<TipoRol, Integer> e : faltantes.entrySet()) {
+        	List<Contratacion> posibles = new ArrayList<Contratacion>();
+        	
             TipoRol rol = e.getKey();
             int necesarios = e.getValue();
             int cubiertos = 0;
@@ -78,7 +80,9 @@ public class ContratacionService {
             	return;
             }
             
-            Contratacion elegido = Collections.min(posibles);
+            
+            elegido = Collections.min(posibles);
+            
         	
             contratarArtista(cancion, elegido.getArtista(), rol);
         	cubiertos++;

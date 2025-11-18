@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -67,7 +68,7 @@ public class Recital {
                 continue; 
             }
             
-            if (artista.esBase() || estaContratado(artista)) {
+            if (artista.esBase()) {
                 this.artistasBase.add(artista); 
             } else {
                 this.artistasCandidatos.add(artista);
@@ -97,7 +98,6 @@ public class Recital {
     // Agregar contratación
     public void agregarContratacion(Contratacion contratacion) {
         contrataciones.add(contratacion);
-        artistasCandidatos.remove(contratacion.getArtista());
     }
     
     // Eliminar contratación
@@ -128,11 +128,7 @@ public class Recital {
     }
     
     public boolean estaContratadoEnCancion(Artista artista, Cancion cancion) {
-        return contrataciones.stream()
-                .anyMatch(c -> 
-                    c.getArtista().equals(artista) &&
-                    c.getCancion().equals(cancion)
-                );
+        return cancion.getArtistasAsignados().contains(artista);
     }
     
     // Getters
@@ -213,5 +209,14 @@ public class Recital {
 		        .findFirst()
 		        .orElse(null);
     }
+
+	public List<Artista> getArtistasConContratacion() {
+
+		return this.contrataciones.stream()
+	            .map(c -> c.getArtista())
+	            .distinct()
+	            .collect(Collectors.toList());
+		
+	}
     
 }
