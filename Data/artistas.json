@@ -1,11 +1,11 @@
 [
   {
-      "roles": [ "GUITARRA_ELECTRICA" , "VOZ_SECUNDARIA"],
-      "nombre": "Brian May",
-      "bandas": [ "Queen" ],
-      "costoBase": 0.0,
-      "tipo": "BASE"
-    },
+    "nombre": "Brian May",
+    "roles": ["GUITARRA_ELECTRICA", "VOZ_SECUNDARIA"],
+    "bandas": ["Queen"],
+    "costoBase": 0.0,
+    "tipo": "BASE"
+  },
   {
     "nombre": "Roger Taylor",
     "roles": ["BATERIA", "VOZ_SECUNDARIA"],
