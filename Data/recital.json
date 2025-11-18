@@ -173,7 +173,7 @@
         ],
         "GUITARRA_ELECTRICA": [
           {
-            "roles": [ "GUITARRA_ELECTRICA" ],
+            "roles": [ "GUITARRA_ELECTRICA" , "VOZ_SECUNDARIA"],
             "nombre": "Brian May",
             "bandas": [ "Queen" ],
             "costoBase": 0.0,
