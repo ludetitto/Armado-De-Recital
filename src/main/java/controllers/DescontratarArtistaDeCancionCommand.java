@@ -4,7 +4,7 @@ import domain.TipoRol;
 import services.RecitalService;
 
 
-public class DescontratarArtistaDeCancionCommand implements ComandoContratacion {
+public class DescontratarArtistaDeCancionCommand implements ComandoContratacion { // arrepentimiento bonus
 
     private final String tituloCancion;
     private final String nombreArtista;
@@ -20,11 +20,8 @@ public class DescontratarArtistaDeCancionCommand implements ComandoContratacion 
 
     @Override
     public void ejecutar() {
-        
-        
         recitalService.designarArtistaDeCancion(nombreArtista, tituloCancion, rol);
-        
-        recitalService.descontratar(nombreArtista);
+        recitalService.descontratar(nombreArtista, tituloCancion);
         
         System.out.println("Desasignado " + nombreArtista + " de '" + tituloCancion + "'");
 

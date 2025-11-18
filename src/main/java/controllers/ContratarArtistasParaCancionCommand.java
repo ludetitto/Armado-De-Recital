@@ -23,11 +23,7 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
 
     @Override
     public void ejecutar() {
-        Recital recital = Recital.getInstance();
-
-        Cancion cancion = recital.getCanciones().stream()
-                .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
-                .findFirst().orElse(null);
+        Cancion cancion = Recital.getInstance().obtenerCancionPorNombre(tituloCancion);
 
         contratacionService.contratarArtistas(cancion);
         
@@ -36,11 +32,10 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
 
     @Override
     public void deshacer() {
-        Recital recital = Recital.getInstance();
-        Cancion cancion = recital.getCanciones().stream()
-                .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
-                .findFirst().orElse(null);
-        if (cancion == null) return;
+        Cancion cancion = Recital.getInstance().obtenerCancionPorNombre(tituloCancion);
+        
+        if (cancion == null) 
+        	return;
 
         asignadosEnEstaEjecucion.forEach((rol, lista) -> {
             for (Artista a : lista) {

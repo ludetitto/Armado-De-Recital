@@ -9,18 +9,16 @@ import repository.CancionRepository;
 import java.text.Normalizer;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 public class BaseDeConocimientoService {
 
     public String generarHechos(ArtistaRepository artistaRepo,
-                                CancionRepository cancionRepo,
-                                Set<String> nombresBaseOpcional) {
+                                CancionRepository cancionRepo) {
         StringBuilder sb = new StringBuilder();
 
         for (Artista a : artistaRepo.todos()) {
             String aId = atom(a.getNombre());
-            boolean esBase = a.esBase() || (nombresBaseOpcional != null && nombresBaseOpcional.contains(a.getNombre()));
+            boolean esBase = a.esBase();
 
             if (esBase) {
                 sb.append("artista_base(").append(aId).append(").").append('\n');

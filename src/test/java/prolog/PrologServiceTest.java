@@ -53,7 +53,7 @@ class PrologServiceTest {
 
         // 3) Ejecutar PrologService (lee reglas .pl de resources)
         PrologService prolog = new PrologService(artistaRepository, cancionRepository);
-        int minimo = prolog.entrenamientosMinimos(Set.of());
+        int minimo = prolog.entrenamientosMinimos();
 
         // 4) Assert
         assertEquals(1, minimo);

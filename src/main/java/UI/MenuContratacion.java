@@ -486,7 +486,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionRolesFaltantesRecital() {
         actualizarStatus("🔍 Analizando roles del recital completo...");
-        var cmd = new ListarRolesFaltantesRecitalCommand(recitalService);
+        var cmd = new ListarRolesFaltantesRecitalCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎸 Análisis de Roles - Recital Completo", out, "Análisis global completado");
         actualizarStatus("✅ Análisis completado");
@@ -515,9 +515,9 @@ public class MenuContratacion extends BorderPane {
                                                       "Ingrese el título de la canción a contratar");
         dlg.showAndWait().ifPresent(titulo -> {
             actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(artistaService, cancionService, titulo);
+            var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
             String out = runAndCapture(cmd::ejecutar);
-            var listar = new ListarRolesFaltantesCancionCommand(cancionService, titulo);
+            var listar = new ListarRolesFaltantesCancionCommand(titulo);
             String estado = runAndCapture(listar::ejecutar);
             refreshConsola("✅ Contratación - Canción: " + titulo, 
                           out + "\n─────────────────────────────────────\n" + estado, 
@@ -549,7 +549,7 @@ public class MenuContratacion extends BorderPane {
 
         actualizarStatus("💪 Entrenando a: " + nombre);
         
-        var cmd = new EntrenarArtistaCommand(artistaService, nombre, rol);
+        var cmd = new EntrenarArtistaCommand(nombre, rol);
         String out = runAndCapture(cmd::ejecutar);
 
         refreshConsola("💪 Entrenamiento - " + nombre, out, null);
@@ -560,7 +560,7 @@ public class MenuContratacion extends BorderPane {
 
     private void opcionListarContratados() {
         actualizarStatus("📋 Generando listado de artistas...");
-        var cmd = new ListarArtistasCommand(artistaService);
+        var cmd = new ListarArtistasCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("👥 Artistas Contratados del Recital", out, "Listado generado correctamente");
         actualizarStatus("✅ Listado generado");

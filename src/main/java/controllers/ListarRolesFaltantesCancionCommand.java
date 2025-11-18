@@ -17,27 +17,19 @@ public class ListarRolesFaltantesCancionCommand implements ComandoContratacion {
 	
 	@Override
 	public void ejecutar() {
-		
-        Recital recital = Recital.getInstance();
-        
-        Cancion cancion = recital.getCanciones().stream()
-            .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
-            .findFirst()
-            .orElse(null);
+        Cancion cancion = Recital.getInstance().obtenerCancionPorNombre(tituloCancion);
         
         if (cancion == null) {
             System.out.println("Error: Canción '" + tituloCancion + "' no encontrada en el Recital.");
             return;
         }
-
-        Map<TipoRol, Integer> faltantesCancion = cancion.verRolesFaltantes();
         
-        System.out.println("\n--- Roles Faltantes para: " + cancion.getTitulo() + " ---");
-
-        if (faltantesCancion.isEmpty()) {
+        Map<TipoRol, Integer> rolesFaltantes = cancion.getRolesFaltantes();
+        
+        if (rolesFaltantes.isEmpty()) {
             System.out.println("¡Roles cubiertos! La canción está lista para tocarse."); 
         } else {
-            for (Entry<TipoRol, Integer> entry : faltantesCancion.entrySet()) {
+            for (Entry<TipoRol, Integer> entry : rolesFaltantes.entrySet()) {
                 TipoRol rol = entry.getKey();
                 Integer cantidad = entry.getValue();
                 System.out.println(" > " + rol + ": Faltan " + cantidad);

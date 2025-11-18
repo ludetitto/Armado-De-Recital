@@ -2,7 +2,6 @@ package services;
 
 import domain.Artista;
 import domain.Recital;
-import domain.TipoRol;
 import repository.ArtistaRepository;
 
 import java.util.ArrayList;
@@ -22,18 +21,7 @@ public class ArtistaService {
 	void verGrafoColaboraciones() {
 		// TODO: implementar
 	}
-
-	public boolean entrenarArtista(Artista artista, TipoRol rol) {
-	    if (Recital.getInstance().estaContratado(artista)) {
-	        return false;
-	    }
-	    if (!artista.puedeSerEntrenado()) {
-	        return false;
-	    }
-	    artista.entrenarEn(rol);
-	    return true;
-	}
-
+	
 	public List<Artista> getArtistasBase() {
 		List<Artista> artistas = artistaRepository.obtenerTodos(), contratados = new ArrayList<Artista>();
 

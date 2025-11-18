@@ -3,7 +3,6 @@ package controllers;
 import domain.Artista;
 import domain.Recital;
 import domain.TipoRol;
-import services.ArtistaService;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
@@ -29,7 +28,6 @@ public class EntrenarArtistaCommandTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     
     private ArtistaRepository artistaRepository = new ArtistaRepository();
-    private ArtistaService artistaService;
     private CancionRepository cancionRepository = new CancionRepository();
 
     private static final String NOMBRE_CANDIDATO = "Elton John";
@@ -44,7 +42,6 @@ public class EntrenarArtistaCommandTest {
     	Recital.getInstance().setTitulo(tituloEsperado);
 
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-		artistaService = new ArtistaService(artistaRepository);
 		
 		fuenteEntrada.cargar();
     }
@@ -60,7 +57,7 @@ public class EntrenarArtistaCommandTest {
     void testEjecutar_EntrenamientoExitosoDeRolNuevo() {
 
     	
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(artistaService, NOMBRE_CANDIDATO, ROL_NUEVO.name());
+        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_CANDIDATO, ROL_NUEVO.name());
 
         
         command.ejecutar();
@@ -83,7 +80,7 @@ public class EntrenarArtistaCommandTest {
     @Test
     void testEjecutar_LanzaExcepcionSiArtistaNoExiste() {
 
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(artistaService, NOMBRE_INEXISTENTE, ROL_NUEVO.name());
+        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_INEXISTENTE, ROL_NUEVO.name());
 
 
         assertThrows(IllegalArgumentException.class, new Executable() {
@@ -97,7 +94,7 @@ public class EntrenarArtistaCommandTest {
     @Test
     void testDeshacer_MuestraAdvertenciaDeNoReversion() {
 
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(artistaService, NOMBRE_CANDIDATO, ROL_NUEVO.name());
+        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_CANDIDATO, ROL_NUEVO.name());
 
         command.deshacer();
 

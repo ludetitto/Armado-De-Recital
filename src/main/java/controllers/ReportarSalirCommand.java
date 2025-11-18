@@ -19,7 +19,6 @@ public class ReportarSalirCommand implements ComandoContratacion {
 
 	@Override
     public void ejecutar() {
-
 		recitalService.reportarEstadoActual(recitalRepository, path);
     }
 

@@ -43,7 +43,6 @@ public class Recital {
     	
     }
     
-    
     // Agregar artista base
     public void agregarArtistaBase(Artista artista) {
         if (artista.esBase()) {
@@ -128,6 +127,14 @@ public class Recital {
         return faltantesTotal;
     }
     
+    public boolean estaContratadoEnCancion(Artista artista, Cancion cancion) {
+        return contrataciones.stream()
+                .anyMatch(c -> 
+                    c.getArtista().equals(artista) &&
+                    c.getCancion().equals(cancion)
+                );
+    }
+    
     // Getters
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
@@ -153,7 +160,6 @@ public class Recital {
         return todosLosArtistas;
     }
     
-  
     @Override
     public String toString() {
         return String.format("Recital: %s - Canciones: %d - Contrataciones: %d - Costo Total: $%.2f",
@@ -168,6 +174,7 @@ public class Recital {
         Recital.instance = recitalCargado;
     }
     
+    @JsonIgnore
     public boolean estaContratado(Artista artista) {
 		List<Contratacion> contrataciones = getContrataciones();
 		boolean estaContratado = false;
@@ -179,5 +186,30 @@ public class Recital {
 		
 		return estaContratado;
 	}
+    
+    @JsonIgnore
+    public Artista obtenerArtistaPorNombre(String nombreArtista) {
+		return  getArtistas().stream()
+		        .filter(c -> c.getNombre().equalsIgnoreCase(nombreArtista))
+		        .findFirst().orElse(null);
+    }
+    
+    @JsonIgnore
+    public Cancion obtenerCancionPorNombre(String tituloCancion) {
+		return  getCanciones().stream()
+		        .filter(c -> c.getTitulo().equalsIgnoreCase(tituloCancion))
+		        .findFirst().orElse(null);
+    }
 
+    @JsonIgnore
+    public Contratacion obtenerContratacionPorArtistaYCancion(Cancion cancion, Artista artista) {
+		return  getContrataciones().stream()
+		        .filter(c -> 
+	            c.getArtista().equals(artista) &&
+	            c.getCancion().equals(cancion)
+		        )
+		        .findFirst()
+		        .orElse(null);
+    }
+    
 }

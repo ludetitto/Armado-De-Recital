@@ -1,7 +1,6 @@
 package controllers;
 
 import domain.Recital;
-import services.RecitalService;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
@@ -25,7 +24,6 @@ public class ListarRolesFaltantesRecitalCommandTest {
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     
-    private RecitalService recitalService;
     private ArtistaRepository artistaRepository;
     private CancionRepository cancionRepository;
     
@@ -48,7 +46,6 @@ public class ListarRolesFaltantesRecitalCommandTest {
         resetSingletons();
         
         System.setOut(new PrintStream(outputStreamCaptor));
-        this.recitalService = new RecitalService();
     }
     
     @AfterEach
@@ -69,7 +66,7 @@ public class ListarRolesFaltantesRecitalCommandTest {
         assertEquals(TITULO_ESPERADO, recital.getTitulo()); 
         
      
-        ListarRolesFaltantesRecitalCommand command = new ListarRolesFaltantesRecitalCommand(recitalService);
+        ListarRolesFaltantesRecitalCommand command = new ListarRolesFaltantesRecitalCommand();
         command.ejecutar();
         
         String output = outputStreamCaptor.toString().trim();
