@@ -21,13 +21,10 @@ public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion 
 			System.out.println("Entrenamientos mínimos requeridos: " + entrenamientos);
 			System.out.println("Costo total de entrenamientos: " + entrenamientos * costo);
         } catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -35,7 +32,6 @@ public class MostrarEntrenamientosMinimosCommand implements ComandoContratacion 
 
 	@Override
 	public void deshacer() {
-		// TODO Auto-generated method stub
 		
 	}
 

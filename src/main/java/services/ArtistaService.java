@@ -15,11 +15,9 @@ public class ArtistaService {
 	}
 
 	public ArtistaService() {
-		// TODO Auto-generated constructor stub
 	}
 
 	void verGrafoColaboraciones() {
-		// TODO: implementar
 	}
 	
 	public List<Artista> getArtistasBase() {

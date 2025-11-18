@@ -34,6 +34,5 @@ public class ListarCancionesCommand implements ComandoContratacion {
 
     @Override
     public void deshacer() {
-        // Listado: no hay nada que deshacer
     }
 }

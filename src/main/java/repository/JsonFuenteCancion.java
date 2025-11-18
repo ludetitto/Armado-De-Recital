@@ -26,7 +26,6 @@ public class JsonFuenteCancion implements FuenteCancion {
         this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    // --- CARGAR ---
     @Override
     public List<Cancion> cargar() {
         try {
@@ -53,7 +52,6 @@ public class JsonFuenteCancion implements FuenteCancion {
         }
     }
 
-    // --- GUARDAR ---
     @Override
     public void guardar(List<Cancion> canciones) {
          if (canciones == null || canciones.isEmpty()) {

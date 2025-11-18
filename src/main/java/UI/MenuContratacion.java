@@ -44,17 +44,14 @@ public class MenuContratacion extends BorderPane {
 
     private static final DateTimeFormatter TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
-    // Para resaltar botón seleccionado
     private Button botonSeleccionado = null;
 
     public MenuContratacion() {
         setStyle("-fx-background-color: #f0f2f5;");
         
-        // Panel lateral izquierdo - MÁS ANCHO
         VBox panelLateral = crearPanelLateral();
         setLeft(panelLateral);
 
-        // Área central-derecha
         VBox areaCentral = crearAreaCentral();
         setCenter(areaCentral);
 
@@ -75,29 +72,26 @@ public class MenuContratacion extends BorderPane {
 
     private VBox crearPanelLateral() {
         VBox panel = new VBox();
-        panel.setPrefWidth(320);  // AUMENTADO de 280 a 320
+        panel.setPrefWidth(320);  
         panel.setStyle(
             "-fx-background-color: linear-gradient(to bottom, #2c3e50 0%, #34495e 100%);" +
             "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0, 3, 0);"
         );
         
-        // Header del panel lateral
         VBox header = new VBox(8);
-        header.setPadding(new Insets(20, 20, 20, 20));  // PADDING REDUCIDO
+        header.setPadding(new Insets(20, 20, 20, 20));  
         header.setAlignment(Pos.CENTER_LEFT);
         header.setStyle("-fx-background-color: #1a252f;");
       
                 
-        // ScrollPane para el menú
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToWidth(true);
         scrollPane.setStyle("-fx-background: transparent; -fx-background-color: transparent;");
-        scrollPane.setPadding(new Insets(10, 0, 10, 0));  // PADDING REDUCIDO
+        scrollPane.setPadding(new Insets(10, 0, 10, 0)); 
         
-        VBox menuContainer = new VBox(12);  // ESPACIADO REDUCIDO de 20 a 12
-        menuContainer.setPadding(new Insets(8, 15, 8, 15));  // PADDING REDUCIDO
+        VBox menuContainer = new VBox(12);  
+        menuContainer.setPadding(new Insets(8, 15, 8, 15)); 
         
-        // Sección Consultas
         VBox seccionConsultas = crearSeccionMenu(
             "📊 CONSULTAS Y REPORTES",
             new MenuItem[] {
@@ -105,14 +99,13 @@ public class MenuContratacion extends BorderPane {
                 new MenuItem("🎸", "Roles Faltantes (Recital)", this::opcionRolesFaltantesRecital),
                 new MenuItem("👥", "Listar Artistas", this::opcionListarContratados),
                 new MenuItem("🎵", "Listar Canciones", this::opcionListarCanciones),
-                new MenuItem("🔚", "Reportar y Salir", this::reportarYsalir) // guadar un json de recital y salir
+                new MenuItem("🔚", "Reportar y Salir", this::reportarYsalir) 
             }
         );
         
         Separator sep = new Separator();
         sep.setStyle("-fx-background-color: rgba(255,255,255,0.1);");
         
-        // Sección Acciones
         VBox seccionAcciones = crearSeccionMenu(
             "⚡ ACCIONES Y GESTIÓN",
             new MenuItem[] {
@@ -128,9 +121,8 @@ public class MenuContratacion extends BorderPane {
         scrollPane.setContent(menuContainer);
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         
-        // Footer del panel lateral
-        VBox footer = new VBox(4);  // ESPACIADO REDUCIDO
-        footer.setPadding(new Insets(12));  // PADDING REDUCIDO
+        VBox footer = new VBox(4);  
+        footer.setPadding(new Insets(12));  
         footer.setAlignment(Pos.CENTER);
         footer.setStyle(
             "-fx-background-color: #1a252f;" +
@@ -139,13 +131,13 @@ public class MenuContratacion extends BorderPane {
         );
         
         Label footerText = new Label("UNLaM");
-        footerText.setFont(Font.font("System", FontWeight.LIGHT, 10));  // TAMAÑO REDUCIDO
+        footerText.setFont(Font.font("System", FontWeight.LIGHT, 10));  
         footerText.setStyle("-fx-text-fill: rgba(255,255,255,0.6); -fx-text-alignment: center;");
         footerText.setWrapText(true);
         footerText.setAlignment(Pos.CENTER);
         
         Label paradigmas = new Label("Paradigmas de Programación");
-        paradigmas.setFont(Font.font("System", FontWeight.LIGHT, 9));  // TAMAÑO REDUCIDO
+        paradigmas.setFont(Font.font("System", FontWeight.LIGHT, 9));  
         paradigmas.setStyle("-fx-text-fill: rgba(255,255,255,0.5);");
         
         footer.getChildren().addAll(footerText, paradigmas);
@@ -155,11 +147,11 @@ public class MenuContratacion extends BorderPane {
     }
     
     private VBox crearSeccionMenu(String titulo, MenuItem[] items) {
-        VBox seccion = new VBox(6);  // ESPACIADO REDUCIDO de 8 a 6
+        VBox seccion = new VBox(6); 
         
         Label lblTitulo = new Label(titulo);
-        lblTitulo.setFont(Font.font("System", FontWeight.BOLD, 12));  // TAMAÑO REDUCIDO
-        lblTitulo.setStyle("-fx-text-fill: #f39c12; -fx-padding: 0 0 4 8;");  // PADDING REDUCIDO
+        lblTitulo.setFont(Font.font("System", FontWeight.BOLD, 12)); 
+        lblTitulo.setStyle("-fx-text-fill: #f39c12; -fx-padding: 0 0 4 8;"); 
         
         seccion.getChildren().add(lblTitulo);
         
@@ -174,24 +166,24 @@ public class MenuContratacion extends BorderPane {
     private Button crearBotonMenu(String icono, String texto, Runnable accion) {
         HBox contenido = new HBox(12);
         contenido.setAlignment(Pos.CENTER_LEFT);
-        contenido.setPadding(new Insets(10, 15, 10, 15));  // PADDING REDUCIDO (era 12)
+        contenido.setPadding(new Insets(10, 15, 10, 15));  
         
         Label lblIcono = new Label(icono);
-        lblIcono.setFont(Font.font(18));  // TAMAÑO REDUCIDO de 20 a 18
+        lblIcono.setFont(Font.font(18)); 
         lblIcono.setStyle("-fx-text-fill: white;");
-        lblIcono.setMinWidth(25);  // ANCHO REDUCIDO
+        lblIcono.setMinWidth(25); 
         
         Label lblTexto = new Label(texto);
-        lblTexto.setFont(Font.font("System", FontWeight.NORMAL, 13));  // TAMAÑO AUMENTADO de 12 a 13
+        lblTexto.setFont(Font.font("System", FontWeight.NORMAL, 13));
         lblTexto.setStyle("-fx-text-fill: rgba(255,255,255,0.95);");
-        lblTexto.setWrapText(false);  // SIN WRAP para que quede en una línea
+        lblTexto.setWrapText(false); 
         
         contenido.getChildren().addAll(lblIcono, lblTexto);
         
         Button btn = new Button();
         btn.setGraphic(contenido);
         btn.setMaxWidth(Double.MAX_VALUE);
-        btn.setPrefHeight(45);  // ALTURA REDUCIDA de 60 a 45
+        btn.setPrefHeight(45); 
         
         String estiloNormal = 
             "-fx-background-color: transparent;" +
@@ -228,15 +220,12 @@ public class MenuContratacion extends BorderPane {
         });
         
         btn.setOnAction(e -> {
-            // Resetear botón anterior
             if (botonSeleccionado != null) {
                 botonSeleccionado.setStyle(estiloNormal);
             }
-            // Marcar nuevo botón
             botonSeleccionado = btn;
             btn.setStyle(estiloSeleccionado);
             
-            // Ejecutar acción
             accion.run();
         });
         
@@ -248,7 +237,6 @@ public class MenuContratacion extends BorderPane {
         area.setPadding(new Insets(25, 30, 25, 30));
         VBox.setVgrow(area, Priority.ALWAYS);
         
-        // Header superior
         VBox header = new VBox(10);
         header.setPadding(new Insets(25, 30, 25, 30));
         header.setAlignment(Pos.CENTER_LEFT);
@@ -268,11 +256,9 @@ public class MenuContratacion extends BorderPane {
         
         header.getChildren().addAll(titulo, subtitulo);
         
-        // Panel de consola
         VBox consolaPanel = crearPanelConsola();
         VBox.setVgrow(consolaPanel, Priority.ALWAYS);
         
-        // Footer con status
         HBox footer = crearFooterCentral();
         
         area.getChildren().addAll(header, consolaPanel, footer);
@@ -283,7 +269,6 @@ public class MenuContratacion extends BorderPane {
         VBox panel = new VBox(0);
         VBox.setVgrow(panel, Priority.ALWAYS);
         
-        // Header de la consola
         HBox consolaHeader = new HBox(15);
         consolaHeader.setAlignment(Pos.CENTER_LEFT);
         consolaHeader.setPadding(new Insets(15, 20, 15, 20));
@@ -405,7 +390,6 @@ public class MenuContratacion extends BorderPane {
                 if (urlTest != null) ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
-                //ruta = Paths.get("..", "data", "recital.json").toAbsolutePath().normalize();
                 ruta = Paths.get( "Data", "recital.json").toAbsolutePath().normalize();
             }
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
@@ -510,24 +494,6 @@ public class MenuContratacion extends BorderPane {
         recitalRepository.setRecital(Recital.getInstance());
     }
     
-    private void opcionDescontratarCancion() {
-        TextInputDialog dlg = crearDialogoEstilizado("✅ Contratar Artistas para Canción", 
-                                                      "Ingrese el título de la canción a contratar");
-        dlg.showAndWait().ifPresent(titulo -> {
-            actualizarStatus("💼 Procesando contratación para: " + titulo);
-            var cmd = new ContratarArtistasParaCancionCommand(artistaService, titulo);
-            String out = runAndCapture(cmd::ejecutar);
-            var listar = new ListarRolesFaltantesCancionCommand(titulo);
-            String estado = runAndCapture(listar::ejecutar);
-            refreshConsola("✅ Contratación - Canción: " + titulo, 
-                          out + "\n─────────────────────────────────────\n" + estado, 
-                          "Contratación procesada exitosamente");
-            actualizarStatus("✅ Contratación completada");
-        });
-        
-        recitalRepository.setRecital(Recital.getInstance());
-    }
-
     private void opcionContratarRecital() {
         actualizarStatus("💼 Procesando contratación masiva del recital...");
         var cmd = new ContratarArtistasParaRecitalCommand(artistaService);
@@ -577,23 +543,18 @@ public class MenuContratacion extends BorderPane {
     private void reportarYsalir() {
         actualizarStatus("📋 Generando reporte del recital...");
         
-        // no se donde esta la instancia del recital y me estoy confundiendo xd
         var cmd = new ReportarSalirCommand(Paths.get("Data", "recitalFinal.json"), recitalRepository,recitalService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
         actualizarStatus("✅ Reporte generado");
         
         
-     // 2. Crear una transición de pausa de 5 segundos
         PauseTransition delay = new PauseTransition(Duration.seconds(3));
         
-        // 3. Definir la acción a ejecutar después de la pausa
         delay.setOnFinished(event -> {
-            // Cierra la aplicación JavaFX de forma segura
             Platform.exit();
         });
         
-        // 4. Iniciar el temporizador
         delay.play();
         
     }
@@ -632,11 +593,9 @@ public class MenuContratacion extends BorderPane {
         grid.setHgap(12);
         grid.setVgap(10);
 
-        // Campo 1: Nombre
         TextField txtNombre = new TextField();
         txtNombre.setPromptText("Nombre del artista");
 
-        // Campo 2: Rol (ComboBox)
         ComboBox<String> comboRol = new ComboBox<>();
         comboRol.getItems().addAll(
             "BAJO",
@@ -647,7 +606,6 @@ public class MenuContratacion extends BorderPane {
         );
         comboRol.setPromptText("Seleccione un rol a entrenar");
 
-        // Ubicar en la grilla
         grid.add(new Label("Artista:"), 0, 0);
         grid.add(txtNombre,         1, 0);
 
@@ -656,7 +614,6 @@ public class MenuContratacion extends BorderPane {
 
         dialog.getDialogPane().setContent(grid);
 
-        // Convertir resultado
         dialog.setResultConverter(btn -> {
             if (btn == okButton) {
                 return new Pair<>(txtNombre.getText(), comboRol.getValue());
@@ -704,7 +661,6 @@ public class MenuContratacion extends BorderPane {
         consola.positionCaret(consola.getText().length());
     }
     
-    // Clase auxiliar para items de menú
     private static class MenuItem {
         String icono;
         String texto;
