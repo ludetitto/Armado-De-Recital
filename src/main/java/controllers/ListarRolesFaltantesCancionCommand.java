@@ -40,6 +40,5 @@ public class ListarRolesFaltantesCancionCommand implements ComandoContratacion {
 
 	@Override
 	public void deshacer() {
-		// La acción de listar (consultar) es de solo lectura y no requiere deshacer.
 	}
 }

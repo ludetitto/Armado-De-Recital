@@ -35,6 +35,5 @@ public class ListarArtistasCommand implements ComandoContratacion {
 
     @Override
     public void deshacer() {
-        // no-op
     }
 }

@@ -18,6 +18,7 @@ public class DescontratarArtistaDeRecitalCommand implements ComandoContratacion 
     @Override
     public void ejecutar() {
         Artista artista = Recital.getInstance().obtenerArtistaPorNombre(nombreArtista);
+        
         if (artista == null) {
             System.out.println("Error: artista no encontrado: " + nombreArtista);
             return;

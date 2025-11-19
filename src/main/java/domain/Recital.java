@@ -206,5 +206,10 @@ public class Recital {
 	            .collect(Collectors.toList());
 		
 	}
-    
+
+	public int getContratacionesDeCancion(Cancion cancion) {
+		return  (int) getContrataciones().stream()
+		        .filter(c -> c.getCancion().equals(cancion))
+		        .count();
+	}
 }

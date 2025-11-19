@@ -31,6 +31,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 public class MenuContratacion extends BorderPane {
 
@@ -41,6 +42,7 @@ public class MenuContratacion extends BorderPane {
     private final Label statusLabel = new Label("⚡ Sistema iniciado correctamente");
     private RecitalRepository recitalRepository;
 
+    final Logger logger = Logger.getLogger(MenuContratacion.class.getName());
     private static final DateTimeFormatter TS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
     private Button botonSeleccionado = null;
@@ -98,6 +100,7 @@ public class MenuContratacion extends BorderPane {
                 new MenuItem("🎸", "Roles Faltantes (Recital)", this::opcionRolesFaltantesRecital),
                 new MenuItem("👥", "Listar Artistas", this::opcionListarContratados),
                 new MenuItem("🎵", "Listar Canciones", this::opcionListarCanciones),
+                new MenuItem("💰", "Listar Contrataciones por Cancion", this::opcionListarContratacionesPorCancion),
                 new MenuItem("🔚", "Reportar y Salir", this::reportarYsalir) 
             }
         );
@@ -380,36 +383,56 @@ public class MenuContratacion extends BorderPane {
     	CancionRepository cancionRepository = new CancionRepository();
     	
         try {
-            var url = getClass().getResource("/data/recital.json");
+            var url = getClass().getResource("/Data/recital.json");
             Path ruta = null;
+            logger.info("Cargando datos de recital.json");
+            
             if (url != null) {
                 ruta = Paths.get(url.toURI());
+                logger.warning("No se encontró recital.json");
             } else {
-                var urlTest = getClass().getResource("/data/recitalTest.json");
-                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+                var urlTest = getClass().getResource("/Data/recitalTest.json");
+                logger.info("Cargando datos de recitalTest.json");
+                
+                if (urlTest != null) 
+                	ruta = Paths.get(urlTest.toURI());
             }
             if (ruta == null) {
                 ruta = Paths.get( "Data", "recital.json").toAbsolutePath().normalize();
+                logger.warning("No se encontró recitalTest.json");
+                logger.info("Cargando datos de recital.json desde path absoluto");
             }
+            
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
-            recitalRepository=fuente.cargar();
+            recitalRepository = fuente.cargar();
+            
             actualizarStatus("✅ Datos cargados exitosamente");
+            logger.info("Se cargaron los datos exitosamente");
+            
         } catch (Exception ex) {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
+            logger.severe("Error en la carga de datos de recital.json");
         }
         
         try {
-            var url = getClass().getResource("/data/artistas.json");
+            var url = getClass().getResource("/Data/artistas.json");
             Path ruta = null;
+            logger.info("Cargando datos de artistas.json");
+            
             if (url != null) {
                 ruta = Paths.get(url.toURI());
             } else {
-                var urlTest = getClass().getResource("/data/artistasTest.json");
-                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+            	logger.warning("No se encontró artistas.json");
+                var urlTest = getClass().getResource("/Data/artistasTest.json");
+                if (urlTest != null) 
+                	ruta = Paths.get(urlTest.toURI());
+                logger.info("Cargando datos de artistasTest.json");
             }
             if (ruta == null) {
                 ruta = Paths.get("Data", "artistas.json").toAbsolutePath().normalize();
+                logger.warning("No se encontró artistasTest.json");
+                logger.info("Cargando datos de artistas.json desde path absoluto");
             }
             
             
@@ -418,34 +441,45 @@ public class MenuContratacion extends BorderPane {
             fuente.cargar();
             
             actualizarStatus("✅ Datos cargados exitosamente");
+            logger.info("Se cargaron los datos exitosamente");
         } catch (Exception ex) {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
+            logger.severe("Error en la carga de datos de artistas.json");
         }
         
         try {
-            var url = getClass().getResource("/data/canciones.json");
+            var url = getClass().getResource("/Data/canciones.json");
             Path ruta = null;
             if (url != null) {
                 ruta = Paths.get(url.toURI());
+                logger.info("Cargando datos de canciones.json");
             } else {
-                var urlTest = getClass().getResource("/data/cancionesTest.json");
-                if (urlTest != null) ruta = Paths.get(urlTest.toURI());
+            	logger.warning("No se encontró canciones.json");
+                var urlTest = getClass().getResource("/Data/cancionesTest.json");
+                if (urlTest != null) 
+                	ruta = Paths.get(urlTest.toURI());
+                logger.info("Cargando datos de cancionesTest.json");
             }
             if (ruta == null) {
                 ruta = Paths.get("Data", "canciones.json").toAbsolutePath().normalize();
+                logger.warning("No se encontró cancionesTest.json");
+                logger.info("Cargando datos de canciones.json desde path absoluto");
             }
             
             FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
             fuente.cargar();
             
             actualizarStatus("✅ Datos cargados exitosamente");
+            logger.info("Se cargaron los datos exitosamente");
         } catch (Exception ex) {
             refreshConsola("❌ Error Crítico", "Error al inicializar datos: " + ex.getMessage(), null);
             actualizarStatus("⚠️ Error en la carga de datos");
+            logger.severe("Error en la carga de datos de canciones.json");
         }
         
-        recitalRepository.setRecital(Recital.getInstance());
+        recitalRepository = new RecitalRepository(Recital.getInstance());
+//        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void actualizarStatus(String mensaje) {
@@ -462,6 +496,7 @@ public class MenuContratacion extends BorderPane {
             var cmd = new ListarRolesFaltantesCancionCommand(titulo);
             String out = runAndCapture(cmd::ejecutar);
             refreshConsola("🎤 Análisis de Roles - Canción: " + titulo, out, "Consulta completada exitosamente");
+            logger.info("Los roles faltantes se consultaron con éxito");
             actualizarStatus("✅ Análisis completado");
         });
     }
@@ -471,6 +506,7 @@ public class MenuContratacion extends BorderPane {
         var cmd = new ListarRolesFaltantesRecitalCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎸 Análisis de Roles - Recital Completo", out, "Análisis global completado");
+        logger.info("Los roles faltantes se consultaron con éxito");
         actualizarStatus("✅ Análisis completado");
     }
 
@@ -486,6 +522,7 @@ public class MenuContratacion extends BorderPane {
             refreshConsola("✅ Contratación - Canción: " + titulo, 
                           out + "\n─────────────────────────────────────\n" + estado, 
                           "Contratación procesada exitosamente");
+            logger.info("Las contrataciones se realizaron con éxito");
             actualizarStatus("✅ Contratación completada");
         });
         
@@ -497,6 +534,7 @@ public class MenuContratacion extends BorderPane {
         var cmd = new ContratarArtistasParaRecitalCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("✅ Contratación Masiva - Recital Completo", out, "Proceso de contratación finalizado");
+        logger.info("Las contrataciones se realizaron con éxito");
         actualizarStatus("✅ Contratación masiva completada");
         
         recitalRepository.setRecital(Recital.getInstance());
@@ -517,6 +555,7 @@ public class MenuContratacion extends BorderPane {
         String out = runAndCapture(cmd::ejecutar);
 
         refreshConsola("💪 Entrenamiento - " + nombre, out, null);
+        logger.info("El entrenamiento se realizó con éxito");
         actualizarStatus("✅ Entrenamiento completado");
         
         recitalRepository.setRecital(Recital.getInstance());
@@ -527,6 +566,7 @@ public class MenuContratacion extends BorderPane {
         var cmd = new ListarArtistasCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("👥 Artistas Contratados del Recital", out, "Listado generado correctamente");
+        logger.info("Las contrataciones se listaron con éxito");
         actualizarStatus("✅ Listado generado");
     }
 
@@ -535,7 +575,32 @@ public class MenuContratacion extends BorderPane {
         var cmd = new ListarCancionesCommand();
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
+        logger.info("Las canciones se listaron con éxito");
         actualizarStatus("✅ Listado generado");
+    }
+    
+    private void opcionListarContratacionesPorCancion() {
+        actualizarStatus("📋 Generando listado de contrataciones por cancion ...");
+        var cmd = new ListarContratacionesPorCancionCommand();
+        String out = runAndCapture(cmd::ejecutar);
+        refreshConsola("🎵 Repertorio de Canciones del Recital", out, "Listado generado correctamente");
+        logger.info("Las contrataciones se listaron con éxito");
+        actualizarStatus("✅ Listado generado");
+    }
+    
+    private void opcionConsultaProlog() {
+    	TextInputDialog dlg = crearDialogoEstilizado("📋 Consultando cantidad mínima de entrenamientos necesarios ...", 
+                "Ingrese costo base");
+		dlg.showAndWait().ifPresent(costo -> {
+		actualizarStatus("💼 Procesando cantidad mínima de entrenamientos bajo costo de: $" + costo);
+		var cmd = new MostrarEntrenamientosMinimosCommand(prologService, Double.parseDouble(costo));
+		String out = runAndCapture(cmd::ejecutar);
+		refreshConsola("🔍 Resultado de Consulta Prolog", 
+		out + "\n─────────────────────────────────────\n", 
+		"Consulta ejecutada");
+		logger.info("La consulta al servicio de Prolog se realizó con éxito");
+        actualizarStatus("✅ Consulta Prolog ejecutada");
+		});
     }
     
     private void reportarYsalir() {
@@ -544,6 +609,7 @@ public class MenuContratacion extends BorderPane {
         var cmd = new ReportarSalirCommand(Paths.get("Data", "recitalFinal.json"), recitalRepository,recitalService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
+        logger.info("Los datos del recital se guardaron con éxito");
         actualizarStatus("✅ Reporte generado");
         
         
@@ -555,20 +621,6 @@ public class MenuContratacion extends BorderPane {
         
         delay.play();
         
-    }
-
-    private void opcionConsultaProlog() {
-    	TextInputDialog dlg = crearDialogoEstilizado("📋 Consultando cantidad mínima de entrenamientos necesarios ...", 
-                "Ingrese costo base");
-		dlg.showAndWait().ifPresent(costo -> {
-		actualizarStatus("💼 Procesando cantidad mínima de entrenamientos bajo costo de: $" + costo);
-		var cmd = new MostrarEntrenamientosMinimosCommand(prologService, Double.parseDouble(costo));
-		String out = runAndCapture(cmd::ejecutar);
-		refreshConsola("🔍 Resultado de Consulta Prolog", 
-		out + "\n─────────────────────────────────────\n", 
-		"Consulta ejecutada");
-        actualizarStatus("✅ Consulta Prolog ejecutada");
-		});
     }
 
     private TextInputDialog crearDialogoEstilizado(String titulo, String mensaje) {
@@ -595,7 +647,7 @@ public class MenuContratacion extends BorderPane {
         txtNombre.setPromptText("Nombre del artista");
 
         ComboBox<String> comboRol = new ComboBox<>();
-        comboRol.getItems().addAll(TipoRol.getAllRoles());
+        comboRol.getItems().addAll(TipoRol.obtenerTodosLosRoles());
         comboRol.setPromptText("Seleccione un rol a entrenar");
 
         grid.add(new Label("Artista:"), 0, 0);

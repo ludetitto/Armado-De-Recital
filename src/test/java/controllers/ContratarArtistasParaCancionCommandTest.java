@@ -1,16 +1,17 @@
 package controllers;
 
 import domain.*;
-import services.ArtistaService;
 import repository.ArtistaRepository;
 import repository.CancionRepository;
 import repository.FuenteRecital;
+import repository.JsonFuenteArtista;
+import repository.JsonFuenteCancion;
 import repository.JsonFuenteRecital;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,50 +19,62 @@ import java.nio.file.Paths;
 public class ContratarArtistasParaCancionCommandTest {
 
     
-	private final Path rutaJsonReal = Paths.get("data", "recitalBandas_v3.json");
+	private final Path rutaJsonReal = Paths.get("data", "recital.json"),
+				  	   rutaJsonArtista = Paths.get("data", "artista.json"),
+				  	   rutaJsonCancion = Paths.get("data", "canciones.json");
+	
 	private final String tituloEsperado = "LIVE AID";
 	private ArtistaRepository artistaRepository = new ArtistaRepository();
-    private ArtistaService artistaService;
     private CancionRepository cancionRepository = new CancionRepository();
     
-    private static final String TITULO_CANCION = "With or Without You";
+    private static final String TITULO_CANCION = "Rocket Man";
     @BeforeEach
     void setUp() throws Exception {
 
         Recital.getInstance().setTitulo(tituloEsperado);
 
+        new JsonFuenteArtista(rutaJsonArtista, artistaRepository);
+        new JsonFuenteCancion(rutaJsonCancion, cancionRepository);
+        
 		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-		this.artistaService = new ArtistaService(artistaRepository);
 		fuenteEntrada.cargar();
         
     }
     
     @Test
-    void testEjecutarYDeshacer_ContratacionDebeSerCompletadaYRevertida() {
+    void testEjecutarYDeshacerContratacionDebeSerCompletadaYRevertida() {
 
         Recital recital = Recital.getInstance();
+        Cancion cancion = recital.obtenerCancionPorNombre(TITULO_CANCION);
 
-        int rolesFaltantesAntes = recital.getContrataciones().size();
-        
-        //System.out.println(rolesFaltantesAntes);
+        int rolesRequeridosTotal = cancion.getRolesRequeridos().size(); 
+        int contratacionesAntes = recital.getContrataciones().size(); 
 
-        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(artistaService, TITULO_CANCION);
+        assertEquals(rolesRequeridosTotal, cancion.getRolesFaltantes().size(), 
+                     "Error en Pre-condición: Al inicio, los roles requeridos deben ser los faltantes.");
 
+
+        ContratarArtistasParaCancionCommand command = new ContratarArtistasParaCancionCommand(TITULO_CANCION);
         command.ejecutar();
 
-
-        int rolesFaltantesDespues = recital.getContrataciones().size();
-
-        assertNotEquals(rolesFaltantesAntes, rolesFaltantesDespues);
+        int contratacionesDespues = recital.getContrataciones().size();
         
-        //ystem.out.println(rolesFaltantesDespues);
+        assertEquals(contratacionesAntes + rolesRequeridosTotal, contratacionesDespues,
+                     "El número total de contrataciones en el Recital no aumentó correctamente.");
+
+        assertEquals(0, cancion.getRolesFaltantes().size(), 
+                     "La canción debería tener 0 roles faltantes después de la ejecución exitosa.");
+
 
         command.deshacer();
 
-        int rolesFaltantesDespuesUndo = recital.getContrataciones().size();
-        
-        assertNotEquals(rolesFaltantesDespuesUndo, rolesFaltantesDespues);
+        int contratacionesDespuesUndo = recital.getContrataciones().size();
+        int rolesFaltantesDespuesUndo = cancion.getRolesFaltantes().size();
 
-        //System.out.println(rolesFaltantesDespuesUndo);
+        assertEquals(contratacionesAntes, contratacionesDespuesUndo, 
+                     "El número total de contrataciones en el Recital no volvió al estado inicial.");
+        
+        assertEquals(rolesRequeridosTotal, rolesFaltantesDespuesUndo, 
+                     "La canción no revirtió su estado a roles faltantes correctamente.");
     }
 }

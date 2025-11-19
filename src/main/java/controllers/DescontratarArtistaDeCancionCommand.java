@@ -3,8 +3,8 @@ package controllers;
 import domain.TipoRol;
 import services.RecitalService;
 
-
-public class DescontratarArtistaDeCancionCommand implements ComandoContratacion { // arrepentimiento bonus
+// BONUS: Arrepentimiento
+public class DescontratarArtistaDeCancionCommand implements ComandoContratacion {
 
     private final String tituloCancion;
     private final String nombreArtista;
@@ -15,7 +15,7 @@ public class DescontratarArtistaDeCancionCommand implements ComandoContratacion 
         this.tituloCancion = tituloCancion;
         this.nombreArtista = nombreArtista;
         this.rol = rol;
-        this.recitalService =recitalService;
+        this.recitalService = recitalService;
     }
 
     @Override
@@ -26,12 +26,9 @@ public class DescontratarArtistaDeCancionCommand implements ComandoContratacion 
         System.out.println("Desasignado " + nombreArtista + " de '" + tituloCancion + "'");
 
     }
-    
-    
 
     @Override
     public void deshacer() {
-        // Podríamos intentar reasignar, pero requeriría guardar estado previo.
         System.out.println("Deshacer no implementado para descontratación puntual.");
     }
 }

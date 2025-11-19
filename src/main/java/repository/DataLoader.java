@@ -27,7 +27,7 @@ public class DataLoader {
             List<Object> rolesRaw = (List<Object>) m.get("roles");
             Set<TipoRol> roles = rolesRaw == null ? Set.of()
                     : rolesRaw.stream()
-                    .map(x -> TipoRol.fromTexto((String) x))
+                    .map(x -> TipoRol.desdeTexto((String) x))
                     .collect(Collectors.toCollection(LinkedHashSet::new));
 
             @SuppressWarnings("unchecked")
@@ -63,7 +63,7 @@ public class DataLoader {
 
             if (reqRaw != null) {
                 for (Object x : reqRaw) {
-                    TipoRol rol = TipoRol.fromTexto((String) x);
+                    TipoRol rol = TipoRol.desdeTexto((String) x);
                     rolesRequeridos.merge(rol, 1, Integer::sum);
                 }
             }

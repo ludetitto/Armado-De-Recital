@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-//Le dice a Jackson que use los campos (protected) para leer/escribir.
+// Jackson usa los campos (protected) para leer/escribir.
 @JsonAutoDetect(fieldVisibility = Visibility.ANY, getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -23,7 +23,7 @@ public class Artista {
 	protected Set<String> bandas;
 	protected double costoBase;
 	protected TipoDeArtista tipo = TipoDeArtista.BASE;
-	protected final static int cantidadDispuestoATocar = 5;
+	private final static int cantidadDispuestoATocar = 5;
 
 	public Artista(String nombre, TipoDeArtista tipo, Set<TipoRol> roles, Set<String> bandas, double costoBase) {
 		this.nombre = nombre;
@@ -36,55 +36,17 @@ public class Artista {
 			}
 		}
 
-		
 		this.bandas = new LinkedHashSet<>(bandas);
 		this.costoBase = costoBase;
 	}
 
 	@JsonCreator
 	public Artista() {
-		this.roles = new EnumMap<>(TipoRol.class); // Inicializar siempre
+		this.roles = new EnumMap<>(TipoRol.class);
 		this.bandas = new LinkedHashSet<>();
 	}
-
-	public boolean esBase() {
-		return tipo == TipoDeArtista.BASE;
-	}
 	
-	public boolean esExterno() {
-		return tipo == TipoDeArtista.EXTERNO;
-	}
-
-	// Verifica si el artista puede ocupar un rol
-	public boolean puedeOcuparRol(TipoRol rol) {
-		return roles.containsKey(rol);
-	}
-
-	// Agregar nuevo rol (entrenamiento)
-	public void agregarRol(TipoRol nuevoRol) {
-		if (roles.get(nuevoRol) == null) {
-			roles.put(nuevoRol, EstadoRol.ENTRENAMIENTO);
-		}
-	}
-
-	// Verifica si compartió banda con otro artista
-	public boolean compartioBanda(Artista otro) {
-		return this.bandas.stream().anyMatch(otro.bandas::contains);
-	}
-	
-	public boolean puedeSerEntrenado() {
-	    return esExterno() && !Recital.getInstance().estaContratado(this);
-	}
-	
-	public boolean entrenarEn(TipoRol rol) {
-	    if (puedeOcuparRol(rol)) {
-	    	return false;
-	    }
-	    roles.put(rol, EstadoRol.ENTRENAMIENTO);
-	    return true;
-	}
-
-	// Getters
+	// GETTERS
 	public String getNombre() {
 		return nombre;
 	}
@@ -96,7 +58,6 @@ public class Artista {
 
 	@JsonProperty("roles")
 	public Set<TipoRol> getRolesParaGuardar() {
-		// Retorna solo las CLAVES (TipoRol) del EnumMap
 		return roles.keySet();
 	}
 
@@ -108,24 +69,33 @@ public class Artista {
 		return costoBase;
 	}
 
-	// setters
-
+	@JsonIgnore
+	public List<TipoRol> getRolesDisponibles() {
+	    List<TipoRol> disponibles = new ArrayList<>();
+	    for (var entry : roles.entrySet()) {
+	        if (entry.getValue() == EstadoRol.BASE || entry.getValue() == EstadoRol.ENTRENAMIENTO) {
+	            disponibles.add(entry.getKey());
+	        }
+	    }
+	    return disponibles;
+	}
+	
+	public int getCantidadDispuestoATocar() {
+		return cantidadDispuestoATocar;
+	}
+	
+	// SETTERS
 	@JsonProperty("nombre")
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-//	public void setRoles(EnumMap<TipoRol, EstadoRol> roles) {
-//		this.roles = roles;
-//	}
-
 	@JsonProperty("roles")
 	public void setRolesParaJackson(java.util.Set<domain.TipoRol> rolesCargados) {
-		// Inicializa el EnumMap y asigna EstadoRol.BASE a cada rol cargado
 		this.roles = new java.util.EnumMap<>(domain.TipoRol.class);
+		
 		if (rolesCargados != null) {
 			for (domain.TipoRol rol : rolesCargados) {
-				// EstadoRol.BASE se guarda internamente
 				this.roles.put(rol, domain.EstadoRol.BASE);
 			}
 		}
@@ -155,16 +125,41 @@ public class Artista {
 		return tipo;
 	}
 	
-	@JsonIgnore
-	public List<TipoRol> getRolesDisponibles() {
-	    List<TipoRol> disponibles = new ArrayList<>();
-	    for (var entry : roles.entrySet()) {
-	        if (entry.getValue() == EstadoRol.BASE || entry.getValue() == EstadoRol.ENTRENAMIENTO) {
-	            disponibles.add(entry.getKey());
-	        }
-	    }
-	    return disponibles;
+	// UTILS
+	public boolean esBase() {
+		return tipo == TipoDeArtista.BASE;
 	}
+	
+	public boolean esExterno() {
+		return tipo == TipoDeArtista.EXTERNO;
+	}
+
+	public boolean puedeOcuparRol(TipoRol rol) {
+		return roles.containsKey(rol);
+	}
+
+	public void agregarRol(TipoRol nuevoRol) {
+		if (roles.get(nuevoRol) == null) {
+			roles.put(nuevoRol, EstadoRol.ENTRENAMIENTO);
+		}
+	}
+
+	public boolean compartioBanda(Artista otro) {
+		return this.bandas.stream().anyMatch(otro.bandas::contains);
+	}
+	
+	public boolean puedeSerEntrenado() {
+	    return esExterno() && !Recital.getInstance().estaContratado(this);
+	}
+	
+	public boolean entrenarEn(TipoRol rol) {
+	    if (puedeOcuparRol(rol)) {
+	    	return false;
+	    }
+	    roles.put(rol, EstadoRol.ENTRENAMIENTO);
+	    return true;
+	}
+
 	
 	@Override
 	public String toString() {
@@ -184,9 +179,5 @@ public class Artista {
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
-	}
-
-	public int getCantidadDispuestoATocar() {
-		return cantidadDispuestoATocar;
 	}
 }

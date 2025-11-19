@@ -1,50 +1,14 @@
 {
   "recital" : {
-    "titulo" : "Queen Greatest Hits Setlist V3",
+    "titulo" : "Recital Especial",
     "canciones" : [ {
-      "titulo" : "Rocket Man",
-      "rolesRequeridos" : {
-        "VOZ_PRINCIPAL" : 1,
-        "BATERIA" : 1,
-        "PIANO" : 1
-      },
-      "asignaciones" : { },
-      "rolesFaltantes" : {
-        "VOZ_PRINCIPAL" : 1,
-        "BATERIA" : 1,
-        "PIANO" : 1
-      },
-      "artistasAsignados" : [ ]
-    }, {
-      "titulo" : "We Will Rock You",
-      "rolesRequeridos" : {
-        "BAJO" : 1,
-        "BATERIA" : 1
-      },
-      "asignaciones" : {
-        "BAJO" : [ {
-          "roles" : [ "BAJO" ],
-          "nombre" : "John Deacon",
-          "bandas" : [ "Queen" ],
-          "costoBase" : 0.0,
-          "tipo" : "BASE"
-        } ]
-      },
-      "rolesFaltantes" : {
-        "BATERIA" : 1
-      },
-      "artistasAsignados" : [ {
-        "roles" : [ "BAJO" ],
-        "nombre" : "John Deacon",
-        "bandas" : [ "Queen" ],
-        "costoBase" : 0.0,
-        "tipo" : "BASE"
-      } ]
-    }, {
       "titulo" : "Bohemian Rhapsody",
       "rolesRequeridos" : {
         "VOZ_PRINCIPAL" : 1,
-        "GUITARRA_ELECTRICA" : 1
+        "VOZ_SECUNDARIA" : 4,
+        "GUITARRA_ELECTRICA" : 1,
+        "BAJO" : 1,
+        "PIANO" : 1
       },
       "asignaciones" : {
         "VOZ_PRINCIPAL" : [ {
@@ -55,14 +19,13 @@
           "tipo" : "BASE"
         } ],
         "GUITARRA_ELECTRICA" : [ {
-          "roles" : [ "GUITARRA_ELECTRICA" ],
+          "roles" : [ "VOZ_SECUNDARIA", "GUITARRA_ELECTRICA" ],
           "nombre" : "Brian May",
           "bandas" : [ "Queen" ],
           "costoBase" : 0.0,
           "tipo" : "BASE"
         } ]
       },
-      "rolesFaltantes" : { },
       "artistasAsignados" : [ {
         "roles" : [ "VOZ_PRINCIPAL", "PIANO" ],
         "nombre" : "Freddie Mercury",
@@ -70,24 +33,18 @@
         "costoBase" : 0.0,
         "tipo" : "BASE"
       }, {
-        "roles" : [ "GUITARRA_ELECTRICA" ],
+        "roles" : [ "VOZ_SECUNDARIA", "GUITARRA_ELECTRICA" ],
         "nombre" : "Brian May",
         "bandas" : [ "Queen" ],
         "costoBase" : 0.0,
         "tipo" : "BASE"
-      } ]
-    }, {
-      "titulo" : "Let's Dance",
-      "rolesRequeridos" : {
-        "VOZ_PRINCIPAL" : 1,
-        "GUITARRA_ELECTRICA" : 1
-      },
-      "asignaciones" : { },
+      } ],
       "rolesFaltantes" : {
-        "VOZ_PRINCIPAL" : 1,
-        "GUITARRA_ELECTRICA" : 1
+        "VOZ_SECUNDARIA" : 4,
+        "BAJO" : 1,
+        "PIANO" : 1
       },
-      "artistasAsignados" : [ ]
+      "rolesCubiertos" : [ "VOZ_PRINCIPAL", "GUITARRA_ELECTRICA" ]
     }, {
       "titulo" : "Careless Whisper",
       "rolesRequeridos" : {
@@ -95,68 +52,43 @@
         "PIANO" : 1
       },
       "asignaciones" : { },
+      "artistasAsignados" : [ ],
       "rolesFaltantes" : {
         "VOZ_PRINCIPAL" : 1,
         "PIANO" : 1
       },
-      "artistasAsignados" : [ ]
-    } ],
-    "contrataciones" : [ {
-      "artista" : {
-        "roles" : [ "VOZ_PRINCIPAL", "PIANO" ],
-        "nombre" : "Freddie Mercury",
-        "bandas" : [ "Queen" ],
-        "costoBase" : 0.0,
-        "tipo" : "BASE"
-      },
-      "cancion" : {
-        "titulo" : "Bohemian Rhapsody",
-        "rolesRequeridos" : {
-          "VOZ_PRINCIPAL" : 1,
-          "GUITARRA_ELECTRICA" : 1
-        },
-        "asignaciones" : { },
-        "rolesFaltantes" : {
-          "VOZ_PRINCIPAL" : 1,
-          "GUITARRA_ELECTRICA" : 1
-        },
-        "artistasAsignados" : [ ]
-      },
-      "rol" : "VOZ_PRINCIPAL",
-      "costoFinal" : 0.0,
-      "descuentoAplicado" : 0.0
+      "rolesCubiertos" : [ ]
     }, {
-      "artista" : {
-        "roles" : [ "BAJO" ],
-        "nombre" : "John Deacon",
-        "bandas" : [ "Queen" ],
-        "costoBase" : 0.0,
-        "tipo" : "BASE"
+      "titulo" : "Rocket Man",
+      "rolesRequeridos" : {
+        "VOZ_PRINCIPAL" : 1,
+        "BATERIA" : 1,
+        "PIANO" : 1
       },
-      "cancion" : {
-        "titulo" : "We Will Rock You",
-        "rolesRequeridos" : {
-          "BAJO" : 1,
-          "BATERIA" : 1
-        },
-        "asignaciones" : { },
-        "rolesFaltantes" : {
-          "BAJO" : 1,
-          "BATERIA" : 1
-        },
-        "artistasAsignados" : [ ]
+      "asignaciones" : { },
+      "artistasAsignados" : [ ],
+      "rolesFaltantes" : {
+        "VOZ_PRINCIPAL" : 1,
+        "BATERIA" : 1,
+        "PIANO" : 1
       },
-      "rol" : "BAJO",
-      "costoFinal" : 0.0,
-      "descuentoAplicado" : 0.0
+      "rolesCubiertos" : [ ]
+    }, {
+      "titulo" : "Let's Dance",
+      "rolesRequeridos" : {
+        "VOZ_PRINCIPAL" : 1,
+        "GUITARRA_ELECTRICA" : 1
+      },
+      "asignaciones" : { },
+      "artistasAsignados" : [ ],
+      "rolesFaltantes" : {
+        "VOZ_PRINCIPAL" : 1,
+        "GUITARRA_ELECTRICA" : 1
+      },
+      "rolesCubiertos" : [ ]
     } ],
-    "rolesFaltantesTotal" : {
-      "VOZ_PRINCIPAL" : 3,
-      "GUITARRA_ELECTRICA" : 1,
-      "BATERIA" : 2,
-      "PIANO" : 2
-    },
-    "artistas" : [ {
+    "contrataciones" : [ ],
+    "artistasBase" : [ {
       "roles" : [ "VOZ_SECUNDARIA", "GUITARRA_ELECTRICA" ],
       "nombre" : "Brian May",
       "bandas" : [ "Queen" ],
@@ -174,7 +106,8 @@
       "bandas" : [ "Queen" ],
       "costoBase" : 0.0,
       "tipo" : "BASE"
-    }, {
+    } ],
+    "artistasCandidatos" : [ {
       "roles" : [ "VOZ_PRINCIPAL" ],
       "nombre" : "George Michael",
       "bandas" : [ "George Michael", "Wham!" ],
@@ -204,6 +137,15 @@
       "bandas" : [ "Lisa Stansfield" ],
       "costoBase" : 800.0,
       "tipo" : "EXTERNO"
-    } ]
+    } ],
+    "rolesFaltantesTotal" : {
+      "VOZ_PRINCIPAL" : 3,
+      "VOZ_SECUNDARIA" : 4,
+      "GUITARRA_ELECTRICA" : 1,
+      "BAJO" : 1,
+      "BATERIA" : 1,
+      "PIANO" : 3
+    },
+    "artistasConContratacion" : [ ]
   }
 }

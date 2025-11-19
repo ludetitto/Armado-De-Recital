@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
+// Tipos de roles que pueden adoptar los artistas
 public enum TipoRol {
     VOZ_PRINCIPAL, 
     VOZ_SECUNDARIA,
@@ -17,6 +18,7 @@ public enum TipoRol {
     TECLADOS, 
     COROS;
 
+	// UTILS
 	@JsonValue
     public String toValue() {
         return this.name(); 
@@ -33,10 +35,11 @@ public enum TipoRol {
         "coros", COROS
     );
 
-    public static TipoRol fromTexto(String raw) {
+    public static TipoRol desdeTexto(String raw) {
         String key = normalizar(raw);
         TipoRol r = MAP.get(key);
-        if (r == null) throw new IllegalArgumentException("Rol desconocido: " + raw);
+        if (r == null) 
+        	throw new IllegalArgumentException("Rol desconocido: " + raw);
         return r;
     }
 
@@ -46,7 +49,7 @@ public enum TipoRol {
         return t.toLowerCase(Locale.ROOT).trim();
     }
     
-    public static String[] getAllRoles() {
+    public static String[] obtenerTodosLosRoles() {
     	Collection<TipoRol> roles = MAP.values();
         return roles.stream()
                 .map(TipoRol::name)

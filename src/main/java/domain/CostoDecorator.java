@@ -1,19 +1,18 @@
 package domain;
 
+// Decorator sobre precio final de contratación
 public abstract class CostoDecorator implements Costo {
 
 	protected final Costo inner;
-	protected static Cancion cancion;
+    protected final Cancion cancion; 
+    protected final Artista artista;
 
-    public CostoDecorator(Costo inner, Cancion cancion) {
+    public CostoDecorator(Costo inner, Cancion cancion, Artista artista) {
         this.inner = inner;
-        CostoDecorator.cancion = cancion;
+        this.cancion = cancion;
+        this.artista = artista;
     }
 
     @Override
-    public double obtener() {
-        return inner.obtener();
-    }
-    
-    protected abstract double calcular(Artista artista);
+    public abstract double obtener();
 }

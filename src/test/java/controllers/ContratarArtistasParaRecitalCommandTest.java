@@ -1,7 +1,6 @@
 package controllers;
 
 import domain.Recital;
-import services.ArtistaService;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,6 @@ public class ContratarArtistasParaRecitalCommandTest {
 	private final String tituloEsperado = "LIVE AID";
 
 	private ArtistaRepository artistaRepository = new ArtistaRepository();
-    private ArtistaService artistaService;
     private CancionRepository cancionRepository = new CancionRepository();
     
     @BeforeEach
@@ -31,7 +29,6 @@ public class ContratarArtistasParaRecitalCommandTest {
         Recital.getInstance().setTitulo(tituloEsperado); 
 
         FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-		this.artistaService = new ArtistaService(artistaRepository);
         
 		fuenteEntrada.cargar();
         
@@ -48,7 +45,7 @@ public class ContratarArtistasParaRecitalCommandTest {
         int contratacionesIniciales = Recital.getInstance().getContrataciones().size(); 
 
         ContratarArtistasParaRecitalCommand command = 
-            new ContratarArtistasParaRecitalCommand(this.artistaService);
+            new ContratarArtistasParaRecitalCommand();
         
         command.ejecutar();
         

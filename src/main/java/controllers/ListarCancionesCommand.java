@@ -20,6 +20,7 @@ public class ListarCancionesCommand implements ComandoContratacion {
                 Map<TipoRol, Integer> faltantes = c.getRolesFaltantes();
                 String estado = c.getEstado().name();
                 System.out.println("\n - " + c.getTitulo() + " [" + estado + "]");
+                
                 if (faltantes.isEmpty()) {
                     System.out.println("   > ¡Roles cubiertos!");
                 } else {

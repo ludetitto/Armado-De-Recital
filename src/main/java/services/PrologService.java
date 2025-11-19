@@ -55,11 +55,10 @@ public class PrologService {
 
         // 4) Ejecutar swipl
         
-        // objetivo: consulta(File), entrenamientos_minimos(T), imprimir T y terminar
+        // OBJETIVO: consulta(File), entrenamientos_minimos(T), imprimir T y terminar
         consulta = "consult('" + escapeForSwipl(tmp.toAbsolutePath().toString()) + "')";
         objetivo = consulta + ",entrenamientos_minimos(T),format('~w~n',[T])";
 
-        // NO redirijas stderr a stdout
         p = new ProcessBuilder("swipl", "-q", "-g", objetivo, "-t", "halt").start();
 
         // Leer stdout
@@ -68,7 +67,7 @@ public class PrologService {
             out = br.lines().collect(java.util.stream.Collectors.joining("\n")).trim();
         }
 
-        // Leer stderr (por si querés loguear los warnings/errores)
+        // Leer stderr
         String err;
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(p.getErrorStream(), StandardCharsets.UTF_8))) {

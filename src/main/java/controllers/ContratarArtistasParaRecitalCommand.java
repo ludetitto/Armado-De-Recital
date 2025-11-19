@@ -18,6 +18,11 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
     public void ejecutar() {
         Set<Cancion> canciones = Recital.getInstance().getCanciones();
 
+        if (canciones.isEmpty()) {
+        	System.out.println("Error: El recital no posee canciones cargadas.");
+        	return;
+        }
+        
         for(Cancion c : canciones) {
         	contratacionService.contratarArtistas(c);
         }
@@ -27,6 +32,13 @@ public class ContratarArtistasParaRecitalCommand implements ComandoContratacion 
 
     @Override
     public void deshacer() {
-        System.out.println("Deshacer general no implementado para contratacion de todo el recital.");
+    	Set<Cancion> canciones = Recital.getInstance().getCanciones();
+
+        if (canciones.isEmpty()) {
+        	System.out.println("Error: El recital no posee canciones cargadas.");
+        	return;
+        }
+        
+        System.out.println("Deshacer no implementado para descontratación de recital.");
     }
 }
