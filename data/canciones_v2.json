@@ -49,13 +49,13 @@
     "titulo": "Sunday Bloody Sunday",
     "rolesRequeridos": {
       "VOZ_PRINCIPAL": 1,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "BATERIA": 1
     },
     "asignaciones": { },
     "rolesFaltantes": {
       "VOZ_PRINCIPAL": 1,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "BATERIA": 1
     }
   },
@@ -91,14 +91,14 @@
     "titulo": "My Generation",
     "rolesRequeridos": {
       "VOZ_PRINCIPAL": 1,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "BAJO": 1,
       "BATERIA": 1
     },
     "asignaciones": { },
     "rolesFaltantes": {
       "VOZ_PRINCIPAL": 1,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "BAJO": 1,
       "BATERIA": 1
     }
@@ -185,13 +185,13 @@
     "titulo": "Islands in the Stream",
     "rolesRequeridos": {
       "VOZ_PRINCIPAL": 2,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "COROS": 2
     },
     "asignaciones": { },
     "rolesFaltantes": {
       "VOZ_PRINCIPAL": 2,
-      "GUITARRA": 1,
+      "GUITARRA_ELECTRICA": 1,
       "COROS": 2
     }
   },

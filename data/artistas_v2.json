@@ -79,7 +79,7 @@
   },
   {
     "nombre": "Bob Dylan",
-    "roles": ["VOZ_PRINCIPAL", "GUITARRA"],
+    "roles": ["VOZ_PRINCIPAL", "GUITARRA_ELECTRICA"],
     "bandas": ["Bob Dylan"],
     "costoBase": 2200.0,
     "tipo": "EXTERNO"
@@ -114,7 +114,7 @@
   },
   {
     "nombre": "Chrissie Hynde",
-    "roles": ["VOZ_PRINCIPAL", "GUITARRA"],
+    "roles": ["VOZ_PRINCIPAL", "GUITARRA_ELECTRICA"],
     "bandas": ["The Pretenders"],
     "costoBase": 1600.0,
     "tipo": "EXTERNO"

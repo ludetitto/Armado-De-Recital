@@ -383,24 +383,29 @@ public class MenuContratacion extends BorderPane {
     	CancionRepository cancionRepository = new CancionRepository();
     	
         try {
-            var url = getClass().getResource("/Data/recital.json");
+            String override = System.getProperty("recital.data.file");
             Path ruta = null;
-            logger.info("Cargando datos de recital.json");
-            
-            if (url != null) {
-                ruta = Paths.get(url.toURI());
-                logger.warning("No se encontró recital.json");
+            if (override != null && !override.isBlank()) {
+                ruta = Paths.get(override).toAbsolutePath().normalize();
+                logger.info("Cargando datos de recital desde override: " + ruta);
             } else {
-                var urlTest = getClass().getResource("/Data/recitalTest.json");
-                logger.info("Cargando datos de recitalTest.json");
-                
-                if (urlTest != null) 
-                	ruta = Paths.get(urlTest.toURI());
-            }
-            if (ruta == null) {
-                ruta = Paths.get( "Data", "recital.json").toAbsolutePath().normalize();
-                logger.warning("No se encontró recitalTest.json");
-                logger.info("Cargando datos de recital.json desde path absoluto");
+                var url = getClass().getResource("/Data/recital.json");
+                logger.info("Cargando datos de recital.json");
+
+                if (url != null) {
+                    ruta = Paths.get(url.toURI());
+                } else {
+                    var urlTest = getClass().getResource("/Data/recitalTest.json");
+                    logger.info("Cargando datos de recitalTest.json");
+
+                    if (urlTest != null)
+                        ruta = Paths.get(urlTest.toURI());
+                }
+
+                if (ruta == null) {
+                    ruta = Paths.get("Data", "recital.json").toAbsolutePath().normalize();
+                    logger.info("Cargando datos de recital.json desde path absoluto: " + ruta);
+                }
             }
             
             FuenteRecital fuente = new JsonFuenteRecital(ruta, artistaRepository,cancionRepository);
@@ -416,23 +421,29 @@ public class MenuContratacion extends BorderPane {
         }
         
         try {
-            var url = getClass().getResource("/Data/artistas.json");
+            String overrideArtistas = System.getProperty("artistas.data.file");
             Path ruta = null;
-            logger.info("Cargando datos de artistas.json");
-            
-            if (url != null) {
-                ruta = Paths.get(url.toURI());
+            if (overrideArtistas != null && !overrideArtistas.isBlank()) {
+                ruta = Paths.get(overrideArtistas).toAbsolutePath().normalize();
+                logger.info("Cargando datos de artistas desde override: " + ruta);
             } else {
-            	logger.warning("No se encontró artistas.json");
-                var urlTest = getClass().getResource("/Data/artistasTest.json");
-                if (urlTest != null) 
-                	ruta = Paths.get(urlTest.toURI());
-                logger.info("Cargando datos de artistasTest.json");
-            }
-            if (ruta == null) {
-                ruta = Paths.get("Data", "artistas.json").toAbsolutePath().normalize();
-                logger.warning("No se encontró artistasTest.json");
-                logger.info("Cargando datos de artistas.json desde path absoluto");
+                var url = getClass().getResource("/Data/artistas.json");
+                logger.info("Cargando datos de artistas.json");
+
+                if (url != null) {
+                    ruta = Paths.get(url.toURI());
+                } else {
+                    logger.warning("No se encontró artistas.json");
+                    var urlTest = getClass().getResource("/Data/artistasTest.json");
+                    if (urlTest != null)
+                        ruta = Paths.get(urlTest.toURI());
+                    logger.info("Cargando datos de artistasTest.json");
+                }
+
+                if (ruta == null) {
+                    ruta = Paths.get("Data", "artistas.json").toAbsolutePath().normalize();
+                    logger.info("Cargando datos de artistas.json desde path absoluto: " + ruta);
+                }
             }
             
             
@@ -449,22 +460,28 @@ public class MenuContratacion extends BorderPane {
         }
         
         try {
-            var url = getClass().getResource("/Data/canciones.json");
+            String overrideCanciones = System.getProperty("canciones.data.file");
             Path ruta = null;
-            if (url != null) {
-                ruta = Paths.get(url.toURI());
-                logger.info("Cargando datos de canciones.json");
+            if (overrideCanciones != null && !overrideCanciones.isBlank()) {
+                ruta = Paths.get(overrideCanciones).toAbsolutePath().normalize();
+                logger.info("Cargando datos de canciones desde override: " + ruta);
             } else {
-            	logger.warning("No se encontró canciones.json");
-                var urlTest = getClass().getResource("/Data/cancionesTest.json");
-                if (urlTest != null) 
-                	ruta = Paths.get(urlTest.toURI());
-                logger.info("Cargando datos de cancionesTest.json");
-            }
-            if (ruta == null) {
-                ruta = Paths.get("Data", "canciones.json").toAbsolutePath().normalize();
-                logger.warning("No se encontró cancionesTest.json");
-                logger.info("Cargando datos de canciones.json desde path absoluto");
+                var url = getClass().getResource("/Data/canciones.json");
+                if (url != null) {
+                    ruta = Paths.get(url.toURI());
+                    logger.info("Cargando datos de canciones.json");
+                } else {
+                    logger.warning("No se encontró canciones.json");
+                    var urlTest = getClass().getResource("/Data/cancionesTest.json");
+                    if (urlTest != null)
+                        ruta = Paths.get(urlTest.toURI());
+                    logger.info("Cargando datos de cancionesTest.json");
+                }
+
+                if (ruta == null) {
+                    ruta = Paths.get("Data", "canciones.json").toAbsolutePath().normalize();
+                    logger.info("Cargando datos de canciones.json desde path absoluto: " + ruta);
+                }
             }
             
             FuenteCancion fuente = new JsonFuenteCancion(ruta, cancionRepository);
@@ -606,7 +623,7 @@ public class MenuContratacion extends BorderPane {
     private void reportarYsalir() {
         actualizarStatus("📋 Generando reporte del recital...");
         
-        var cmd = new ReportarSalirCommand(Paths.get("Data", "recitalFinal.json"), recitalRepository,recitalService);
+        var cmd = new ReportarSalirCommand(Paths.get("Data", "recital-out.json"), recitalRepository,recitalService);
         String out = runAndCapture(cmd::ejecutar);
         refreshConsola("🎵 Reporte del Recital", out, "Generado correctamente");
         logger.info("Los datos del recital se guardaron con éxito");

@@ -148,6 +148,15 @@ public class Artista {
 		return this.bandas.stream().anyMatch(otro.bandas::contains);
 	}
 	
+	public boolean compartioBanda(Cancion cancion) {
+		for(Artista a : cancion.getArtistasAsignados()) {
+			if(compartioBanda(a))
+				return true;
+		}
+		
+		return false;
+	}
+	
 	public boolean puedeSerEntrenado() {
 	    return esExterno() && !Recital.getInstance().estaContratado(this);
 	}
