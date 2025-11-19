@@ -4,15 +4,14 @@ import java.util.Set;
 
 import domain.Cancion;
 import domain.Recital;
-import services.ArtistaService;
 import services.ContratacionService;
 
 public class ContratarArtistasParaRecitalCommand implements ComandoContratacion {
 
 	private ContratacionService contratacionService;
 	
-    public ContratarArtistasParaRecitalCommand(ArtistaService artistaService) {
-    	contratacionService = new ContratacionService(artistaService);
+    public ContratarArtistasParaRecitalCommand() {
+    	contratacionService = new ContratacionService();
     }
 
     @Override

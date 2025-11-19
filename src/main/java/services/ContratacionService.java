@@ -16,25 +16,10 @@ import domain.Recital;
 import domain.TipoRol;
 
 public class ContratacionService {
-
-	private ArtistaService artistaService;
-	
-	public ContratacionService(ArtistaService artistaService) {
-		this.artistaService = artistaService;
-	}
-
 	public void generarContratacion(Artista artista, Cancion cancion, TipoRol rol) {
-        if (artistaYaContratadoEnRecital(artista)) {
-            throw new IllegalStateException("El artista " + artista.getNombre() + " ya está contratado en el recital");
-        }
 
         Recital.getInstance().agregarContratacion(new Contratacion(artista, cancion, rol, obtenerCosto(cancion, artista), 0));
-    }
-    
-    private boolean artistaYaContratadoEnRecital(Artista artista) {
-        return Recital.getInstance().getContrataciones()
-                .stream()
-                .anyMatch(c -> c.getArtista().equals(artista));
+        cancion.asignarArtista(artista, rol);
     }
     
     private boolean artistaYaContratadoEnCancion(Artista artista, Cancion cancion) {
@@ -49,14 +34,13 @@ public class ContratacionService {
     
     public void contratarArtistas(Cancion cancion) {
         Map<TipoRol, Integer> faltantes = new LinkedHashMap<>(cancion.verRolesFaltantes());
-        List<Contratacion> posibles = new ArrayList<Contratacion>();
-        
+
         if (faltantes.isEmpty()) {
             System.out.println("La canción '" + cancion.getTitulo() + "' ya tiene todos los roles cubiertos.");
             return;
         }
 
-        List<Artista> candidatos = new ArrayList<>(artistaService.getArtistasCandidatos());
+        List<Artista> candidatos = new ArrayList<>(Recital.getInstance().getArtistas());
 
         System.out.println("--- Contratación automática para '" + cancion.getTitulo() + "' ---");
 
@@ -65,28 +49,35 @@ public class ContratacionService {
             int necesarios = e.getValue();
             int cubiertos = 0;
 
-            for (Artista a : candidatos) {
-                if (cubiertos >= necesarios) break;
-                
-                if (a.puedeOcuparRol(rol) && !artistaYaContratadoEnCancion(a, cancion)) {
-                	posibles.add(new Contratacion(a, cancion, rol, obtenerCosto(cancion, a), 0));
+            // Contratar todos los necesarios para este rol
+            while (cubiertos < necesarios) {
+                List<Contratacion> posibles = new ArrayList<>();
+
+                // Buscar candidatos disponibles
+                for (Artista a : candidatos) {
+                    if (a.puedeOcuparRol(rol) && !artistaYaContratadoEnCancion(a, cancion) && a.getCantidadDispuestoATocar() > 0) {
+                        posibles.add(new Contratacion(a, cancion, rol, obtenerCosto(cancion, a), 0));
+                    }
                 }
+
+                if (posibles.isEmpty()) {
+                    System.out.println(" ! No hay más artistas disponibles para " + rol + 
+                                       " (cubiertos: " + cubiertos + "/" + necesarios + ")");
+                    break;
+                }
+
+                // Elegir el más barato
+                Contratacion elegido = Collections.min(posibles);
+                contratarArtista(cancion, elegido.getArtista(), rol);
+                cubiertos++;
+                
+                System.out.println(" + Asignado: " + elegido.getArtista().getNombre() + 
+                                   " -> " + rol + " (costo: " + elegido.getCostoFinal() + ")");
             }
-            
-            if(posibles.isEmpty()) {
-            	System.out.println("No hay artistas disponibles para contratar para el rol " + rol);
-            	return;
-            }
-            
-            Contratacion elegido = Collections.min(posibles);
-        	
-            contratarArtista(cancion, elegido.getArtista(), rol);
-        	cubiertos++;
-            System.out.println(" + Asignado: " + elegido.getArtista().getNombre() + " -> " + rol);
 
             if (cubiertos < necesarios) {
-                System.out.println(" ! No se pudo cubrir completamente " + rol + " (faltaron "
-                        + (necesarios - cubiertos) + ")");
+                System.out.println(" ! No se pudo cubrir completamente " + rol + 
+                                   " (faltaron " + (necesarios - cubiertos) + ")");
             }
         }
 
@@ -101,7 +92,6 @@ public class ContratacionService {
     
     private void contratarArtista(Cancion cancion, Artista artista, TipoRol rol) {
     	try {
-            cancion.asignarArtista(artista, rol);
             generarContratacion(artista, cancion, rol);
         } catch (IllegalArgumentException ex) {
         }

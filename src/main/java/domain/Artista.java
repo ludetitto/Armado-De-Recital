@@ -23,6 +23,7 @@ public class Artista {
 	protected Set<String> bandas;
 	protected double costoBase;
 	protected TipoDeArtista tipo = TipoDeArtista.BASE;
+	protected final static int cantidadDispuestoATocar = 5;
 
 	public Artista(String nombre, TipoDeArtista tipo, Set<TipoRol> roles, Set<String> bandas, double costoBase) {
 		this.nombre = nombre;
@@ -75,11 +76,12 @@ public class Artista {
 	    return esExterno() && !Recital.getInstance().estaContratado(this);
 	}
 	
-	public void entrenarEn(TipoRol rol) {
+	public boolean entrenarEn(TipoRol rol) {
 	    if (puedeOcuparRol(rol)) {
-	        throw new IllegalStateException("El artista ya puede ocupar ese rol");
+	    	return false;
 	    }
 	    roles.put(rol, EstadoRol.ENTRENAMIENTO);
+	    return true;
 	}
 
 	// Getters
@@ -182,5 +184,9 @@ public class Artista {
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
+	}
+
+	public int getCantidadDispuestoATocar() {
+		return cantidadDispuestoATocar;
 	}
 }

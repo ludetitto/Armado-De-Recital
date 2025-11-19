@@ -1,6 +1,7 @@
 package domain;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -33,8 +34,6 @@ public class Recital {
         return instance;
     }
    
-    
-    // Agregar canción
     public void agregarCancion(Cancion cancion) {
         canciones.add(cancion);
     }
@@ -43,7 +42,6 @@ public class Recital {
     	
     }
     
-    // Agregar artista base
     public void agregarArtistaBase(Artista artista) {
         if (artista.esBase()) {
             artistasBase.add(artista);
@@ -56,18 +54,17 @@ public class Recital {
         }
     }
     
-    // agrgar al recital los artistas cargados desde el repositorio
     public void agregarArtistas( List<Artista> artistas) {
         if (artistas == null || artistas.isEmpty()) {
             return;
         }
 
         for (Artista artista : artistas) {
-            if (artista == null && (this.artistasBase.contains(artista) || this.artistasCandidatos.contains(artista)  )) {
+            if (artista == null || (this.artistasBase.contains(artista) || this.artistasCandidatos.contains(artista)  )) {
                 continue; 
             }
             
-            if (artista.esBase() || estaContratado(artista)) {
+            if (artista.esBase()) {
                 this.artistasBase.add(artista); 
             } else {
                 this.artistasCandidatos.add(artista);
@@ -75,45 +72,38 @@ public class Recital {
         }
     }
     
-    // cancion repositorio
     public void cargarCanciones(List<Cancion>canciones) {
         if (canciones == null) {
             return;
         }
 
         for (Cancion cancion : canciones) {
-            if (cancion != null) {
+            if (cancion != null && canciones.contains(cancion)) {
                 this.canciones.add(cancion);
             }
         }
     }
     
-    //eliminar artista
     public void designarArtistadeCancion(Cancion cancion) {
     	this.canciones.remove(cancion);
     	this.canciones.add(cancion);
     }
     
-    // Agregar contratación
     public void agregarContratacion(Contratacion contratacion) {
         contrataciones.add(contratacion);
-        artistasCandidatos.remove(contratacion.getArtista());
     }
     
-    // Eliminar contratación
     public void eliminarContratacion(Contratacion contratacion) {
         contrataciones.remove(contratacion);
         artistasCandidatos.add(contratacion.getArtista());
     }
     
-    // Calcular costo total
     public double calcularCostoTotal() {
         return contrataciones.stream()
             .mapToDouble(Contratacion::getCostoFinal)
             .sum();
     }
     
-    // Obtener roles faltantes para todo el recital
     public Map<TipoRol, Integer> getRolesFaltantesTotal() {
         Map<TipoRol, Integer> faltantesTotal = new EnumMap<>(TipoRol.class);
         
@@ -128,14 +118,9 @@ public class Recital {
     }
     
     public boolean estaContratadoEnCancion(Artista artista, Cancion cancion) {
-        return contrataciones.stream()
-                .anyMatch(c -> 
-                    c.getArtista().equals(artista) &&
-                    c.getCancion().equals(cancion)
-                );
+        return cancion.getArtistasAsignados().contains(artista);
     }
     
-    // Getters
     public String getTitulo() { return titulo; }
     public void setTitulo(String titulo) { this.titulo = titulo; }
     
@@ -168,7 +153,6 @@ public class Recital {
             titulo, canciones.size(), contrataciones.size(), calcularCostoTotal());
     }
 
-    // set necesario para cargar de un json
     public static void setInstance(Recital recitalCargado) {
         if (recitalCargado == null) {
             throw new IllegalArgumentException("La instancia de Recital cargada no puede ser nula.");
@@ -213,5 +197,14 @@ public class Recital {
 		        .findFirst()
 		        .orElse(null);
     }
+
+	public List<Artista> getArtistasConContratacion() {
+
+		return this.contrataciones.stream()
+	            .map(c -> c.getArtista())
+	            .distinct()
+	            .collect(Collectors.toList());
+		
+	}
     
 }

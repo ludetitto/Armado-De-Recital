@@ -4,7 +4,6 @@ import domain.Artista;
 import domain.Cancion;
 import domain.Recital;
 import domain.TipoRol;
-import services.ArtistaService;
 import services.ContratacionService;
 
 import java.util.*;
@@ -15,9 +14,8 @@ public class ContratarArtistasParaCancionCommand implements ComandoContratacion 
     private ContratacionService contratacionService;
     private final Map<TipoRol, List<Artista>> asignadosEnEstaEjecucion = new EnumMap<>(TipoRol.class);
 
-    public ContratarArtistasParaCancionCommand(ArtistaService artistaService,
-                                               String tituloCancion) {
-        contratacionService = new ContratacionService(artistaService);
+    public ContratarArtistasParaCancionCommand(String tituloCancion) {
+        contratacionService = new ContratacionService();
         this.tituloCancion = tituloCancion;
     }
 

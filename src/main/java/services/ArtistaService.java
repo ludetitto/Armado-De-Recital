@@ -15,11 +15,9 @@ public class ArtistaService {
 	}
 
 	public ArtistaService() {
-		// TODO Auto-generated constructor stub
 	}
 
 	void verGrafoColaboraciones() {
-		// TODO: implementar
 	}
 	
 	public List<Artista> getArtistasBase() {
@@ -44,5 +42,11 @@ public class ArtistaService {
 		}
 
 		return candidatos;
+	}
+	
+	public int getCantidadDeCancionesQueToca(Artista artista) {
+		return (int) Recital.getInstance().getContrataciones().stream()
+        .filter(c -> c.getArtista().equals(artista))
+        .count();
 	}
 }

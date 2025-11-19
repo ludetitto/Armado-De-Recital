@@ -1,6 +1,7 @@
 package domain;
 
 import java.text.Normalizer;
+import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
@@ -43,5 +44,12 @@ public enum TipoRol {
         String t = Normalizer.normalize(s == null ? "" : s, Normalizer.Form.NFD)
                 .replaceAll("\\p{M}", "");
         return t.toLowerCase(Locale.ROOT).trim();
+    }
+    
+    public static String[] getAllRoles() {
+    	Collection<TipoRol> roles = MAP.values();
+        return roles.stream()
+                .map(TipoRol::name)
+                .toArray(String[]::new);
     }
 }

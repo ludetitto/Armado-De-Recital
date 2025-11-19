@@ -47,7 +47,6 @@ public class  ListarRolesFaltantesRecitalCommand implements ComandoContratacion 
 
 	@Override
 	public void deshacer() {
-		// TODO Auto-generated method stub
 		
 	}
 	

@@ -59,7 +59,7 @@ public class PrologService {
         consulta = "consult('" + escapeForSwipl(tmp.toAbsolutePath().toString()) + "')";
         objetivo = consulta + ",entrenamientos_minimos(T),format('~w~n',[T])";
 
-        // ⚠️ NO redirijas stderr a stdout
+        // NO redirijas stderr a stdout
         p = new ProcessBuilder("swipl", "-q", "-g", objetivo, "-t", "halt").start();
 
         // Leer stdout

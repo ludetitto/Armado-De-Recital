@@ -19,7 +19,7 @@ public class ListarCancionesCommand implements ComandoContratacion {
             for (Cancion c : canciones) {
                 Map<TipoRol, Integer> faltantes = c.getRolesFaltantes();
                 String estado = c.getEstado().name();
-                System.out.println(" - " + c.getTitulo() + " [" + estado + "]");
+                System.out.println("\n - " + c.getTitulo() + " [" + estado + "]");
                 if (faltantes.isEmpty()) {
                     System.out.println("   > ¡Roles cubiertos!");
                 } else {
@@ -34,6 +34,5 @@ public class ListarCancionesCommand implements ComandoContratacion {
 
     @Override
     public void deshacer() {
-        // Listado: no hay nada que deshacer
     }
 }
