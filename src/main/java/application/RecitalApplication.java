@@ -1,5 +1,7 @@
 package application;
 
+import java.util.logging.Logger;
+
 import UI.MenuContratacion;
 import UI.SplashScreen;
 import javafx.application.Application;
@@ -12,6 +14,10 @@ public class RecitalApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+    	
+    	final Logger logger = Logger.getLogger(RecitalApplication.class.getName());
+    	
+    	// Se setean dimensiones de la interfaz gráfica
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         
         SplashScreen splash = new SplashScreen(() -> {
@@ -20,6 +26,8 @@ public class RecitalApplication extends Application {
         });
         
         Scene scene = new Scene(splash.getRoot(), screenBounds.getWidth(), screenBounds.getHeight());
+        
+        logger.info("Iniciando Sistema de Armado de Recital");
         
         primaryStage.setTitle("🎵 Sistema de Armado de Recital - Paradigmas de Programación - UNLaM");
         primaryStage.setScene(scene);

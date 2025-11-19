@@ -16,7 +16,7 @@ public class  ListarRolesFaltantesRecitalCommand implements ComandoContratacion 
         Set<Cancion> canciones = Recital.getInstance().getCanciones();
 
         if (canciones.isEmpty()) {
-            System.out.println("El recital aún no tiene canciones cargadas.");
+            System.out.println("Error: El recital aún no tiene canciones cargadas.");
             return;
         }
         
@@ -35,20 +35,11 @@ public class  ListarRolesFaltantesRecitalCommand implements ComandoContratacion 
                 }
             }
         }
-//
-//        if (rolesFaltantesTotal.isEmpty()) {
-//            System.out.println("¡Todas las canciones del Recital tienen sus roles cubiertos!");
-//            System.out.println("---------------------------------------------------------------");
-//            return;
-//        }
 
 		System.out.println("\n---------------------------------------------------------------");
 	}
 
 	@Override
 	public void deshacer() {
-		
 	}
-	
-
 }

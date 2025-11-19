@@ -13,17 +13,13 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
         this.nombreArtista = nombreArtista;
         this.rolAgregado = TipoRol.valueOf(rolAgregado);
     }
-
-    public EntrenarArtistaCommand(services.PrologService ps, services.ArtistaService as, String nombreArtista) {
-        this.nombreArtista = nombreArtista;
-    }
-
+    
     @Override
     public void ejecutar() {
         Artista artista = Recital.getInstance().obtenerArtistaPorNombre(nombreArtista);
 
         if (artista == null) {
-           throw new IllegalArgumentException("Error: artista no encontrado: " + nombreArtista);
+           System.out.println("Error: artista no encontrado: " + nombreArtista);
         }
         
         if(artista.entrenarEn(rolAgregado))
@@ -34,10 +30,6 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
 
     @Override
     public void deshacer() {
-        if (rolAgregado == null) {
-            System.out.println("Nada para deshacer.");
-            return;
-        }
-        System.out.println("Atención: no es posible revertir el entrenamiento (no existe removerRol en dominio).");
+        System.out.println("Atención: no es posible revertir el entrenamiento.");
     }
 }

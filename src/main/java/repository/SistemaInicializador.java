@@ -6,14 +6,12 @@ import java.util.List;
 public class SistemaInicializador {
     private ArtistaRepository artistaRepo;
     private CancionRepository cancionRepo;
-    private ContratacionRepository contratacionRepo;
     private RecitalRepository recitalRepo;
     private DataLoader loader;
     
     public SistemaInicializador() {
         this.artistaRepo = new ArtistaRepository();
         this.cancionRepo = new CancionRepository();
-        this.contratacionRepo = new ContratacionRepository();
         this.recitalRepo = new RecitalRepository(Recital.getInstance());
         this.loader = new DataLoader();
     }
@@ -63,10 +61,6 @@ public class SistemaInicializador {
     
     public CancionRepository getCancionRepository() {
         return cancionRepo;
-    }
-    
-    public ContratacionRepository getContratacionRepository() {
-        return contratacionRepo;
     }
     
     public RecitalRepository getRecitalRepository() {

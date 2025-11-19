@@ -19,11 +19,16 @@ public class ReportarSalirCommand implements ComandoContratacion {
 
 	@Override
     public void ejecutar() {
+		
+		if(path == null) {
+			System.out.println("Error: La ruta para guardar los datos de recital no es válida.");
+			return;
+		}
+		
 		recitalService.reportarEstadoActual(recitalRepository, path);
     }
 
     @Override
     public void deshacer() {
-        // Listado: no hay nada que deshacer
     }
 }

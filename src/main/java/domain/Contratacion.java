@@ -7,31 +7,42 @@ public class Contratacion implements Comparable<Contratacion> {
     private Cancion cancion;
     private TipoRol rol;
     private double costoFinal;
-    private double descuentoAplicado;
     
     public Contratacion(Artista artista, Cancion cancion, TipoRol rol, 
-                        double costoFinal, double descuentoAplicado) {
+                        double costoFinal) {
         this.artista = artista;
         this.cancion = cancion;
         this.rol = rol;
         this.costoFinal = costoFinal;
-        this.descuentoAplicado = descuentoAplicado;
     }
     
+    // Se necesita para importación json
     protected Contratacion() {
+    	
     }
     
-    // Getters
-    public Artista getArtista() { return artista; }
-    public Cancion getCancion() { return cancion; }
-    public TipoRol getRol() { return rol; }
-    public double getCostoFinal() { return costoFinal; }
-    public double getDescuentoAplicado() { return descuentoAplicado; }
+    // GETTERS
+    public Artista getArtista() { 
+    	return artista; 
+    }
     
+    public Cancion getCancion() { 
+    	return cancion; 
+    }
+    
+    public TipoRol getRol() { 
+    	return rol; 
+    }
+    
+    public double getCostoFinal() { 
+    	return costoFinal; 
+    }
+    
+    // UTILS
     @Override
     public String toString() {
-        return String.format("%s → %s (%s) - Costo: $%.2f (Descuento: %.0f%%)",
-            artista.getNombre(), cancion.getTitulo(), rol, costoFinal, descuentoAplicado * 100);
+        return String.format("%s → %s (%s) - Costo: $%.2f",
+            artista.getNombre(), cancion.getTitulo(), rol, costoFinal);
     }
     
     @Override

@@ -54,5 +54,12 @@
     "bandas": ["Lisa Stansfield"],
     "costoBase": 800.0,
     "tipo": "EXTERNO"
+  },
+  {
+    "nombre": "Ricky Martin",
+    "roles": ["VOZ_PRINCIPAL"],
+    "bandas": ["Queen"],
+    "costoBase": 2000.0,
+    "tipo": "EXTERNO"
   }
 ]
