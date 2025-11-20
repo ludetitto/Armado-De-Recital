@@ -13,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonFuenteArtistaTest {
 
-    private static final Path PATH_ENTRADA = Paths.get("..", "data", "artistas_v2.json");
-    private static final Path PATH_SALIDA = Paths.get("..", "data", "artistastest.json");
+    private static final Path PATH_ENTRADA = Paths.get("Data", "artistas_v2.json");
+    private static final Path PATH_SALIDA = Paths.get("Data", "artistastest.json");
     private static final int CANTIDAD_ESPERADA = 19; 
 
     

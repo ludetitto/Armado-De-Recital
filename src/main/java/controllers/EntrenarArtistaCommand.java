@@ -20,6 +20,7 @@ public class EntrenarArtistaCommand implements ComandoContratacion {
 
         if (artista == null) {
            System.out.println("Error: artista no encontrado: " + nombreArtista);
+           return;
         }
         
         if(artista.entrenarEn(rolAgregado))

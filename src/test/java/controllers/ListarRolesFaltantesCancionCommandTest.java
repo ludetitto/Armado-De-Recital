@@ -1,121 +1,41 @@
 package controllers;
 
-import domain.Recital;
-import repository.ArtistaRepository;
-import repository.CancionRepository;
-import repository.FuenteRecital;
-import repository.JsonFuenteRecital;
-import repository.RecitalRepository;
+import repository.RecitalLoaderTest;
 
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import application.SimulacionConsola;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ListarRolesFaltantesCancionCommandTest { 
-    
-    // Configuración para la captura de la salida de consola
-    private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    private CancionRepository cancionRepository;
-    private ArtistaRepository artistaRepository;
-    
-    // Rutas y datos
-    private final Path rutaJsonReal = Paths.get("..", "Data", "recital.json");
-    private static final String CANCION_INCOMPLETA = "We Will Rock You";
-    private static final String CANCION_COMPLETA = "Bohemian Rhapsody";
-    private static final String CANCION_INEXISTENTE = "Cancion Inexistente";
-    
-    /** Reinicia las instancias Singleton de Recital y RecitalRepository. */
-    private void resetSingletons() throws Exception {
-        java.lang.reflect.Field repoField = RecitalRepository.class.getDeclaredField("instance");
-        repoField.setAccessible(true);
-        repoField.set(null, null);
-
-        java.lang.reflect.Field recitalField = Recital.class.getDeclaredField("instance");
-        recitalField.setAccessible(true);
-        recitalField.set(null, null);
-    }
+class ListarRolesFaltantesCancionCommandTest extends SimulacionConsola {
 
     @BeforeEach
-    void setUp() throws Exception {
-        resetSingletons();
-        
-        // Redirigir la salida estándar para capturar el texto
-        System.setOut(new PrintStream(outputStreamCaptor));
-        
-        // Cargar el archivo JSON una sola vez antes de los tests
-        FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-        fuenteEntrada.cargar(); 
-    }
-    
-    @AfterEach
-    void tearDown() throws Exception {
-        // Restaurar la salida estándar original
-        System.setOut(standardOut);
-        resetSingletons(); 
-    }
-    
-    
+    void load() { RecitalLoaderTest.cargarRecital(); }
+
     @Test
-    void testEjecutar_MuestraRolesFaltantesDeCancionIncompleta() throws Exception {
-        ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(CANCION_INCOMPLETA);
-        command.ejecutar();
-        
-        // CAPTURA Y VISUALIZACIÓN
-        String output = outputStreamCaptor.toString().trim();
-        standardOut.println("\n--- SALIDA CAPTURADA DEL TEST DE CANCIÓN INCOMPLETA ---");
-        standardOut.println(output);
-        standardOut.println("----------------------------------------------------------\n");
-        
-        // VERIFICACIÓN
-        assertTrue(output.contains("--- Roles Faltantes para: " + CANCION_INCOMPLETA + " ---"),
-                   "Debe mostrar el encabezado de la canción.");
-        
-        assertTrue(output.contains(" > BATERIA: Faltan 1"), 
-                   "Debe indicar que falta 1 BATERIA.");
-        
-        assertFalse(output.contains("¡Roles cubiertos!"), 
-                    "No debe mostrar el mensaje de éxito.");
+    void bohemianNoDebeTenerRolesFaltantes() {
+        ListarRolesFaltantesCancionCommand cmd =
+                new ListarRolesFaltantesCancionCommand("Bohemian Rhapsody");
+
+        cmd.ejecutar();
+        String o = out();
+
+        assertTrue(o.contains("¡Roles cubiertos!") ||
+                   o.contains("COMPLETA"),
+                   "BR NO debe mostrar roles faltantes");
     }
 
     @Test
-    void testEjecutar_MuestraRolesFaltantesDeCancionCompleta() throws Exception {
+    void withOrWithoutYouDebeMostrarRolesFaltantesCorrectos() {
+        ListarRolesFaltantesCancionCommand cmd =
+                new ListarRolesFaltantesCancionCommand("With or Without You");
 
-    	ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(CANCION_COMPLETA);
-        command.ejecutar();
-        
-        String output = outputStreamCaptor.toString().trim();
-        
-        // VISUALIZACIÓN
-        standardOut.println("\n--- SALIDA CAPTURADA DEL TEST DE CANCIÓN COMPLETA ---");
-        standardOut.println(output);
-        standardOut.println("------------------------------------------------------\n");
-        
-        
-    }
-    
-    @Test
-    void testEjecutar_CancionInexistente() throws Exception {
-        ListarRolesFaltantesCancionCommand command = 
-            new ListarRolesFaltantesCancionCommand(CANCION_INEXISTENTE);
-        command.ejecutar();
-        
-        String output = outputStreamCaptor.toString().trim();
-        
-        standardOut.println("\n--- SALIDA CAPTURADA DEL TEST DE CANCIÓN INEXISTENTE ---");
-        standardOut.println(output);
-        standardOut.println("------------------------------------------------------\n");
-        
-        
-    }
+        cmd.ejecutar();
+        String o = out();
 
+        assertTrue(o.contains("GUITARRA_ELECTRICA"), "Falta GE según JSON");
+        assertTrue(o.contains("BAJO"), "Falta BAJO según JSON");
+    }
 }

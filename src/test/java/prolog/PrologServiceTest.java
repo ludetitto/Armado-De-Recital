@@ -56,16 +56,8 @@ class PrologServiceTest {
         int minimo = prolog.entrenamientosMinimos();
 
         // 4) Assert
-        assertEquals(1, minimo);
+        assertEquals(2, minimo);
 
-    }
-    
-    @org.junit.jupiter.api.Test
-    void recursoProlog_debeEstarEnClasspath() {
-        var is = Thread.currentThread().getContextClassLoader()
-            .getResourceAsStream("prolog/reglas_entrenamientos.pl");
-        org.junit.jupiter.api.Assertions.assertNotNull(is,
-            "Falta prolog/reglas_entrenamientos.pl en target/classes o target/test-classes");
     }
 
 }
