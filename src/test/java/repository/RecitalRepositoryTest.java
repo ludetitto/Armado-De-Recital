@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class RecitalRepositoryTest {
 
-    private final Path PATH_ARTISTAS = Paths.get("..", "data", "artistas_v2.json");
-    private final Path PATH_CANCIONES = Paths.get("..", "data", "canciones_v2.json");
+    private final Path PATH_ARTISTAS = Paths.get("Data", "artistas_v2.json");
+    private final Path PATH_CANCIONES = Paths.get("Data", "canciones_v2.json");
 
 
     private static final int TOTAL_ARTISTAS_ESPERADOS = 19;
@@ -67,7 +67,8 @@ public class RecitalRepositoryTest {
         recital.cargarCanciones(todasLasCanciones); 
     }
 
-
+    // TODO: Revisar por qué falla
+    
     @Test
     void testIntegracionCargaDeArchivosYRecitalSingleton() {
 

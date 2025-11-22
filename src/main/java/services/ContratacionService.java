@@ -19,7 +19,7 @@ import domain.TipoRol;
 
 public class ContratacionService {
 	
-	private final Logger logger = Logger.getLogger(ArtistaService.class.getName());
+	private final Logger logger = Logger.getLogger(ContratacionService.class.getName());
 	
 	public void generarContratacion(Artista artista, Cancion cancion, TipoRol rol) {
         Recital.getInstance().agregarContratacion(new Contratacion(artista, cancion, rol, obtenerCosto(cancion, artista)));
@@ -48,7 +48,7 @@ public class ContratacionService {
 
         List<Artista> candidatos = new ArrayList<>(Recital.getInstance().getArtistas());
 
-        System.out.println("--- Contratación automática para '" + cancion.getTitulo() + "' ---");
+        System.out.println("\n--- Contratación automática para '" + cancion.getTitulo() + "' ---");
 
         for (Map.Entry<TipoRol, Integer> e : faltantes.entrySet()) {
             TipoRol rol = e.getKey();
@@ -60,7 +60,7 @@ public class ContratacionService {
                 List<Contratacion> posibles = new ArrayList<>();
 
                 for (Artista a : candidatos) {
-                    if (a.puedeOcuparRol(rol) && !artistaYaContratadoEnCancion(a, cancion) && a.getCantidadDispuestoATocar() > 0) {
+                    if (a.puedeOcuparRol(rol) && !artistaYaContratadoEnCancion(a, cancion) && (a.getCantidadDispuestoATocar() - Recital.getInstance().getCantidadDeCancionesQueToca(a) > 0)) {
                         posibles.add(new Contratacion(a, cancion, rol, obtenerCosto(cancion, a)));
                         logger.info("Se agregó el artista " + a + " para el rol " + rol + " de la cancion " + cancion + " bajo un costo de $" + obtenerCosto(cancion, a));
                     }
@@ -96,6 +96,12 @@ public class ContratacionService {
         	logger.info("Faltan roles por ocupar del recital");
             System.out.println("Resultado: aún faltan roles:");
             remanente.forEach((r, n) -> System.out.println(" - " + r + ": " + n));
+            System.out.println("\nSe sugiere entrenar a ");
+            for(Artista a : Recital.getInstance().getArtistas()) {
+            	if(!Recital.getInstance().estaContratadoEnCancion(a, cancion) && (a.getCantidadDispuestoATocar() - Recital.getInstance().getCantidadDeCancionesQueToca(a) > 0)) {
+            		System.out.println(" - " + a.getNombre());
+            	}
+            }
         }
     }
     

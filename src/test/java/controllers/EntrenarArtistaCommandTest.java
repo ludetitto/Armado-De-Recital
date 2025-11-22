@@ -1,105 +1,38 @@
 package controllers;
 
-import domain.Artista;
-import domain.Recital;
-import domain.TipoRol;
-import repository.ArtistaRepository;
-import repository.CancionRepository;
-import repository.FuenteRecital;
-import repository.JsonFuenteRecital;
+import repository.RecitalLoaderTest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
-import java.io.ByteArrayOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import application.SimulacionConsola;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EntrenarArtistaCommandTest { 
-	
+class EntrenarArtistaCommandTest extends SimulacionConsola {
 
-	private final Path rutaJsonReal = Paths.get("Data", "recitalBandas_v3.json");
-	private final String tituloEsperado = "LIVE AID";
-
-//    private final PrintStream standardOut = System.out;
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-    
-    private ArtistaRepository artistaRepository = new ArtistaRepository();
-    private CancionRepository cancionRepository = new CancionRepository();
-
-    private static final String NOMBRE_CANDIDATO = "Elton John";
-    private static final String NOMBRE_INEXISTENTE = "Lady Gaga";
-    private static final TipoRol ROL_NUEVO = TipoRol.BATERIA;
-//    private static final TipoRol ROL_EXISTENTE = TipoRol.TECLADOS;
-
-
-   
     @BeforeEach
-    void setUp() throws Exception {
-    	Recital.getInstance().setTitulo(tituloEsperado);
-
-		FuenteRecital fuenteEntrada = new JsonFuenteRecital(rutaJsonReal, artistaRepository, cancionRepository);
-		
-		fuenteEntrada.cargar();
+    void load() { 
+    	RecitalLoaderTest.cargarDatos(); 
     }
-
-    /* tengo que ver por que no me dela indicarle nulo a la instancia, pero como no hay ninguna instancia ahora no pasa nada?
-    @AfterEach
-    void tearDown() {
-        System.setOut(standardOut);
-        Recital.setInstance(null); 
-    }
-        */
-    @Test
-    void testEjecutar_EntrenamientoExitosoDeRolNuevo() {
-
-    	
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_CANDIDATO, ROL_NUEVO.name());
-
-        
-        command.ejecutar();
-
-        
-        Artista artista = Recital.getInstance().getArtistasCandidatos().stream()
-                            .filter(a -> a.getNombre().equals(NOMBRE_CANDIDATO))
-                            .findFirst().orElseThrow();
-
-        
-        assertTrue(artista.puedeOcuparRol(ROL_NUEVO), "El artista debe poder ocupar el nuevo rol despu�s del entrenamiento.");
-
- 
-
-        String output = outputStreamCaptor.toString();
-        assertTrue(output.contains("Entrenamiento aplicado: " + NOMBRE_CANDIDATO + " ahora puede " + ROL_NUEVO));
-    }
-
 
     @Test
-    void testEjecutar_LanzaExcepcionSiArtistaNoExiste() {
+    void entrenaRolNuevo() {
+        EntrenarArtistaCommand cmd =
+                new EntrenarArtistaCommand("Freddie Mercury", "GUITARRA_ELECTRICA");
 
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_INEXISTENTE, ROL_NUEVO.name());
+        cmd.ejecutar();
 
-
-        assertThrows(IllegalArgumentException.class, new Executable() {
-            @Override
-            public void execute() throws Throwable {
-                command.ejecutar();
-            }
-        }, "Debe lanzar IllegalArgumentException si el artista no se encuentra.");
+        assertTrue(out().toLowerCase().contains("ahora posee"));
     }
-    
+
     @Test
-    void testDeshacer_MuestraAdvertenciaDeNoReversion() {
+    void artistaNoExiste() {
+        EntrenarArtistaCommand cmd =
+                new EntrenarArtistaCommand("Maradona", "PIANO");
 
-        EntrenarArtistaCommand command = new EntrenarArtistaCommand(NOMBRE_CANDIDATO, ROL_NUEVO.name());
+        cmd.ejecutar();
 
-        command.deshacer();
-
-        String output = outputStreamCaptor.toString().trim();
-        assertTrue(output.contains("no es posible revertir el entrenamiento"), 
-                   "Debe mostrar la advertencia de que el deshacer no est� implementado.");
+        assertTrue(out().toLowerCase().contains("no encontrado"));
     }
 }

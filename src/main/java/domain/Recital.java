@@ -27,13 +27,73 @@ public class Recital {
         this.titulo = "Recital Especial";
     }
     
+    // GETTERS
     public static Recital getInstance() {
         if (instance == null) {
             instance = new Recital();
         }
         return instance;
     }
+    
+    public int getCantidadDeCancionesQueToca(Artista artista) {
+		return (int) getContrataciones().stream()
+        .filter(c -> c.getArtista().equals(artista))
+        .count();
+	}
+    
+    public Map<TipoRol, Integer> getRolesFaltantesTotal() {
+        Map<TipoRol, Integer> faltantesTotal = new EnumMap<>(TipoRol.class);
+        
+        for (Cancion cancion : canciones) {
+            Map<TipoRol, Integer> faltantesCancion = cancion.getRolesFaltantes();
+            faltantesCancion.forEach((rol, cantidad) -> 
+                faltantesTotal.merge(rol, cantidad, Integer::sum)
+            );
+        }
+        
+        return faltantesTotal;
+    }
+    
+    public String getTitulo() { 
+    	return titulo; 
+    }
+    
+    public Set<Cancion> getCanciones() { 
+    	return Collections.unmodifiableSet(canciones); 
+    }
+    
+    public List<Contratacion> getContrataciones() { 
+    	return Collections.unmodifiableList(contrataciones); 
+    }
+
+    public List<Artista> getArtistasBase() { 
+    	return Collections.unmodifiableList(artistasBase); 
+    }
    
+    public List<Artista> getArtistasCandidatos() { 
+    	return Collections.unmodifiableList(artistasCandidatos); 
+    }
+
+    @JsonIgnore
+    public List<Artista> getArtistas(){
+    	List<Artista> todosLosArtistas = new ArrayList<>();
+
+        if (artistasBase != null) {
+            todosLosArtistas.addAll(artistasBase);
+        }
+        if (artistasCandidatos != null) {
+            todosLosArtistas.addAll(artistasCandidatos);
+        }
+        
+        return todosLosArtistas;
+    }
+    
+    // SETTERS
+    public void setTitulo(String titulo) { 
+    	this.titulo = titulo; 
+    }
+   
+    // UTILS
     public void agregarCancion(Cancion cancion) {
         canciones.add(cancion);
     }
@@ -104,47 +164,8 @@ public class Recital {
             .sum();
     }
     
-    public Map<TipoRol, Integer> getRolesFaltantesTotal() {
-        Map<TipoRol, Integer> faltantesTotal = new EnumMap<>(TipoRol.class);
-        
-        for (Cancion cancion : canciones) {
-            Map<TipoRol, Integer> faltantesCancion = cancion.getRolesFaltantes();
-            faltantesCancion.forEach((rol, cantidad) -> 
-                faltantesTotal.merge(rol, cantidad, Integer::sum)
-            );
-        }
-        
-        return faltantesTotal;
-    }
-    
     public boolean estaContratadoEnCancion(Artista artista, Cancion cancion) {
         return cancion.getArtistasAsignados().contains(artista);
-    }
-    
-    public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
-    
-    public Set<Cancion> getCanciones() { return Collections.unmodifiableSet(canciones); }
-    public List<Contratacion> getContrataciones() { return Collections.unmodifiableList(contrataciones); }
-
-
-   
-    public List<Artista> getArtistasBase() { return Collections.unmodifiableList(artistasBase); }
-   
-    public List<Artista> getArtistasCandidatos() { return Collections.unmodifiableList(artistasCandidatos); }
-
-    @JsonIgnore
-    public List<Artista> getArtistas(){
-    	List<Artista> todosLosArtistas = new ArrayList<>();
-
-        if (artistasBase != null) {
-            todosLosArtistas.addAll(artistasBase);
-        }
-        if (artistasCandidatos != null) {
-            todosLosArtistas.addAll(artistasCandidatos);
-        }
-        
-        return todosLosArtistas;
     }
     
     @Override

@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 public class CostoColaboracion extends CostoDecorator {
 
 	private final Logger logger = Logger.getLogger(CostoColaboracion.class.getName());
+	
 	public CostoColaboracion(Costo inner, Cancion cancion, Artista artista) { 
         super(inner, cancion, artista); 
     }
@@ -13,17 +14,9 @@ public class CostoColaboracion extends CostoDecorator {
     public double obtener() {
         
         double costoPrevio = inner.obtener(); 
-        boolean tieneColaboracion = false;
         double costoColaboracion = costoPrevio;
         
-        for(Artista a : cancion.getArtistasAsignados()) {
-            if(this.artista != a && this.artista.compartioBanda(a)) { 
-                tieneColaboracion = true;
-                break; 
-            }
-        }
-        
-        if (tieneColaboracion) {
+        if (artista.compartioBanda(cancion)) {
             costoColaboracion = costoPrevio * 0.5;
         }
         
