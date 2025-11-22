@@ -12,7 +12,7 @@ class ListarRolesFaltantesRecitalCommandTest extends SimulacionConsola {
 
     @BeforeEach
     void load() { 
-    	RecitalLoaderTest.cargarRecital(); 
+    	RecitalLoaderTest.cargarDatos();
     }
 
     @Test

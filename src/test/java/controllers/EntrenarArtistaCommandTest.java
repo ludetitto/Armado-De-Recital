@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class EntrenarArtistaCommandTest extends SimulacionConsola {
 
     @BeforeEach
-    void load() { RecitalLoaderTest.cargarRecital(); }
+    void load() { 
+    	RecitalLoaderTest.cargarDatos(); 
+    }
 
     @Test
     void entrenaRolNuevo() {

@@ -12,11 +12,11 @@ class ListarContratacionesPorCancionCommandTest extends SimulacionConsola {
 
     @BeforeEach
     void load() { 
-    	RecitalLoaderTest.cargarRecital(); 
+    	RecitalLoaderTest.cargarDatos();
     }
 
     @Test
-    void listarContratacionesDebeMostrarContratacionesReales() {
+    void listarContratacionesArtistaBase() {
         ListarContratacionesPorCancionCommand cmd =
                 new ListarContratacionesPorCancionCommand();
         cmd.ejecutar();
@@ -29,6 +29,44 @@ class ListarContratacionesPorCancionCommandTest extends SimulacionConsola {
         assertTrue(out.contains("0.0"));
     }
 
+    @Test
+    void listarContratacionesArtistaExternoConEntrenamiento() {
+    	EntrenarArtistaCommand cmdEntrenar = new EntrenarArtistaCommand("Tina Turner", "COROS");
+        
+        cmdEntrenar.ejecutar();
+        
+        ContratarArtistasParaCancionCommand cmdContratar = new ContratarArtistasParaCancionCommand("Do They Know It's Christmas");
+        
+        cmdContratar.ejecutar();
+
+        ListarContratacionesPorCancionCommand cmd = new ListarContratacionesPorCancionCommand();
+        
+        cmd.ejecutar();
+        
+        String out = out();
+
+        assertTrue(out.contains("COROS asignado a Tina Turner con un costo individual de 4500.0"));
+    }
     
-    // TODO: Mostrar y validar costos despues de contratación masiva
+    @Test
+    void listarContratacionesArtistaExternoConColaboracion() {
+        
+        ContratarArtistasParaCancionCommand cmdContratar = new ContratarArtistasParaCancionCommand("Do They Know It's Christmas");
+        
+        cmdContratar.ejecutar();
+
+        EntrenarArtistaCommand cmdEntrenar = new EntrenarArtistaCommand("Pete Townshend", "COROS");
+        
+        cmdEntrenar.ejecutar();
+        
+        cmdContratar.ejecutar();
+        
+        ListarContratacionesPorCancionCommand cmd = new ListarContratacionesPorCancionCommand();
+        
+        cmd.ejecutar();
+        
+        String out = out();
+
+        assertTrue(out.contains("COROS asignado a Pete Townshend con un costo individual de 975.0"));
+    }
 }

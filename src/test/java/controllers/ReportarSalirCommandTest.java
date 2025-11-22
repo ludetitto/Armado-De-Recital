@@ -29,7 +29,6 @@ public class ReportarSalirCommandTest {
 	private CancionRepository repositoryCanciones= new CancionRepository();
 	
     private final Path rutaJsonReal = Paths.get("Data", "recital.json");
-	private final String tituloEsperado = "Queen Greatest Hits Setlist V3";
 
 	private final Path rutaJsonSalida = Paths.get("Data", "recitalTest.json");
 

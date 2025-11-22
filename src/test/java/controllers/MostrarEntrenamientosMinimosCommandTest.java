@@ -9,7 +9,9 @@ import repository.RecitalLoaderTest;
 class MostrarEntrenamientosMinimosCommandTest extends SimulacionConsola {
 
     @BeforeEach
-    void load() { RecitalLoaderTest.cargarRecital(); }
+    void load() { 
+    	RecitalLoaderTest.cargarDatos();
+    }
 
     @Test
     void muestraEntrenamientosDesdeProlog() throws Exception {

@@ -2,7 +2,6 @@ package repository;
 
 import domain.Artista;
 import domain.Cancion;
-import domain.TipoEstado;
 import domain.TipoRol;
 
 import org.junit.jupiter.api.AfterEach;

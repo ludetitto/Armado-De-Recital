@@ -10,7 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class ListarCancionesCommandTest extends SimulacionConsola {
 
     @BeforeEach
-    void load() { RecitalLoaderTest.cargarRecital(); }
+    void load() { 
+    	RecitalLoaderTest.cargarDatos(); 
+    }
 
     @Test
     void listaCancionesConEstadoCorrecto() {
