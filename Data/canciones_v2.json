@@ -1,0 +1,210 @@
+[
+  {
+    "titulo": "Bohemian Rhapsody",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "VOZ_SECUNDARIA": 4,
+      "GUITARRA_ELECTRICA": 1,
+      "BAJO": 1,
+      "PIANO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "VOZ_SECUNDARIA": 4,
+      "GUITARRA_ELECTRICA": 1,
+      "BAJO": 1,
+      "PIANO": 1
+    }
+  },
+  {
+    "titulo": "Radio Ga Ga",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "TECLADOS": 1,
+      "BATERIA": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "TECLADOS": 1,
+      "BATERIA": 1
+    }
+  },
+  {
+    "titulo": "Hammer to Fall",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 2,
+      "BAJO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 2,
+      "BAJO": 1
+    }
+  },
+  {
+    "titulo": "Sunday Bloody Sunday",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "BATERIA": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "BATERIA": 1
+    }
+  },
+  {
+    "titulo": "Heroes",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "TECLADOS": 1,
+      "VOZ_SECUNDARIA": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "TECLADOS": 1,
+      "VOZ_SECUNDARIA": 1
+    }
+  },
+  {
+    "titulo": "Candle in the Wind",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    }
+  },
+  {
+    "titulo": "My Generation",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "BAJO": 1,
+      "BATERIA": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1,
+      "BAJO": 1,
+      "BATERIA": 1
+    }
+  },
+  {
+    "titulo": "Smooth Operator",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "TECLADOS": 1,
+      "COROS": 2
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "TECLADOS": 1,
+      "COROS": 2
+    }
+  },
+  {
+    "titulo": "In the Air Tonight",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "BATERIA": 1,
+      "TECLADOS": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "BATERIA": 1,
+      "TECLADOS": 1
+    }
+  },
+  {
+    "titulo": "Let's Dance",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "GUITARRA_ELECTRICA": 1
+    }
+  },
+  {
+    "titulo": "I'm Still Standing",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    }
+  },
+  {
+    "titulo": "Live and Let Die",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1,
+      "BAJO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1,
+      "BAJO": 1
+    }
+  },
+  {
+    "titulo": "Do They Know It's Christmas",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 5,
+      "COROS": 10
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 5,
+      "COROS": 10
+    }
+  },
+  {
+    "titulo": "Islands in the Stream",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 2,
+      "GUITARRA_ELECTRICA": 1,
+      "COROS": 2
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 2,
+      "GUITARRA_ELECTRICA": 1,
+      "COROS": 2
+    }
+  },
+  {
+    "titulo": "Imagine",
+    "rolesRequeridos": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    },
+    "asignaciones": { },
+    "rolesFaltantes": {
+      "VOZ_PRINCIPAL": 1,
+      "PIANO": 1
+    }
+  }
+]
