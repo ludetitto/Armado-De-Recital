@@ -496,7 +496,6 @@ public class MenuContratacion extends BorderPane {
         }
         
         recitalRepository = new RecitalRepository(Recital.getInstance());
-//        recitalRepository.setRecital(Recital.getInstance());
     }
 
     private void actualizarStatus(String mensaje) {
