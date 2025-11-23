@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonFuenteArtista implements FuenteArtista {
 
+	private final Logger logger = Logger.getLogger(JsonFuenteArtista.class.getName());
+	
     private final Path path;
     private final ArtistaRepository repository; 
     private final ObjectMapper mapper;
@@ -36,8 +39,6 @@ public class JsonFuenteArtista implements FuenteArtista {
             this.repository.limpiar(); 
             artistasCargados.forEach(this.repository::agregar);
             
-            System.out.println("Artistas cargados con éxito desde: " + path);
-            
             Recital recitalInstanciado= Recital.getInstance();
             
             recitalInstanciado.agregarArtistas(artistasCargados);
@@ -45,7 +46,7 @@ public class JsonFuenteArtista implements FuenteArtista {
             return artistasCargados; 
 
         } catch (IOException e) {
-            System.err.println("Error al cargar artistas desde JSON: " + e.getMessage());
+        	logger.severe("Error al cargar artistas desde JSON: " + e.getMessage());
             e.printStackTrace();
             return this.repository.obtenerTodos(); 
         }
@@ -54,7 +55,7 @@ public class JsonFuenteArtista implements FuenteArtista {
     @Override
     public void guardar(List<Artista> artistas) {
         if (artistas == null || artistas.isEmpty()) {
-             System.err.println("Advertencia: No hay artistas para guardar.");
+        	logger.warning("No hay artistas para guardar.");
              return;
         }
         
@@ -63,10 +64,10 @@ public class JsonFuenteArtista implements FuenteArtista {
             
             this.mapper.writeValue(artistaFile, artistas);
             
-            System.out.println("Lista de Artistas guardada con exito en: " + path);
+            logger.info("Lista de Artistas guardada con exito en: " + path);
 
         } catch (IOException e) {
-            System.err.println("ERROR al guardar Artistas en JSON: " + path);
+        	logger.severe("ERROR al guardar Artistas en JSON: " + path);
             e.printStackTrace();
         }
     }

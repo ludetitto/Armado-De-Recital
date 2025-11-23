@@ -9,12 +9,15 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonFuenteRecital implements FuenteRecital {
 
+	private final Logger logger = Logger.getLogger(JsonFuenteRecital.class.getName());
+	
     private final Path path;
     private ArtistaRepository repositoryArtistas; 
     private CancionRepository repositoryCanciones;
@@ -70,7 +73,7 @@ public class JsonFuenteRecital implements FuenteRecital {
             return new RecitalRepository(recitalCargado);
             
         } catch (IOException e) {
-            System.err.println("Error al cargar el JSON en el Repositorio: " + e.getMessage());
+            logger.severe("Error al cargar el JSON en el Repositorio: " + e.getMessage());
         }
 		return null;
     }
@@ -79,7 +82,7 @@ public class JsonFuenteRecital implements FuenteRecital {
 	@Override
     public void guardar(RecitalRepository recital) {
         if (recital == null) {
-            System.err.println("Advertencia: No hay instancia de Repositorio para guardar.");
+            logger.warning("No hay instancia de Repositorio para guardar.");
             return;
         }
         
@@ -90,10 +93,10 @@ public class JsonFuenteRecital implements FuenteRecital {
           
             mapper.writeValue(recitalFile, recital);
             
-            System.out.println("Estado del Recital guardado con Exito en: " + path);
+            logger.info("Estado del Recital guardado con Exito en: " + path);
 
         } catch (IOException e) {
-            System.err.println("ERROR al guardar el Recital en JSON: " + path);
+            logger.severe("ERROR al guardar el Recital en JSON: " + path);
             e.printStackTrace();
         }
     }

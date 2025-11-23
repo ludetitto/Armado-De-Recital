@@ -17,7 +17,15 @@ cantidad_roles_faltantes_en_cancion(Cancion, Rol, Cantidad) :-
     requiere(Cancion, Rol, Necesarios),
     cantidad_artistas_para_rol(Rol, Disponibles),
     Faltan is Necesarios - Disponibles,
-    (Faltan > 0 -> Cantidad = Faltan ; Cantidad = 0).
+    Faltan > 0,
+    Cantidad = Faltan.
+    
+cantidad_roles_faltantes_en_cancion(Cancion, Rol, Cantidad) :-
+    requiere(Cancion, Rol, Necesarios),
+    cantidad_artistas_para_rol(Rol, Disponibles),
+    Faltan is Necesarios - Disponibles,
+    Faltan > 0,
+    Cantidad = 0.
 
 % --- máximo faltante por rol en todas las canciones ---
 max_cantidad_roles_faltantes_en_cancion(Rol, Max) :-
@@ -39,9 +47,3 @@ entrenamientos_minimos(Total) :-
     sort(RolesDup, Roles),
     findall(M, (member(R, Roles), max_cantidad_roles_faltantes_en_cancion(R, M)), Maximos),
     sum_list(Maximos, Total).
-
-% --- (opcional) detalle para depuración ---
-detalle_roles_faltantes :-
-    forall(rol(R),
-           (max_cantidad_roles_faltantes_en_cancion(R, M),
-            format('Rol ~w -> entrenar ~w~n', [R, M]))).

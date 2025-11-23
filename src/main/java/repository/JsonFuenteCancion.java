@@ -8,13 +8,15 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class JsonFuenteCancion implements FuenteCancion {
-
+	private final Logger logger = Logger.getLogger(JsonFuenteCancion.class.getName());
+	
     private final Path path;
     private final CancionRepository repository; 
     private final ObjectMapper mapper;
@@ -37,8 +39,6 @@ public class JsonFuenteCancion implements FuenteCancion {
             this.repository.limpiar(); 
             cancionesCargadas.forEach(this.repository::agregar);
             
-            System.out.println("Canciones cargadas con Exito desde: " + path);
-            
             Recital recitalInstanciado= Recital.getInstance();
             
             recitalInstanciado.cargarCanciones(cancionesCargadas);
@@ -46,7 +46,7 @@ public class JsonFuenteCancion implements FuenteCancion {
             return cancionesCargadas; 
 
         } catch (IOException e) {
-            System.err.println("Error al cargar canciones desde JSON: " + e.getMessage());
+            logger.severe("Error al cargar canciones desde JSON: " + e.getMessage());
             e.printStackTrace();
             return this.repository.obtenerTodas(); 
         }
@@ -55,7 +55,7 @@ public class JsonFuenteCancion implements FuenteCancion {
     @Override
     public void guardar(List<Cancion> canciones) {
          if (canciones == null || canciones.isEmpty()) {
-             System.err.println("Advertencia: No hay canciones para guardar.");
+        	 logger.warning("No hay canciones para guardar.");
              return;
         }
         
@@ -65,10 +65,10 @@ public class JsonFuenteCancion implements FuenteCancion {
             // Serializar List<Cancion>
             this.mapper.writeValue(cancionFile, canciones);
             
-            System.out.println("Lista de Canciones guardada con Exito en: " + path);
+            logger.info("Lista de Canciones guardada con Exito en: " + path);
 
         } catch (IOException e) {
-            System.err.println("ERROR al guardar Canciones en JSON: " + path);
+        	logger.severe("ERROR al guardar Canciones en JSON: " + path);
             e.printStackTrace();
         }
     }
